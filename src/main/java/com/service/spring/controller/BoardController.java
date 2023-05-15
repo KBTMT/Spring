@@ -50,7 +50,7 @@ public class BoardController {
 		ModelAndView modelAndView = new ModelAndView();
 		board.setBoardSeq(boardSeq);
 		boardService.updateBoard(board);
-		modelAndView.setViewName("redirect:/board");
+		modelAndView.setViewName("redirect:/board" + boardSeq);
 		return modelAndView;
 	}
 
@@ -90,7 +90,8 @@ public class BoardController {
 	}
 
 	@PutMapping("/{boardSeq}/{commentSeq}")
-	public ModelAndView deletedBComment(@PathVariable Long boardSeq, @PathVariable Long commentSeq, BComment bComment) throws Exception {
+	public ModelAndView deletedBComment(@PathVariable Long boardSeq, @PathVariable Long commentSeq, BComment bComment)
+			throws Exception {
 		bCommentService.deleteBComment(commentSeq);
 		ModelAndView mav = new ModelAndView("redirect:/board/" + boardSeq);
 		return mav;
