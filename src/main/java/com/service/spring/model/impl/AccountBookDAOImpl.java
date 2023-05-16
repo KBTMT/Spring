@@ -3,14 +3,18 @@ package com.service.spring.model.impl;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.service.spring.domain.AccountBook;
 import com.service.spring.model.AccountBookDAO;
 
+@Repository
 public class AccountBookDAOImpl implements AccountBookDAO{
 
+	@Autowired
 	private SqlSession sqlSession;
-	public static final String MAPPER_NAME = "tmt_query_cha.";
+	public static final String MAPPER_NAME = "sql.tmt.mapper.cha.";
 	
 	public SqlSession getSqlSession() {
 		return sqlSession;

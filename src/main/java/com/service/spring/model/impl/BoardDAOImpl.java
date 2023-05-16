@@ -21,10 +21,6 @@ public class BoardDAOImpl implements BoardDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-//	Reader r = Resources.getResourceAsReader("../../../../../../../../src/main/resources/config/SqlMapConfig.xml");
-//	SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(r);
-//	SqlSession session = factory.openSession();
-//	
 	public static final String NS = "sql.tmt.mapper.";
 
 	@Override
@@ -39,7 +35,6 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public List<Board> getBoard() throws Exception {
-		System.out.println("dao");
 		return  sqlSession.selectList(NS+"getAllBoard");
 	}
 

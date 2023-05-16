@@ -1,7 +1,5 @@
 package com.service.spring.domain;
 
-import java.util.Date;
-
 public class DiscountCalendar {
     private long discountSeq;
     private String startDate;
@@ -14,7 +12,7 @@ public class DiscountCalendar {
     private String consumptionCat;
     
     public DiscountCalendar() {
-    }
+    }  
 
     public DiscountCalendar(String startDate, String endDate, String brand, String content, String url, int calendarLike, String consumptionCat) {
         this.startDate = startDate;
@@ -51,7 +49,7 @@ public class DiscountCalendar {
     }
 
     public void setStartDate(String startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate.substring(0,10);
     }
 
     public String getEndDate() {
@@ -59,7 +57,7 @@ public class DiscountCalendar {
     }
 
     public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    	this.endDate = endDate.substring(0,10);
     }
 
     public String getBrand() {

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.service.spring.domain.DiscountCalendar;
 import com.service.spring.model.DiscountCalendarDAO;
@@ -20,13 +21,12 @@ public class DiscountCalendarServiceImpl implements DiscountCalendarService {
 
 	@Override
 	public List<DiscountCalendar> getDiscountCalendar() throws Exception {
-		// TODO Auto-generated method stub
 		return discountCalendarDAO.getDiscountCalendar();
 	}
 
+	@Transactional
 	@Override
 	public int registerGeneralDiscountCalendar(DiscountCalendar discountcalendar) throws Exception {
-		// TODO Auto-generated method stub
 		return discountCalendarDAO.registerGeneralDiscountCalendar(discountcalendar);
 	}
 

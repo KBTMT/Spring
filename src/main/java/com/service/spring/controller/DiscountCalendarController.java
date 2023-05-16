@@ -3,42 +3,54 @@ package com.service.spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.DiscountCalendar;
 import com.service.spring.model.DiscountCalendarService;
 
-@Controller
+//@Transactional
+@RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/discount-calendar")
 public class DiscountCalendarController {
-
+	
+	private final ObjectMapper objectMapper = new ObjectMapper();
+	
 	@Autowired
 	private DiscountCalendarService discountCalendarService;
 
 	@GetMapping
-	private ModelAndView getDiscountCalendar() throws Exception {
+	private ResponseEntity<String> getDiscountCalendar() throws Exception {
 		List<DiscountCalendar> list = discountCalendarService.getDiscountCalendar();
-		return new ModelAndView("discountCalendars", "list", list);
+		try {
+			String jsonString = objectMapper.writeValueAsString(list);
+			return ResponseEntity.ok(jsonString);
+		} catch (JsonProcessingException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 	
-	@PostMapping("/general")
-    public ModelAndView registerGeneralDiscountCalendar(@ModelAttribute DiscountCalendar discountCalendar) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
-        try {
-            int result = discountCalendarService.registerGeneralDiscountCalendar(discountCalendar);
-            if (result <= 0) {
-                modelAndView.addObject("error", "Failed to register general discount calendar.");
-            }
-        } catch (Exception e) {
-            modelAndView.addObject("error", "Failed to register general discount calendar.");
-        }
-        return modelAndView;
+	@PostMapping("/register")
+    public String registerDiscountCalendar(@RequestBody DiscountCalendar discountCalendar) throws Exception {
+		// 수정 필요
+		discountCalendar.setUrl("www.test.com");
+		System.out.println(discountCalendar);
+		discountCalendarService.registerGeneralDiscountCalendar(discountCalendar);
+		return "redirect:/discount-calendar";
     }
 	
 	@PostMapping("/business")
@@ -69,7 +81,7 @@ public class DiscountCalendarController {
 	    return modelAndView;
 	}
 
-	@PostMapping("/update")
+	@PostMapping("/update2")
 	ModelAndView updateBusinessDiscountCalendar(DiscountCalendar discountCalendar) {
 	    ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
 	    try {

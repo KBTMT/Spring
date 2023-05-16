@@ -16,6 +16,8 @@ import com.service.spring.model.AccountBookDAO;
 @Controller
 @RequestMapping("/account-book")
 public class AccountBookController {
+	
+	@Autowired
 	private final AccountBookDAO accountBookDAO;
 
     @Autowired

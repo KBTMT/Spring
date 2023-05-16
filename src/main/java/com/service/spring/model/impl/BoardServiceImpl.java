@@ -28,7 +28,6 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public List<Board> getBoard() throws Exception {
-		System.out.println("service");
 		return boardDAO.getBoard();
 	}
 

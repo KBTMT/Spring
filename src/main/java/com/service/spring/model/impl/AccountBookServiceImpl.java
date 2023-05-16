@@ -17,7 +17,6 @@ public class AccountBookServiceImpl implements AccountBookService{
 
 	@Override
 	public List<AccountBook> getAccountBook(String generalId) throws Exception {
-		// TODO Auto-generated method stub
 		return accountBookDAO.getAccountBook(generalId);
 	}
 
