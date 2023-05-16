@@ -3,20 +3,28 @@ package com.service.spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.AccountBook;
 import com.service.spring.model.AccountBookDAO;
 
-@Controller
+@RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/account-book")
 public class AccountBookController {
-	
+	private final ObjectMapper objectMapper = new ObjectMapper();
 	@Autowired
 	private final AccountBookDAO accountBookDAO;
 
@@ -26,29 +34,20 @@ public class AccountBookController {
     }
 
     @GetMapping("/{generalId}")
-    public ModelAndView getAccountBook(@PathVariable String generalId) {
-        ModelAndView modelAndView = new ModelAndView("accountBook");
+    public ResponseEntity<String> getAccountBook(@PathVariable String generalId) throws Exception {
+    	List<AccountBook> accountBookList = accountBookDAO.getAccountBook(generalId);
         try {
-            List<AccountBook> accountBookList = accountBookDAO.getAccountBook(generalId);
-            modelAndView.addObject("accountBookList", accountBookList);
-        } catch (Exception e) {
-            modelAndView.addObject("error", "Failed to retrieve account book.");
-        }
-        return modelAndView;
+        	String jsonString = objectMapper.writeValueAsString(accountBookList);
+			return ResponseEntity.ok(jsonString);
+        } catch (JsonProcessingException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
     }
 
     @PostMapping("/register")
-    public ModelAndView registerAccountBook(AccountBook accountBook) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/account-book/" + accountBook.getGeneralId());
-        try {
-            int result = accountBookDAO.registerAccountBook(accountBook);
-            if (result <= 0) {
-                modelAndView.addObject("error", "Failed to register account book.");
-            }
-        } catch (Exception e) {
-            modelAndView.addObject("error", "Failed to register account book.");
-        }
-        return modelAndView;
+    public String registerAccountBook(@RequestBody AccountBook accountBook) throws Exception {
+    	accountBookDAO.registerAccountBook(accountBook);
+        return "redirect:/account-book/";
     }
 
     @PostMapping("/{accountBookSeq}/update")
@@ -67,28 +66,19 @@ public class AccountBookController {
     }
 
     @PostMapping("/{accountBookSeq}/delete")
-    public ModelAndView deleteAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/account-book/" + accountBook.getGeneralId());
-        try {
-            int result = accountBookDAO.deleteAccountBook(accountBookSeq);
-            if (result <= 0) {
-                modelAndView.addObject("error", "Failed to delete account book.");
-            }
-        } catch (Exception e) {
-            modelAndView.addObject("error", "Failed to delete account book.");
-        }
-        return modelAndView;
+    public String deleteAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook) throws Exception {
+        accountBookDAO.deleteAccountBook(accountBookSeq);
+        return "redirect:/account-book/";
     }
 
     @GetMapping("/daily/{time}")
-    public ModelAndView dailyAccountBook(@PathVariable String time) {
-        ModelAndView modelAndView = new ModelAndView("dailyAccountBook");
+    public ResponseEntity<String> dailyAccountBook(@PathVariable String time) throws Exception {
+        List<AccountBook> accountBookList = accountBookDAO.dailyAccountBook(time);
         try {
-            List<AccountBook> accountBookList = accountBookDAO.dailyAccountBook(time);
-            modelAndView.addObject("accountBookList", accountBookList);
-        } catch (Exception e) {
-        modelAndView.addObject("error", "Failed to retrieve daily account book.");
-        }
-        return modelAndView;
+			String jsonString = objectMapper.writeValueAsString(accountBookList);
+			return ResponseEntity.ok(jsonString);
+		} catch (JsonProcessingException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
     }
 }
