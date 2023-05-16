@@ -1,9 +1,13 @@
 package com.service.spring.model.impl;
 
+import java.io.Reader;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +20,12 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Autowired
 	private SqlSession sqlSession;
-	static final String NS = "sql.tmt.mapper.";
+	
+//	Reader r = Resources.getResourceAsReader("../../../../../../../../src/main/resources/config/SqlMapConfig.xml");
+//	SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(r);
+//	SqlSession session = factory.openSession();
+//	
+	public static final String NS = "sql.tmt.mapper.";
 
 	@Override
 	public int insertBoard(Board pvo) throws Exception {
@@ -30,7 +39,8 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public List<Board> getBoard() throws Exception {
-		return sqlSession.selectList(NS+"getAllBoard");
+		System.out.println("dao");
+		return  sqlSession.selectList(NS+"getAllBoard");
 	}
 
 //	@Override
