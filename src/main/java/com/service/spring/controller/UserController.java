@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,7 @@ import com.service.spring.model.UserService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping()
 public class UserController {
 	
 	@Autowired
@@ -29,10 +31,15 @@ public class UserController {
 	}
 
 	// 일반 유저 회원가입
-	@PostMapping("/regiseterGeneralUser")
-	public String registerGeneralUser(TmtUser pvo) throws Exception{
+	@PostMapping("register/generalUser")
+	public String registerGeneralUser(@RequestBody TmtUser pvo) throws Exception{
+		System.out.println("aa==============");
+//		pvo.setConsumptionCat1(1);
+		pvo.setUserName("Aa");
+//		pvo.setCertType("1");
+		System.out.println(pvo);
 		userService.insertUser(pvo);
-		return "redirect:/index.jsp";
+		return "redirect:/";
 	}
 	
 	
