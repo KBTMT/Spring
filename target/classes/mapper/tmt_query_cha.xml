@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sql.tmt.mapper.cha">
+	<resultMap type="DiscountCalendar"
+		id="discountCalendarResultMap">
+		<id property="discountSeq" column="discount_seq" />
+		<result property="startDate" column="start_date" />
+		<result property="endDate" column="end_date" />
+		<result property="companyName" column="company_name" />
+		<result property="description" column="description" />
+		<result property="url" column="url" />
+		<result property="calendarLike" column="calendar_like" />
+		<result property="consumptionCat" column="consumption_cat" />
+	</resultMap>
+	
+	<resultMap type="AccountBook"
+		id="accountBookResultMap">
+		<id property="accountBookSeq" column="account_book_seq" />
+		<result property="generalId" column="general_id" />
+		<result property="content" column="content" />
+		<result property="time" column="time" />
+		<result property="price" column="price" />
+		<result property="url" column="url" />
+		<result property="discountSeq" column="discount_seq" />
+		<result property="consumptionCat" column="consumption_cat" />
+	</resultMap>
+	
+	
+	<insert id="registerGeneralDiscountCalendar"
+		parameterType="discountCalendar">
+		INSERT INTO
+		DISCOUNT_CALENDAR(discount_seq, start_date,
+		end_date, brand, content, url,
+		image_path, calendar_like
+		,consumption_cat)
+		VALUES(
+		discount_seq.nextval,
+		#{startDate},
+		#{endDate},
+		#{brand},
+		#{content},
+		#{url},
+		#{imagePath},
+		#{calendarLike},
+		#{consumptionCat}
+		)
+	</insert>
+
+	<insert id="registerBusinessDiscountCalendar"
+		parameterType="discountCalendar">
+		INSERT
+		INTO discount_calendar(discount_seq,start_date,
+		end_date,brand, content, url, image_path, calendar_like
+		,consumption_cat)
+		VALUES(discount_seq.nextval,
+		#{startDate},
+		#{endDate},
+		#{brand},
+		#{content},
+		#{url},
+		#{imagePath},
+		#{calendarLike},
+		#{consumptionCat}
+		)
+	</insert>
+
+	<update id="updateBusinessDiscountCalendar"
+		parameterType="discountCalendar">
+		UPDATE DISCOUNT_CALENDAR
+		SET start_date = #{startDate},
+		end_date = #{endDate},
+		brand = #{brand},
+		content = #{content},
+		url =
+		#{url},
+		image_path = #{imagePath},
+		calendar_like = #{calendarLike},
+		consumption_cat = #{consumptionCat}
+		WHERE discount_seq=#{discountSeq}
+	</update>
+
+	<update id="updateDiscountCalendar"
+		parameterType="discountcalendar">
+		UPDATE DISCOUNT_CALENDAR
+		SET start_date = #{startDate},
+		end_date = #{endDate},
+		brand = #{brand},
+		content = #{content},
+		url =
+		#{url},
+		image_path = #{imagePath},
+		calendar_like = #{calendarLike},
+		consumption_cat = #{consumptionCat}
+		WHERE discount_seq=#{discountSeq}
+	</update>
+
+	<delete id="deleteDiscountCalendar" parameterType="Long">
+		DELETE
+		FROM
+		DISCOUNT_CALENDAR
+		WHERE
+		discount_seq = #{VALUE}
+	</delete>
+	
+
+	<select id="getDiscountCalendar"
+		resultMap="discountCalendarResultMap">
+		SELECT
+		discount_seq,start_date,
+		end_date,brand, content, url,
+		image_path, calendar_like
+		,consumption_cat
+		FROM DISCOUNT_CALENDAR
+	</select>
+
+	<insert id="registerAccountBook" parameterType="accountBook">
+		INSERT INTO
+		ACCOUNT_BOOK(account_book_seq, general_id, content, time, price, memo,
+		discount_seq, emoji ,consumption_cat)
+		VALUES(
+		account_book_seq.nextval,
+		#{generalId},
+		#{content},
+		#{time},
+		#{price},
+		#{memo},
+		#{discountSeq},
+		#{emoji},
+		#{consumptionCat}
+		)
+	</insert>
+
+	<update id="updateAccountBook" parameterType="accountBook">
+		UPDATE Account_Book
+		SET general_id = #{generalId},
+		content = #{content},
+		time = #{time},
+		price = #{price},
+		memo = #{memo},
+		discount_seq = #{discountSeq},
+		emoji = #{emoji},
+		consumption_cat = #{consumptionCat}
+	</update>
+
+	<delete id="deleteAccountBook" parameterType="long">
+		DELETE
+		FROM
+		Account_Book
+		WHERE
+		account_book_seq = #{VALUE}
+	</delete>
+
+	<select id="getAccountBook" resultMap="accountBookResultMap">
+		SELECT
+		account_book_seq,
+		general_id, content, time, price, memo,
+		discount_seq, emoji
+		,consumption_cat
+		FROM Account_Book
+		WHERE general_id=#{generalId}
+	</select>
+	
+	<select id="dailyAccountBook" resultMap="accountBookResultMap">
+		SELECT
+		account_book_seq,
+		general_id, content, time, price, memo,
+		discount_seq, emoji
+		,consumption_cat
+		FROM Account_Book
+		WHERE time LIKE '%' || #{time} || '%'
+</select>
+
+	
+
+</mapper>
