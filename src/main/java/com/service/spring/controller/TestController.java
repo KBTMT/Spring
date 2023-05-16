@@ -18,8 +18,6 @@ import com.service.spring.domain.Board;
 @CrossOrigin(origins = "http://localhost:3000")
 public class TestController {
 
-//test
-	
 //	@GetMapping("/api/hello")
 //	public ResponseEntity<String> test() {
 //		List<Board> list = new ArrayList();
