@@ -50,14 +50,15 @@ public class BoardController {
 	}
 
 	@PostMapping("/register")
-	public String  registerBoard(@RequestBody Board board) throws Exception {
+	public String registerBoard(@RequestBody Board board) throws Exception {
 		System.out.println("registerBoard=======");
-		//수정할 것 -> 세션에서 user generalId, userNickname
+		// 수정할 것 -> 세션에서 user generalId, userNickname
 		board.setGeneralId("generalId Test");
 		board.setUserNickname("test3");
 		System.out.println(board);
 		boardService.insertBoard(board);
-		return "redirect:/board";}
+		return "redirect:/board";
+	}
 
 	@PutMapping("/{boardSeq}/update")
 	public ModelAndView updateBoard(@PathVariable Long boardSeq, @ModelAttribute Board board) throws Exception {
@@ -76,7 +77,7 @@ public class BoardController {
 		return modelAndView;
 	}
 
-	@GetMapping("/{boardSeq}")
+	@GetMapping("/detail")
 	public ModelAndView showBoardDetail(@PathVariable Long boardSeq) throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
 		Board board = boardService.getBoard(boardSeq);

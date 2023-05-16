@@ -1,140 +1,127 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="sql.tmt.mapper">
-	<resultMap type="board" id="boardSelectMap">
-		<result property="boardSeq" column="board_seq" />
-		<result property="userNickname" column="user_nickname" />
-		<result property="title" column="title" />
-		<result property="boardContent" column="board_content" />
-		<result property="boardDate" column="board_date" />
-		<result property="boardLike" column="board_like" />
-		<result property="generalId" column="general_id" />
-	</resultMap>
+    <resultMap type="board" id="boardSelectMap">
+        <result property="boardSeq" column="board_seq" />
+        <result property="userNickname" column="user_nickname" />
+        <result property="title" column="title" />
+        <result property="boardContent" column="board_content" />
+        <result property="boardDate" column="board_date" />
+        <result property="boardLike" column="board_like" />
+        <result property="generalId" column="general_id" />
+    </resultMap>
 
-	<insert id="insertBoard" parameterType="board">
-		INSERT INTO
-		board(board_seq, user_nickname, title, board_content, board_date,
-		general_id)
-		VALUES(board_seq.nextval,
-		#{userNickname},#{title},#{boardContent},
-		systimestamp, #{generalId})
-	</insert>
-	<update id="updateBoard" parameterType="board">
-		UPDATE board
-		SET
-		user_nickname = #{userNickname},
-		title = #{title},
-		board_content =
-		#{boardContent},
-		board_date = systimestamp
-		WHERE board_seq = 10
-	</update>
-	<delete id="deleteBoard" parameterType="long">
-		DELETE FROM board WHERE
-		board_seq = #{boardSeq}
-	</delete>
+    <insert id="insertBoard" parameterType="board">
+        INSERT INTO
+        board(board_seq, user_nickname, title, board_content, board_date,
+        general_id)
+        VALUES(board_seq.nextval,
+        #{userNickname},#{title},#{boardContent},
+        systimestamp, #{generalId})
+    </insert>
+    <update id="updateBoard" parameterType="board">
+        UPDATE board
+        SET
+        user_nickname = #{userNickname},
+        title = #{title},
+        board_content =
+        #{boardContent},
+        board_date = systimestamp
+        WHERE board_seq = 10
+    </update>
+    <delete id="deleteBoard" parameterType="long">
+        DELETE FROM board WHERE
+        board_seq = #{boardSeq}
+    </delete>
 
-	<sql id="select-boards">
-		SELECT
-		board_seq, user_nickname, title, board_content,
-		board_date,
-		board_like, general_id
-		FROM board
-	</sql>
-	<sql id="orderby-board_date-desc">
-		ORDER BY board_date DESC
-	</sql>
+    <sql id="select-boards">
+        SELECT
+        board_seq, user_nickname, title, board_content,
+        board_date,
+        board_like, general_id
+        FROM board
+    </sql>
+    <sql id="orderby-board_date-desc">
+        ORDER BY board_date DESC
+    </sql>
 
-	<select id="getBoard" parameterType="long" resultMap="boardSelectMap">
-		<include refid="select-boards" />
-		WHERE board_seq = #{boardSeq}
-	</select>
-	<select id="getAllBoard" resultMap="boardSelectMap">
-		<include refid="select-boards" />
-		<include refid="orderby-board_date-desc" />
-	</select>
-	<select id="getBoardbyGeneralId" parameterType="string"
-		resultMap="boardSelectMap">
-		<include refid="select-boards" />
-		WHERE general_id = #{VALUE}
-		<include refid="orderby-board_date-desc" />
-	</select>
-
-
-	<!-- 댓글 -->
-	<insert id="insertBComment" parameterType="bComment">
-		INSERT INTO
-		b_comment(comment_seq, board_seq, user_nickname, comment_content,
-		comment_date, cgroup)
-		VALUES
-		(comment_seq.nextval, #{boardSeq},#{userNickname},
-		#{bcommentContent}, systimestamp, comment_seq.currval)
-	</insert>
-	<update id="updateBComment" parameterType="bComment">
-		UPDATE b_comment
-		SET
-		user_nickname = #{userNickname},
-		comment_content = #{bcommentContent},
-		comment_date = systimestamp
-		WHERE comment_seq = #{commentSeq}
-	</update>
-	<update id="deleteBComment" parameterType="long">
-		UPDATE b_comment SET
-		user_nickname = '', comment_content = '삭제된 댓글입니다'
-		WHERE comment_seq = #{commentSeq}
-	</update>
+    <select id="getBoard" parameterType="long" resultMap="boardSelectMap">
+        <include refid="select-boards" />
+        WHERE board_seq = #{boardSeq}
+    </select>
+    <select id="getAllBoard" resultMap="boardSelectMap">
+        <include refid="select-boards" />
+        <include refid="orderby-board_date-desc" />
+    </select>
+    <select id="getBoardbyGeneralId" parameterType="string"
+        resultMap="boardSelectMap">
+        <include refid="select-boards" />
+        WHERE general_id = #{VALUE}
+        <include refid="orderby-board_date-desc" />
+    </select>
 
 
-	<!-- 대댓글 -->
-	<insert id="insertBCommentDepth">
-		INSERT INTO
-		b_comment(comment_seq, board_seq, user_nickname, comment_content, comment_date, cdepth, cgroup)
-		VALUES
-		(comment_seq.nextval, #{boardSeq},#{userNickname}, #{bcommentContent}, systimestamp, 1, #{cGroup})
-	</insert>
+    <!-- 댓글 -->
+    <insert id="insertBComment" parameterType="bComment">
+        INSERT INTO
+        b_comment(comment_seq, board_seq, user_nickname, comment_content,
+        comment_date, cgroup)
+        VALUES
+        (comment_seq.nextval, #{boardSeq},#{userNickname},
+        #{bcommentContent}, systimestamp, comment_seq.currval)
+    </insert>
+    <update id="updateBComment" parameterType="bComment">
+        UPDATE b_comment
+        SET
+        user_nickname = #{userNickname},
+        comment_content = #{bcommentContent},
+        comment_date = systimestamp
+        WHERE comment_seq = #{commentSeq}
+    </update>
+    <update id="deleteBComment" parameterType="long">
+        UPDATE b_comment SET
+        user_nickname = '', comment_content = '삭제된 댓글입니다'
+        WHERE comment_seq = #{commentSeq}
+    </update>
 
-	<resultMap type="bComment" id="bCommentSelectMap">
-		<result property="commentSeq" column="comment_seq" />
-		<result property="userNickname" column="user_nickname" />
-	 	<result property="bcommentContent" column="comment_content"/>
-	 	<result property="commentDate" column="comment_date"/>
-		<result property="cDepth" column="cdepth" />
-		<result property="cGroup" column="cgroup" />
-		<result property="boardSeq" column="board_seq" />
-	</resultMap> 
+
+    <!-- 대댓글 -->
+    <insert id="insertBCommentDepth">
+        INSERT INTO
+        b_comment(comment_seq, board_seq, user_nickname, comment_content, comment_date, cdepth, cgroup)
+        VALUES
+        (comment_seq.nextval, #{boardSeq},#{userNickname}, #{bcommentContent}, systimestamp, 1, #{cGroup})
+    </insert>
+
+    <resultMap type="bComment" id="bCommentSelectMap">
+        <result property="commentSeq" column="comment_seq" />
+        <result property="userNickname" column="user_nickname" />
+         <result property="bcommentContent" column="comment_content"/>
+         <result property="commentDate" column="comment_date"/>
+        <result property="cDepth" column="cdepth" />
+        <result property="cGroup" column="cgroup" />
+        <result property="boardSeq" column="board_seq" />
+    </resultMap> 
 
 
-	<sql id="select-bcomments">
-		SELECT
-		comment_seq, user_nickname, comment_content, comment_date, cdepth, cgroup, board_seq
-		FROM b_comment
-	</sql>
-	<sql id="orderby-bcomment-desc">
-		ORDER BY cgroup, cdepth DESC
-	</sql>
-	<select id="getALLComment" resultMap="bCommentSelectMap">
-		<include refid="select-bcomments"  />
-	</select>
-	
-	
-	<select id="getComments" parameterType="long" resultMap="bCommentSelectMap">
-		<include refid="select-bcomments" />
-		WHERE board_seq = #{boardSeq}
-		<include refid="orderby-bcomment-desc"/>
-	</select>
+    <sql id="select-bcomments">
+        SELECT
+        comment_seq, user_nickname, comment_content, comment_date, cdepth, cgroup, board_seq
+        FROM b_comment
+    </sql>
+    <sql id="orderby-bcomment-desc">
+        ORDER BY cgroup, cdepth DESC
+    </sql>
+    <select id="getALLComment" resultMap="bCommentSelectMap">
+        <include refid="select-bcomments"  />
+    </select>
+
+
+    <select id="getComments" parameterType="long" resultMap="bCommentSelectMap">
+        <include refid="select-bcomments" />
+        WHERE board_seq = #{boardSeq}
+        <include refid="orderby-bcomment-desc"/>
+    </select>
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -15,8 +15,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.Board;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:5000")
 public class TestController {
+
+	private final ObjectMapper objectMapper = new ObjectMapper();
+	@GetMapping("/api")
+	public ResponseEntity<String> test() {
+//		List<Board> list = new ArrayList();
+		Board b = new Board("userNickname", "titletest", "boardContent", "generalId");
+		System.out.println("Test=======");
+		try {
+			String jsonString = objectMapper.writeValueAsString(b);
+			return ResponseEntity.ok(jsonString);
+		} catch (JsonProcessingException e) {
+			System.out.println("error");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+
+	}
 
 //	@GetMapping("/api/hello")
 //	public ResponseEntity<String> test() {
@@ -54,7 +70,6 @@ public class TestController {
 //
 //	    return result;
 //	}
-	private final ObjectMapper objectMapper = new ObjectMapper();
 
 //	@GetMapping("/api/hello")
 //	public ResponseEntity<String> getMyData() {
