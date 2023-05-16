@@ -3,6 +3,19 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="sql.tmt.mapper">
+	<resultMap type="financialInfo" id="financialInfoMap">
+		<result property="financialSeq" column="financial_seq" />
+        <result property="financeCat" column="finance_cat" />
+        <result property="financialUrl" column="financial_url" />
+        <result property="financialSummary" column="financial_summary" />
+        <result property="financialKeyword" column="financial_keyword" />
+        <result property="financialDate" column="financial_date" />
+	</resultMap>
+	<select id="getFinancialInfo" resultMap="financialInfoMap">
+		SELECT 
+		financial_seq,finance_cat,financial_url,financial_summary,financial_keyword,financial_date 
+		FROM financial_info
+	</select>
     <resultMap type="board" id="boardSelectMap">
         <result property="boardSeq" column="board_seq" />
         <result property="userNickname" column="user_nickname" />
