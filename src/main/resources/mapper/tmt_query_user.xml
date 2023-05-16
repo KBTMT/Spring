@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sql.tmt.mapper.user">
+
+	<!-- 회원가입 로직 -->
+	<insert id="insertUser" parameterType="tmtUser">
+		INSERT INTO
+		tmt_user(general_id, user_name, user_nickname, password,
+				 email, cert_type, birth_date, job, consumption_cat1,
+				 consumption_cat2, consumption_cat3, finance_cat, flag)
+		VALUES(#{generalId}, #{userName}, #{userNickname}, #{password},
+			   #{email}, #{certType}, #{birthDate}, #{job}, #{consumptionCat1},
+			   #{consumptionCat2}, #{consumptionCat3}, #{financeCat}, #{flag})
+	</insert>
+	
+	<insert id="insertBusiness" parameterType="businessInfo">
+		INSERT INTO
+			business_info(general_id, business_num, trade_name, location, status)
+		VALUES(#{generalId}, #{businessNum}, #{tradeName}, #{location}, #{status})
+	</insert>
+	
+	<!-- 아이디 중복 체크 -->
+	<select id="idExist" parameterType="String" resultType="String">
+		SELECT general_id
+		FROM tmt_user
+		WHERE general_id= #{VALUE}
+	</select>
+	
+	
+	<!-- 회원정보 수정 -->
+	<update id="updateUser" parameterType="tmtUser">
+		UPDATE tmt_user 
+		SET user_name= #{userName}, user_nickname= #{userNickname},
+			password= #{password}, email= #{email}, cert_type= #{certType},
+			birth_date= #{birthDate}, job= #{job}, consumption_cat1= #{consumptionCat1},
+			consumption_cat2= #{consumptionCat2}, consumption_cat3= #{consumptionCat3},
+			finance_cat= #{financeCat}
+		WHERE general_id= #{generalId}
+	</update>
+	<update id="updateBusiness" parameterType="businessInfo">
+		UPDATE business_info 
+			SET business_num= #{businessNum}, trade_name= #{tradeName},
+			location= #{location}, status= #{status}
+		WHERE general_id= #{generalId}
+	</update>
+	
+	
+	<!-- 회원 삭제 -->
+	<delete id="deleteUser" parameterType="String">
+		DELETE FROM tmt_user WHERE general_id=#{VALUE}
+	</delete>
+	<delete id="deleteBusiness" parameterType="String">
+		DELETE FROM business_info WHERE general_id=#{VALUE}	
+	</delete>
+	
+	
+	<!-- 로그인 -->
+	<select id="login" parameterType="tmtUser" resultType="tmtUser">
+		SELECT general_id, user_name, user_nickname, password,
+				 email, cert_type, birth_date, job, consumption_cat1,
+				 consumption_cat2, consumption_cat3, finance_cat, flag
+		FROM tmt_user
+		WHERE general_id=#{generalId} AND password=#{password}
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="getId" parameterType="tmtUser" resultType="String">
+		SELECT general_id
+		FROM tmt_user
+		WHERE user_name = #{userName} AND email=#{email}
+	</select>
+	
+	<!-- 비밀번호 찾기와 비밀번호 변경 -->
+	<select id="getPassword" parameterType="tmtUser" resultType="String">
+		SELECT general_id
+		FROM tmt_user
+		WHERE general_id = #{generalId} AND email=#{email}
+	</select>
+	<update id="updatePassword" parameterType="tmtUser">
+		UPDATE tmt_user
+		SET password= #{password}
+		WHERE general_id= #{generalId}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
