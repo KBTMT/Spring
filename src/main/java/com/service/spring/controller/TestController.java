@@ -35,19 +35,6 @@ public class TestController {
 	}
 
 //	@GetMapping("/api/hello")
-//	public ResponseEntity<String> test() {
-//		List<Board> list = new ArrayList();
-//		Board b = new Board("userNickname", "titletest", "boardContent", "generalId");
-//		System.out.println("Test=======");
-//		try {
-//			String jsonString = objectMapper.writeValueAsString(list);
-//			return ResponseEntity.ok(jsonString);
-//		} catch (JsonProcessingException e) {
-//			System.out.println("error");
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//		}
-//	}
-//	@GetMapping("/api/hello")
 //	public Map<String, Object> getMyData() {
 //	    Map<String, Object> result = new HashMap<>();
 //	    result.put("name", "John");
