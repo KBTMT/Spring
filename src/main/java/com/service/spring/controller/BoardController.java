@@ -40,7 +40,7 @@ public class BoardController {
 
 	@GetMapping
 	public ResponseEntity<String> showAllBoard() throws Exception {
-		List<Board> boardList = boardService.getBoard();
+		List<Board> boardList = boardService.getBoard(); 
 		try {
 			String jsonString = objectMapper.writeValueAsString(boardList);
 			return ResponseEntity.ok(jsonString);
@@ -51,7 +51,6 @@ public class BoardController {
 
 	@PostMapping("/register")
 	public String registerBoard(@RequestBody Board board) throws Exception {
-		System.out.println("registerBoard=======");
 		// 수정할 것 -> 세션에서 user generalId, userNickname
 		board.setGeneralId("generalId Test");
 		board.setUserNickname("test3");
@@ -77,15 +76,18 @@ public class BoardController {
 		return modelAndView;
 	}
 
-	@GetMapping("/detail")
-	public ModelAndView showBoardDetail(@PathVariable Long boardSeq) throws Exception {
+	// 수정 필요
+	@GetMapping("/detail/{boardSeq}")
+	public ResponseEntity<String> showBoardDetail(@PathVariable Long boardSeq) throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
 		Board board = boardService.getBoard(boardSeq);
 		List<BComment> bCommentList = bCommentService.getBComment(boardSeq);
-		modelAndView.addObject("board", board);
-		modelAndView.addObject("bCommentList", bCommentList);
-		modelAndView.setViewName("boardDetail");
-		return modelAndView;
+		try {
+        	String jsonString = objectMapper.writeValueAsString(bCommentList);
+			return ResponseEntity.ok(jsonString);
+        } catch (JsonProcessingException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
 	@PostMapping("/{boardSeq}/{bCommentSeq}")

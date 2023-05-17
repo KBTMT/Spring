@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.DiscountCalendar;
 import com.service.spring.model.DiscountCalendarService;
 
-//@Transactional
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/discount-calendar")
@@ -54,7 +53,7 @@ public class DiscountCalendarController {
     }
 	
 	@PostMapping("/business")
-    public ModelAndView registerBusinessDiscountCalendar(@ModelAttribute DiscountCalendar discountCalendar) {
+    public ModelAndView registerBusinessDiscountCalendar(@RequestBody DiscountCalendar discountCalendar) {
         ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
         try {
             int result = discountCalendarService.registerBusinessDiscountCalendar(discountCalendar);
@@ -68,7 +67,7 @@ public class DiscountCalendarController {
     }
 
 	@PostMapping("/update")
-	public ModelAndView updateDiscountCalendar(@ModelAttribute DiscountCalendar discountCalendar) {
+	public ModelAndView updateDiscountCalendar(@RequestBody DiscountCalendar discountCalendar) {
 	    ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
 	    try {
 	        int result = discountCalendarService.updateDiscountCalender(discountCalendar);
@@ -97,7 +96,7 @@ public class DiscountCalendarController {
   
 
     @PostMapping("/update/{discountSeq}")
-    public ModelAndView updateSpecificDiscountCalendar(@PathVariable Long discountSeq, @ModelAttribute DiscountCalendar discountCalendar) {
+    public ModelAndView updateSpecificDiscountCalendar(@PathVariable Long discountSeq, @RequestBody DiscountCalendar discountCalendar) {
         ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
         discountCalendar.setDiscountSeq(discountSeq);
         try {

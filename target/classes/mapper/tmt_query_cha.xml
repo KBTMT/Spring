@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="sql.tmt.mapper.cha">
+
+	<select id="getStat" parameterType="string" resultType="map">
+		SELECT  DATE2,
+	  		SUM(CASE WHEN PRICE<![CDATA[<=]]> 0 THEN price ELSE 0 END) AS expense,
+	  		SUM(CASE WHEN PRICE<![CDATA[>]]> 0 THEN price ELSE 0 END) AS income
+		FROM (SELECT TO_CHAR(TIME, 'YYYY-MM-DD') AS DATE2, price FROM ACCOUNT_BOOK WHERE GENERAL_ID=#{VALUE}) 
+		GROUP BY DATE2
+	</select>
+	
 	<resultMap type="DiscountCalendar"
 		id="discountCalendarResultMap">
 		<id property="discountSeq" column="discount_seq" />
