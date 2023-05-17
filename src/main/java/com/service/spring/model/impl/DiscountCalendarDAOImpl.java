@@ -16,14 +16,7 @@ public class DiscountCalendarDAOImpl implements DiscountCalendarDAO{
 	private SqlSession sqlSession;
 	
 	public static final String MAPPER_NAME = "sql.tmt.mapper.cha.";
-	
-	public SqlSession getSqlSession() {
-		return sqlSession;
-	}
-	
-	public void setSqlSession(SqlSession sqlSession) {
-		this.sqlSession = sqlSession;
-	}
+
 
 	@Override
 	public List<DiscountCalendar> getDiscountCalendar() throws Exception {
@@ -34,14 +27,12 @@ public class DiscountCalendarDAOImpl implements DiscountCalendarDAO{
 	@Override
 	public int registerGeneralDiscountCalendar(DiscountCalendar discountcalendar) throws Exception {
 		int result = sqlSession.insert(MAPPER_NAME+"registerGeneralDiscountCalendar", discountcalendar);
-		sqlSession.commit();
 		return result;
 	}
 
 	@Override
 	public int registerBusinessDiscountCalendar(DiscountCalendar discountcalendar) throws Exception {
 		int result = sqlSession.insert(MAPPER_NAME+"registerBusinessDiscountCalendar", discountcalendar);
-		sqlSession.commit();
 		return result;
 	}
 

@@ -1,6 +1,8 @@
 package com.service.spring.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,7 @@ import com.service.spring.model.AccountBookDAO;
 @RequestMapping("/account-book")
 public class AccountBookController {
 	private final ObjectMapper objectMapper = new ObjectMapper();
+	
 	@Autowired
 	private final AccountBookDAO accountBookDAO;
 
@@ -33,9 +36,16 @@ public class AccountBookController {
         this.accountBookDAO = accountBookDAO;
     }
 
-    @GetMapping("/{generalId}")
-    public ResponseEntity<String> getAccountBook(@PathVariable String generalId) throws Exception {
-    	List<AccountBook> accountBookList = accountBookDAO.getAccountBook(generalId);
+    @GetMapping()
+    public List<Map<String, Object>> getStat() throws Exception {
+    	List<Map<String, Object>> s =  accountBookDAO.getStat("generalId1");
+    	System.out.println(s);
+    	return s;
+    }
+    @GetMapping("/detail")
+    public ResponseEntity<String> getAccountBook() throws Exception {
+    	//세션에서 가져오는 걸로 변경할 것
+    	List<AccountBook> accountBookList = accountBookDAO.getAccountBook("generalId1");
         try {
         	String jsonString = objectMapper.writeValueAsString(accountBookList);
 			return ResponseEntity.ok(jsonString);
