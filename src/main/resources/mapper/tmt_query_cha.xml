@@ -26,6 +26,13 @@
 		<result property="consumptionCat" column="consumption_cat" />
 	</resultMap>
 	
+	<resultMap type="Reported"
+		id="reportedResultMap">
+		<id property="reportedSeq" column="reported_seq" />
+		<result property="status" column="status" />
+		<result property="flag" column="flag" />
+	</resultMap>
+	
 	
 	<insert id="registerGeneralDiscountCalendar"
 		parameterType="discountCalendar">
@@ -171,6 +178,42 @@
 		WHERE time LIKE '%' || #{time} || '%'
 </select>
 
+<!-- ========================= Reported =============================== -->
+	<select id="getReported" resultMap="reportedResultMap">
+		SELECT
+		reported_Seq,
+		status,
+		flag
+		FROM Reported
+	</select>
+	
+	<insert id="registerReported" parameterType="reported">
+	INSERT INTO
+		Reported(reported_Seq, status, flag)
+		VALUES(
+		#{reportedSeq},
+		#{status},
+		#{flag}
+		)
+	</insert>
+	
+	<update id="updateReported" parameterType="reported">
+		UPDATE Reported
+		SET reported_seq = #{reportedSeq},
+		status = #{status},
+		flag = #{flag}
+	</update>
+	
+	<delete id="deleteReported" parameterType="long">
+    DELETE FROM Board
+    WHERE boardSeq IN (
+        SELECT b.boardSeq
+        FROM Reported r
+        INNER JOIN Board b ON b.boardSeq = r.reportedSeq
+        WHERE r.reportedSeq = #{boardSeq}
+    )
+</delete>
+	
 	
 
 </mapper>
