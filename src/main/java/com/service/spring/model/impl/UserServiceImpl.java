@@ -12,60 +12,65 @@ import com.service.spring.model.UserService;
 public class UserServiceImpl implements UserService{
  
 	@Autowired
-	private UserDAO testDAO;
+	private UserDAO userDAO;
 
 	@Override
 	public int insertUser(TmtUser vo) throws Exception {
-		return testDAO.insertUser(vo);
+		return userDAO.insertUser(vo);
 	}
 
 	@Override
 	public int insertBusiness(BusinessInfo vo) throws Exception {
-		return testDAO.insertBusiness(vo);
+		return userDAO.insertBusiness(vo);
 	}
 
 	@Override
 	public String idExist(String id) throws Exception {
-		return testDAO.idExist(id);
+		return userDAO.idExist(id);
 	}
 
 	@Override
 	public int updateUser(TmtUser vo) throws Exception {
-		return testDAO.updateUser(vo);
+		return userDAO.updateUser(vo);
 	}
 
 	@Override
 	public int updateBusiness(BusinessInfo vo) throws Exception {
-		return testDAO.updateBusiness(vo);
+		return userDAO.updateBusiness(vo);
 	}
 
 	@Override
 	public int deleteUser(String id) throws Exception {
-		return testDAO.deleteUser(id);
+		return userDAO.deleteUser(id);
 	}
 
 	@Override
 	public int deleteBusiness(String id) throws Exception {
-		return testDAO.deleteBusiness(id);
+		return userDAO.deleteBusiness(id);
 	}
 
 	@Override
 	public TmtUser login(TmtUser vo) throws Exception {
-		return testDAO.login(vo);
+		return userDAO.login(vo);
 	}
 
 	@Override
 	public String getId(TmtUser vo) throws Exception {
-		return testDAO.getId(vo);
+		return userDAO.getId(vo);
 	}
 
 	@Override
 	public String getPassword(TmtUser vo) throws Exception {
-		return testDAO.getPassword(vo);
+		return userDAO.getPassword(vo);
 	}
 
 	@Override
 	public int updatePassword(TmtUser vo) throws Exception {
-		return testDAO.updatePassword(vo);
+		return userDAO.updatePassword(vo);
+	}
+
+	@Override
+	public String nicknameExist(String userNickname) throws Exception {
+		return userDAO.nicknameExist(userNickname);
 	}
 }

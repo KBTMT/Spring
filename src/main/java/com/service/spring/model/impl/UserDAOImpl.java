@@ -71,4 +71,9 @@ public class UserDAOImpl implements UserDAO {
 	public int updatePassword(TmtUser vo) throws Exception {
 		return sqlSession.update(NS+"updatePassword", vo);
 	}
+
+	@Override
+	public String nicknameExist(String userNickname) throws Exception {
+		return sqlSession.selectOne(NS+"nicknameExist", userNickname);
+	}
 }

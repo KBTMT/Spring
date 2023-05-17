@@ -27,6 +27,12 @@
 		WHERE general_id= #{VALUE}
 	</select>
 	
+	<select id="nicknameExist" parameterType="String" resultType="String">
+		SELECT user_nickname
+		FROM tmt_user
+		WHERE user_nickname= #{VALUE}
+	</select>
+	
 	
 	<!-- 회원정보 수정 -->
 	<update id="updateUser" parameterType="tmtUser">

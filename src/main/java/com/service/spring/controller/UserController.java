@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.BusinessInfo;
 import com.service.spring.domain.TmtUser;
 import com.service.spring.model.UserService;
@@ -21,13 +24,13 @@ import com.service.spring.model.UserService;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping()
 public class UserController {
-	
+	private final ObjectMapper objectMapper = new ObjectMapper();
 	@Autowired
 	private UserService userService;
 	
 	@GetMapping("/")
 	public String index() {
-		return "redirect:index.jsp";
+		return "redirect:/";
 	}
 
 	// 일반 유저 회원가입
@@ -65,25 +68,40 @@ public class UserController {
 	}
 	
 	
-	@PostMapping("/login")
-	public String login(HttpServletRequest request, TmtUser pvo) throws Exception {
+	@RequestMapping("/login")
+	public ResponseEntity<String> login(@RequestBody TmtUser pvo, HttpServletRequest request) throws Exception {
 		
+		System.out.println(pvo);
 		TmtUser rvo = userService.login(pvo);
+		System.out.println(rvo);
 		if(rvo != null) {
 			// login, update는 반드시 session에 값을 바인딩
 			request.getSession().setAttribute("vo", rvo);
+			System.out.println("널아님");
+			return ResponseEntity.ok(objectMapper.writeValueAsString(rvo));
 		}
-		return "redirect:/index.jsp";
+		return null;
 	}
 	
 	
 	@GetMapping("idExist")
-	public String idExist(String generalId, Model model) throws Exception{
+	public String idExist(@RequestParam String generalId, Model model) throws Exception{
 		String id = userService.idExist(generalId);
 		if(id!=null) {
 			model.addAttribute("existId", id);
-			return "";
+			return "exist";
 		}else return null;
+	}
+	
+	@GetMapping("nicknameExist")
+	public String nicknameExist(@RequestParam String userNickname, Model model) throws Exception{
+	  String nickname = userService.nicknameExist(userNickname);
+	  if (nickname != null) {
+	    model.addAttribute("existNickname", nickname);
+	    return "exist";
+	  } else {
+	    return null;
+	  }
 	}
 	
 	

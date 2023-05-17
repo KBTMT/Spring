@@ -15,4 +15,5 @@ public interface UserService {
 	String getId(TmtUser vo) throws Exception;
 	String getPassword(TmtUser vo) throws Exception;
 	int updatePassword(TmtUser vo) throws Exception;
+	String nicknameExist(String userNickname) throws Exception;
 }
