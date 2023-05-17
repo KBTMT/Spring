@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 import com.service.spring.domain.Reported;
 import com.service.spring.model.AccountBookDAO;
 import com.service.spring.model.ReportedDAO;
+import com.service.spring.model.ReportedService;
 
 @Service
-public class ReportedServiceImpl implements ReportedDAO{
+public class ReportedServiceImpl implements ReportedService{
+	
+	
 	@Autowired
 	private ReportedDAO reportedDAO;
 	@Autowired
@@ -18,7 +21,6 @@ public class ReportedServiceImpl implements ReportedDAO{
 
 	@Override
 	public int registerReported(Reported reported) throws Exception {
-		// TODO Auto-generated method stub
 		return reportedDAO.registerReported(reported);
 	}
 
@@ -36,10 +38,11 @@ public class ReportedServiceImpl implements ReportedDAO{
 
 	@Override
 	public int deleteReported(Reported reported) throws Exception {
-		if(reported.getFlag() == 1) {
-			boardDAO.deleteBoard(reported.getReportedSeq());
-			return 1;
-		}
+//		if(reported.getFlag() == 1) {
+//			boardDAO.deleteBoard(reported.getReportedSeq());
+//			return 1;
+//		}
+		return 1;
 	}
 	
 }
