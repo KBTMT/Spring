@@ -50,7 +50,7 @@
 		#{url},
 		#{imagePath},
 		#{calendarLike},
-		#{consumptionCat}
+		#{consumptionCat}S
 		)
 	</insert>
 
@@ -76,6 +76,7 @@
 		parameterType="discountCalendar">
 		UPDATE DISCOUNT_CALENDAR
 		SET start_date = #{startDate},
+		
 		end_date = #{endDate},
 		brand = #{brand},
 		content = #{content},

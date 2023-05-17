@@ -11,7 +11,6 @@ import com.service.spring.domain.Reported;
 import com.service.spring.model.ReportedService;
 
 @Controller
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/reported")
 public class ReportedController {
 
