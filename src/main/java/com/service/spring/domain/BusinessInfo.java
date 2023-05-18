@@ -9,6 +9,18 @@ public class BusinessInfo {
 	
 	public BusinessInfo() {}
 	
+	
+	
+	public BusinessInfo(String generalId, String businessNum, String tradeName, String location) {
+		super();
+		this.generalId = generalId;
+		this.businessNum = businessNum;
+		this.tradeName = tradeName;
+		this.location = location;
+	}
+
+
+
 	public BusinessInfo(String generalId, String businessNum, String tradeName, String location, int status) {
 		super();
 		this.generalId = generalId;
