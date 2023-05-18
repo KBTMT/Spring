@@ -1,6 +1,7 @@
 package com.service.spring.model.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,9 @@ public class AccountBookServiceImpl implements AccountBookService{
 		return accountBookDAO.dailyAccountBook(time);
 	}
 	
-	
+	@Override
+	public List<Map<String, Object>> getStat(String generalId) throws Exception {
+		return accountBookDAO.getStat(generalId);
+	}
 	
 }

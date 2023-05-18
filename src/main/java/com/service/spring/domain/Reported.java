@@ -3,23 +3,23 @@ package com.service.spring.domain;
 public class Reported {
 	private long reportedSeq;
 	private long status;
-	private long flag;
+	private long reportedFlag;
 
 	public Reported() {
 		super();
 	}
 
-	public Reported(long status, long flag) {
+	public Reported(long status, long reportedFlag) {
 		super();
 		this.status = status;
-		this.flag = flag;
+		this.reportedFlag = reportedFlag;
 	}
 
-	public Reported(long reportedSeq, long status, long flag) {
+	public Reported(long reportedSeq, long status, long reportedFlag) {
 		super();
 		this.reportedSeq = reportedSeq;
 		this.status = status;
-		this.flag = flag;
+		this.reportedFlag = reportedFlag;
 	}
 
 	public long getReportedSeq() {
@@ -38,17 +38,17 @@ public class Reported {
 		this.status = status;
 	}
 
-	public long getFlag() {
-		return flag;
+	public long getReportedFlag() {
+		return reportedFlag;
 	}
 
-	public void setFlag(long flag) {
-		this.flag = flag;
+	public void setReportedFlag(long reportedFlag) {
+		this.reportedFlag = reportedFlag;
 	}
 
 	@Override
 	public String toString() {
-		return "Reported [reportedSeq=" + reportedSeq + ", status=" + status + ", flag=" + flag + "]";
+		return "Reported [reportedSeq=" + reportedSeq + ", status=" + status + ", reportedFlag=" + reportedFlag + "]";
 	}
 
 }
