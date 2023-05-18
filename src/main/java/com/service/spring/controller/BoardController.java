@@ -54,6 +54,7 @@ public class BoardController {
 		// 수정할 것 -> 세션에서 user generalId, userNickname
 		board.setGeneralId("generalId Test");
 		board.setUserNickname("test3");
+		
 		System.out.println(board);
 		boardService.insertBoard(board);
 		return "redirect:/board";
