@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.AccountBook;
 import com.service.spring.model.AccountBookDAO;
+import com.service.spring.model.AccountBookService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -29,23 +30,18 @@ public class AccountBookController {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Autowired
-	private final AccountBookDAO accountBookDAO;
-
-    @Autowired
-    public AccountBookController(AccountBookDAO accountBookDAO) {
-        this.accountBookDAO = accountBookDAO;
-    }
+	private AccountBookService accountBookService;
 
     @GetMapping()
     public List<Map<String, Object>> getStat() throws Exception {
-    	List<Map<String, Object>> s =  accountBookDAO.getStat("generalId1");
+    	List<Map<String, Object>> s =  accountBookService.getStat("generalId1");
     	System.out.println(s);
     	return s;
     }
     @GetMapping("/detail")
     public ResponseEntity<String> getAccountBook() throws Exception {
     	//세션에서 가져오는 걸로 변경할 것
-    	List<AccountBook> accountBookList = accountBookDAO.getAccountBook("generalId1");
+    	List<AccountBook> accountBookList = accountBookService.getAccountBook("generalId1");
         try {
         	String jsonString = objectMapper.writeValueAsString(accountBookList);
 			return ResponseEntity.ok(jsonString);
@@ -56,7 +52,7 @@ public class AccountBookController {
 
     @PostMapping("/register")
     public String registerAccountBook(@RequestBody AccountBook accountBook) throws Exception {
-    	accountBookDAO.registerAccountBook(accountBook);
+    	accountBookService.registerAccountBook(accountBook);
         return "redirect:/account-book/";
     }
 
@@ -65,7 +61,7 @@ public class AccountBookController {
         ModelAndView modelAndView = new ModelAndView("redirect:/account-book/" + accountBook.getGeneralId());
         try {
             accountBook.setAccountBookSeq(accountBookSeq);
-            int result = accountBookDAO.updateAccountBook(accountBook);
+            int result = accountBookService.updateAccountBook(accountBook);
             if (result <= 0) {
                 modelAndView.addObject("error", "Failed to update account book.");
             }
@@ -77,13 +73,13 @@ public class AccountBookController {
 
     @PostMapping("/{accountBookSeq}/delete")
     public String deleteAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook) throws Exception {
-        accountBookDAO.deleteAccountBook(accountBookSeq);
+    	accountBookService.deleteAccountBook(accountBookSeq);
         return "redirect:/account-book/";
     }
 
     @GetMapping("/daily/{time}")
     public ResponseEntity<String> dailyAccountBook(@PathVariable String time) throws Exception {
-        List<AccountBook> accountBookList = accountBookDAO.dailyAccountBook(time);
+        List<AccountBook> accountBookList = accountBookService.dailyAccountBook(time);
         try {
 			String jsonString = objectMapper.writeValueAsString(accountBookList);
 			return ResponseEntity.ok(jsonString);

@@ -16,8 +16,8 @@
 		<id property="discountSeq" column="discount_seq" />
 		<result property="startDate" column="start_date" />
 		<result property="endDate" column="end_date" />
-		<result property="companyName" column="company_name" />
-		<result property="description" column="description" />
+		<result property="brand" column="brand" />
+		<result property="discountContent" column="discount_content" />
 		<result property="url" column="url" />
 		<result property="calendarLike" column="calendar_like" />
 		<result property="consumptionCat" column="consumption_cat" />
@@ -27,11 +27,13 @@
 		id="accountBookResultMap">
 		<id property="accountBookSeq" column="account_book_seq" />
 		<result property="generalId" column="general_id" />
-		<result property="content" column="content" />
+		<result property="accountContent" column="account_content" />
 		<result property="time" column="time" />
 		<result property="price" column="price" />
+		<result property="memo" column="memo" />
 		<result property="url" column="url" />
 		<result property="discountSeq" column="discount_seq" />
+		<result property="emoji" column="emoji" />
 		<result property="consumptionCat" column="consumption_cat" />
 	</resultMap>
 	
@@ -39,44 +41,41 @@
 		id="reportedResultMap">
 		<id property="reportedSeq" column="reported_seq" />
 		<result property="status" column="status" />
-		<result property="flag" column="flag" />
+		<result property="reportedFlag" column="reported_flag" />
 	</resultMap>
+	
 	
 	
 	<insert id="registerGeneralDiscountCalendar"
 		parameterType="discountCalendar">
 		INSERT INTO
 		DISCOUNT_CALENDAR(discount_seq, start_date,
-		end_date, brand, content, url,
-		image_path, calendar_like
-		,consumption_cat)
+		end_date, brand, discount_content, url,
+		image_path, consumption_cat)
 		VALUES(
 		discount_seq.nextval,
 		#{startDate},
 		#{endDate},
 		#{brand},
-		#{content},
+		#{discountContent},
 		#{url},
 		#{imagePath},
-		#{calendarLike},
-		#{consumptionCat}S
+		#{consumptionCat}
 		)
 	</insert>
-
+	
 	<insert id="registerBusinessDiscountCalendar"
 		parameterType="discountCalendar">
 		INSERT
 		INTO discount_calendar(discount_seq,start_date,
-		end_date,brand, content, url, image_path, calendar_like
-		,consumption_cat)
+		end_date,brand, discount_content, url, image_path,consumption_cat)
 		VALUES(discount_seq.nextval,
 		#{startDate},
 		#{endDate},
 		#{brand},
-		#{content},
+		#{discountContent},
 		#{url},
 		#{imagePath},
-		#{calendarLike},
 		#{consumptionCat}
 		)
 	</insert>
@@ -88,9 +87,8 @@
 		
 		end_date = #{endDate},
 		brand = #{brand},
-		content = #{content},
-		url =
-		#{url},
+		discount_content = #{discountContent},
+		url = #{url},
 		image_path = #{imagePath},
 		calendar_like = #{calendarLike},
 		consumption_cat = #{consumptionCat}
@@ -103,9 +101,8 @@
 		SET start_date = #{startDate},
 		end_date = #{endDate},
 		brand = #{brand},
-		content = #{content},
-		url =
-		#{url},
+		discount_content = #{discountContent},
+		url = #{url},
 		image_path = #{imagePath},
 		calendar_like = #{calendarLike},
 		consumption_cat = #{consumptionCat}
@@ -125,7 +122,7 @@
 		resultMap="discountCalendarResultMap">
 		SELECT
 		discount_seq,start_date,
-		end_date,brand, content, url,
+		end_date,brand, discount_content, url,
 		image_path, calendar_like
 		,consumption_cat
 		FROM DISCOUNT_CALENDAR
@@ -133,12 +130,12 @@
 
 	<insert id="registerAccountBook" parameterType="accountBook">
 		INSERT INTO
-		ACCOUNT_BOOK(account_book_seq, general_id, content, time, price, memo,
+		ACCOUNT_BOOK(account_book_seq, general_id, account_content, time, price, memo,
 		discount_seq, emoji ,consumption_cat)
 		VALUES(
 		account_book_seq.nextval,
 		#{generalId},
-		#{content},
+		#{accountContent},
 		#{time},
 		#{price},
 		#{memo},
@@ -151,7 +148,7 @@
 	<update id="updateAccountBook" parameterType="accountBook">
 		UPDATE Account_Book
 		SET general_id = #{generalId},
-		content = #{content},
+		account_content = #{accountContent},
 		time = #{time},
 		price = #{price},
 		memo = #{memo},
@@ -171,7 +168,7 @@
 	<select id="getAccountBook" resultMap="accountBookResultMap">
 		SELECT
 		account_book_seq,
-		general_id, content, time, price, memo,
+		general_id, account_content, time, price, memo,
 		discount_seq, emoji
 		,consumption_cat
 		FROM Account_Book
@@ -181,7 +178,7 @@
 	<select id="dailyAccountBook" resultMap="accountBookResultMap">
 		SELECT
 		account_book_seq,
-		general_id, content, time, price, memo,
+		general_id, account_content, time, price, memo,
 		discount_seq, emoji
 		,consumption_cat
 		FROM Account_Book
@@ -191,19 +188,19 @@
 <!-- ========================= Reported =============================== -->
 	<select id="getReported" resultMap="reportedResultMap">
 		SELECT
-		reported_Seq,
+		reported_seq,
 		status,
-		flag
+		reported_flag
 		FROM Reported
 	</select>
 	
 	<insert id="registerReported" parameterType="reported">
 	INSERT INTO
-		Reported(reported_Seq, status, flag)
+		Reported(reported_seq, status, reported_flag)
 		VALUES(
 		#{reportedSeq},
 		#{status},
-		#{flag}
+		#{reportedFlag}
 		)
 	</insert>
 	
@@ -211,7 +208,7 @@
 		UPDATE Reported
 		SET reported_seq = #{reportedSeq},
 		status = #{status},
-		flag = #{flag}
+		reported_flag = #{reportedFlag}
 	</update>
 	
 	<delete id="deleteReported" parameterType="long">
