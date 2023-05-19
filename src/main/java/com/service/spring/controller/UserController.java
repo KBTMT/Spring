@@ -1,5 +1,7 @@
 package com.service.spring.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -38,7 +40,6 @@ public class UserController {
 	public String registerGeneralUser(@RequestBody TmtUser pvo) throws Exception{
 		System.out.println("aa==============");
 //		pvo.setConsumptionCat1(1);
-		pvo.setUserName("Aa");
 //		pvo.setCertType("1");
 		System.out.println(pvo);
 		userService.insertUser(pvo);
@@ -47,25 +48,48 @@ public class UserController {
 	
 	
 	// 사업자 회원가입
-	@PostMapping("/regiseterBusinessUser")
-	public String registerBusinessUser(HttpServletRequest request, TmtUser businessRegisterUserInfo) throws Exception{
-		if(businessRegisterUserInfo!=null) {
-			request.getSession().setAttribute("businessRegisterUserInfo", businessRegisterUserInfo);
-			return "businessRegisterNextLevel";
-		}else return "redirect:/index.jsp";
+	@PostMapping("register/businessUser")
+	public String registerBusinessUser(@RequestBody Map<String, Object> requestData) throws Exception{
+//		System.out.println(requestData);
+//		System.out.println(requestData.get("tmtUser"));
+//		System.out.println(requestData.get("businessInfo"));
+		 // Map에서 데이터 추출
+//		System.out.println(requestData.get("location"));
+		TmtUser tmtUser = new TmtUser((String)requestData.get("generalId"), (String)requestData.get("userName"), (String)requestData.get("userNickname"), 
+				(String)requestData.get("password"), (String)requestData.get("email"), (String)requestData.get("birthDate"),
+				Integer.parseInt(requestData.get("job").toString()), Integer.parseInt(requestData.get("consumptionCat1").toString()),
+				Integer.parseInt(requestData.get("financeCat").toString()), 1, Integer.parseInt(requestData.get("salary").toString()),
+				Integer.parseInt(requestData.get("saving").toString()));
+		
+		BusinessInfo businessInfo = new BusinessInfo((String)requestData.get("generalId"), (String)requestData.get("businessNum"), 
+				(String)requestData.get("tradeName"), (String)requestData.get("location"));
+		
+//
+//	    // tmtUser 객체에 데이터 설정
+//	    TmtUser tmtUser = .setGeneralId((String) tmtUserData.get("generalId"));
+//	    tmtUser.setUserName((String) tmtUserData.get("userName"));
+//	    // 나머지 필드들도 동일한 방식으로 설정
+//
+//	    // businessInfo 객체에 데이터 설정
+//	    BusinessInfo businessInfo.setGeneralId((String) businessInfoData.get("generalId"));
+//	    businessInfo.setBusinessNum((String) businessInfoData.get("businessNum"));
+//	    // 나머지 필드들도 동일한 방식으로 설정
+	    // tmtUser, businessInfo 객체를 사용하여 로직 수행
+//	    tmtUser.setTmtUserFlag(1);
+//
+//	    System.out.println(tmtUser);
+//	    System.out.println(businessInfo);
+//	    userService.insertUser(tmtUser);
+//	    userService.insertBusiness(businessInfo);
+//		tmtUser.setTmtUserFlag(1);
+		System.out.println(tmtUser);
+		System.out.println(businessInfo);
+		userService.insertUser(tmtUser);
+		userService.insertBusiness(businessInfo);
+		return "redirect:/";
 	}
 	
 	
-	@PostMapping("/businessRegisterNextLevel")
-	public String businessRegisterNextLevel(HttpServletRequest request, BusinessInfo businessInfo) throws Exception{
-		if(businessInfo!=null) {
-			TmtUser businessRegisterUserInfo = (TmtUser)request.getSession().getAttribute("businessRegisterUserInfo");
-			userService.insertUser(businessRegisterUserInfo);
-			businessInfo.setGeneralId(businessRegisterUserInfo.getGeneralId());
-			userService.insertBusiness(businessInfo);
-			return "login";
-		}else return "redirect:/index.jsp";
-	}
 	
 	
 	@RequestMapping("/login")
@@ -78,6 +102,7 @@ public class UserController {
 			// login, update는 반드시 session에 값을 바인딩
 			request.getSession().setAttribute("vo", rvo);
 			System.out.println("널아님");
+			System.out.println(ResponseEntity.ok(objectMapper.writeValueAsString(rvo)));
 			return ResponseEntity.ok(objectMapper.writeValueAsString(rvo));
 		}
 		return null;
