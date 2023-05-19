@@ -1,6 +1,7 @@
 package com.service.spring.domain;
 
 public class AccountTransaction {
+	
 	private String accountNumber;
 	private long money;
 	private long accountTransactionFlag;
