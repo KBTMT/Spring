@@ -5,7 +5,7 @@ import java.util.Date;
 public class AccountBook {
 	private long accountBookSeq;
 	private String generalId;
-	private String content;
+	private String accountContent;
 	private String time;
 	private long price;
 	private String memo;
@@ -14,12 +14,12 @@ public class AccountBook {
 	private long consumptionCat;
 	
 	
-	public AccountBook(long accountBookSeq, String generalId, String content, String time, long price, String memo,
+	public AccountBook(long accountBookSeq, String generalId, String accountContent, String time, long price, String memo,
 			long discountSeq, long emoji, long consumptionCat) {
 		super();
 		this.accountBookSeq = accountBookSeq;
 		this.generalId = generalId;
-		this.content = content;
+		this.accountContent = accountContent;
 		this.time = time;
 		this.price = price;
 		this.memo = memo;
@@ -29,11 +29,11 @@ public class AccountBook {
 	}
 	
 	
-	public AccountBook(String generalId, String content, String time, long price, String memo, long discountSeq,
+	public AccountBook(String generalId, String accountContent, String time, long price, String memo, long discountSeq,
 			long emoji, long consumptionCat) {
 		super();
 		this.generalId = generalId;
-		this.content = content;
+		this.accountContent = accountContent;
 		this.time = time;
 		this.price = price;
 		this.memo = memo;
@@ -55,11 +55,11 @@ public class AccountBook {
 	public void setGeneralId(String generalId) {
 		this.generalId = generalId;
 	}
-	public String getContent() {
-		return content;
+	public String getAccountContent() {
+		return accountContent;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setAccountContent(String content) {
+		this.accountContent = content;
 	}
 	public String getTime() {
 		return time;
@@ -103,7 +103,7 @@ public class AccountBook {
 	}
 	@Override
 	public String toString() {
-		return "AccountBook [accountBookSeq=" + accountBookSeq + ", generalId=" + generalId + ", content=" + content
+		return "AccountBook [accountBookSeq=" + accountBookSeq + ", generalId=" + generalId + ", accountContent=" + accountContent
 				+ ", time=" + time + ", price=" + price + ", memo=" + memo + ", discountSeq=" + discountSeq + ", emoji="
 				+ emoji + ", consumptionCat=" + consumptionCat + "]";
 	}

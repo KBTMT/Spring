@@ -6,59 +6,83 @@ public class TmtUser {
 	private String userNickname;
 	private String password;
 	private String email;
-	private String certType;
 	private String birthDate;
 	private int job;
 	private int consumptionCat1;
 	private int consumptionCat2;
 	private int consumptionCat3;
 	private int financeCat;
-	private int flag;
+	private int tmtUserFlag;
+	private int salary;
+	private int saving;
 	
 	public TmtUser() {}
 	
 	
 	
 
-	public TmtUser(String generalId, String userName, String userNickname, String password, String email, String certType,
-			String birthDate, int job, int flag) {
+	
+	public TmtUser(String generalId, String userName, String userNickname, String password, String email,
+			String birthDate, int job, int consumptionCat1, int financeCat) {
 		super();
 		this.generalId = generalId;
 		this.userName = userName;
 		this.userNickname = userNickname;
 		this.password = password;
 		this.email = email;
-		this.certType = certType;
 		this.birthDate = birthDate;
 		this.job = job;
-		this.consumptionCat1 = 0;
+		this.consumptionCat1 = consumptionCat1;
 		this.consumptionCat2 = 0;
 		this.consumptionCat3 = 0;
-		this.financeCat = 0;
-		
-		this.flag = flag;
+		this.financeCat = financeCat;
+		this.saving = 0;
 	}
 
 
 
 
-	public TmtUser(String generalId, String userName, String userNickname, String password, String email, String certType,
-			String birthDate, int job, int consumptionCat1, int consumptionCat2, int consumptionCat3, int financeCat,
-			int flag) {
+
+	// 소비습관 2,3 없는거
+	public TmtUser(String generalId, String userName, String userNickname, String password, String email,
+			String birthDate, int job, int consumptionCat1, int financeCat, int tmtUserFlag, int salary, int saving) {
 		super();
 		this.generalId = generalId;
 		this.userName = userName;
 		this.userNickname = userNickname;
 		this.password = password;
 		this.email = email;
-		this.certType = certType;
+		this.birthDate = birthDate;
+		this.job = job;
+		this.consumptionCat1 = consumptionCat1;
+		this.consumptionCat2 = 0;
+		this.consumptionCat3 = 0;
+		this.financeCat = financeCat;
+		this.tmtUserFlag = tmtUserFlag;
+		this.salary = salary;
+		this.saving = saving;
+	}
+
+
+	// 전부 다 있는거
+	public TmtUser(String generalId, String userName, String userNickname, String password, String email,
+			String birthDate, int job, int consumptionCat1, int consumptionCat2, int consumptionCat3, int financeCat,
+			int tmtUserFlag, int salary, int saving) {
+		super();
+		this.generalId = generalId;
+		this.userName = userName;
+		this.userNickname = userNickname;
+		this.password = password;
+		this.email = email;
 		this.birthDate = birthDate;
 		this.job = job;
 		this.consumptionCat1 = consumptionCat1;
 		this.consumptionCat2 = consumptionCat2;
 		this.consumptionCat3 = consumptionCat3;
 		this.financeCat = financeCat;
-		this.flag = flag;
+		this.tmtUserFlag = tmtUserFlag;
+		this.salary = salary;
+		this.saving = saving;
 	}
 
 
@@ -112,14 +136,6 @@ public class TmtUser {
 	}
 
 
-	public String getCertType() {
-		return certType;
-	}
-
-
-	public void setCertType(String certType) {
-		this.certType = certType;
-	}
 
 
 	public String getBirthDate() {
@@ -182,23 +198,50 @@ public class TmtUser {
 	}
 
 
-	public int getFlag() {
-		return flag;
+	public int getTmtUserFlag() {
+		return tmtUserFlag;
 	}
-
-
-	public void setFlag(int flag) {
-		this.flag = flag;
+	
+	
+	public void setTmtUserFlag(int tmtUserFlag) {
+		this.tmtUserFlag = tmtUserFlag;
+	}
+	
+	public int getSalary() {
+		return salary;
+	}
+	
+	
+	
+	
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+	
+	
+	
+	public int getSaving() {
+		return saving;
+	}
+	
+	
+	
+	public void setSaving(int saving) {
+		this.saving = saving;
 	}
 
 
 	@Override
 	public String toString() {
 		return "TmtUser [generalId=" + generalId + ", userName=" + userName + ", userNickname=" + userNickname
-				+ ", password=" + password + ", email=" + email + ", certType=" + certType + ", birthDate=" + birthDate
-				+ ", job=" + job + ", consumptionCat1=" + consumptionCat1 + ", consumptionCat2=" + consumptionCat2
-				+ ", consumptionCat3=" + consumptionCat3 + ", financeCat=" + financeCat + ", flag=" + flag + "]";
+				+ ", password=" + password + ", email=" + email + ", birthDate=" + birthDate + ", job=" + job
+				+ ", consumptionCat1=" + consumptionCat1 + ", consumptionCat2=" + consumptionCat2 + ", consumptionCat3="
+				+ consumptionCat3 + ", financeCat=" + financeCat + ", tmtUserFlag=" + tmtUserFlag + ", salary=" + salary
+				+ ", saving=" + saving + "]";
 	}
+
+
+
 	
 	
 	

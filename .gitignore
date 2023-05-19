@@ -33,4 +33,9 @@ Compiled class file
 .zip
 .tar.gz
 *.rar
+<<<<<<< HEAD
 /.metadata/
+=======
+
+/**/pom.properties
+>>>>>>> branch 'main' of https://github.com/KBTMT/Spring.git

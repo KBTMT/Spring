@@ -5,7 +5,7 @@ public class DiscountCalendar {
     private String startDate;
     private String endDate;
     private String brand;
-    private String content;
+    private String discountContent;
     private String url;
     private String imagePath;
     private int calendarLike;
@@ -14,23 +14,23 @@ public class DiscountCalendar {
     public DiscountCalendar() {
     }  
 
-    public DiscountCalendar(String startDate, String endDate, String brand, String content, String url, int calendarLike, String consumptionCat) {
+    public DiscountCalendar(String startDate, String endDate, String brand, String discountContent, String url, int calendarLike, String consumptionCat) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.brand = brand;
-        this.content = content;
+        this.discountContent = discountContent;
         this.url = url;
         this.imagePath = null;
         this.calendarLike = calendarLike;
         this.consumptionCat = consumptionCat;
     }
 
-    public DiscountCalendar(long discountSeq, String startDate, String endDate, String brand, String content, String url, int calendarLike, String consumptionCat) {
+    public DiscountCalendar(long discountSeq, String startDate, String endDate, String brand, String discountContent, String url, int calendarLike, String consumptionCat) {
         this.discountSeq = discountSeq;
         this.startDate = startDate;
         this.endDate = endDate;
         this.brand = brand;
-        this.content = content;
+        this.discountContent = discountContent;
         this.url = url;
         this.calendarLike = calendarLike;
         this.consumptionCat = consumptionCat;
@@ -68,12 +68,12 @@ public class DiscountCalendar {
         this.brand = brand;
     }
 
-    public String getContent() {
-        return content;
+    public String getDiscountContent() {
+        return discountContent;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setDisContent(String discountContent) {
+        this.discountContent = discountContent;
     }
 
     public String getUrl() {
@@ -111,7 +111,7 @@ public class DiscountCalendar {
 	@Override
 	public String toString() {
 		return "DiscountCalendar [discountSeq=" + discountSeq + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", brand=" + brand + ", content=" + content + ", url=" + url + ", imagePath=" + imagePath
+				+ ", brand=" + brand + ", discountContent=" + discountContent + ", url=" + url + ", imagePath=" + imagePath
 				+ ", calendarLike=" + calendarLike + ", consumptionCat=" + consumptionCat + "]";
 	}
     
