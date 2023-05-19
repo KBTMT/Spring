@@ -29,6 +29,7 @@
 		<mapper resource="mapper/tmt_query_lisa.xml"/>	
 		<mapper resource="mapper/tmt_query_cha.xml"/>
 		<mapper resource="mapper/tmt_query_user.xml"/>
+		<mapper resource="mapper/tmt_query_account.xml"/>
 	</mappers>
 </configuration>
  

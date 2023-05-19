@@ -60,7 +60,7 @@ public class BoardController {
 		return "redirect:/board";
 	}
 
-	@PutMapping("/{boardSeq}/update")
+	@PutMapping("/update")
 	public ModelAndView updateBoard(@PathVariable Long boardSeq, @ModelAttribute Board board) throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
 		board.setBoardSeq(boardSeq);
