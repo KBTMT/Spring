@@ -33,3 +33,6 @@ Compiled class file
 .zip
 .tar.gz
 *.rar
+
+
+target/m2e-wtp/web-resources/META-INF/maven/com.service/spring/pom.properties
