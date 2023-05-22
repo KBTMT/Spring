@@ -127,6 +127,19 @@
 		FROM
 		DISCOUNT_CALENDAR
 	</select>
+	
+	<select id="getDiscountCalendarbySeq"
+		resultMap="discountCalendarResultMap" parameterType="long">
+		SELECT
+		discount_seq,start_date,
+		end_date,brand,
+		discount_content, url,
+		image_path, calendar_like
+		,consumption_cat
+		FROM
+		DISCOUNT_CALENDAR
+		WHERE discount_seq = #{discountSeq}
+	</select>
 
 	<insert id="registerAccountBook" parameterType="accountBook">
 		INSERT INTO
