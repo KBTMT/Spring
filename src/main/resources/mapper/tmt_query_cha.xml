@@ -94,9 +94,7 @@
 		consumption_cat = #{consumptionCat}
 		WHERE discount_seq=#{discountSeq}
 	</update>
-
-	<update id="updateDiscountCalendar"
-		parameterType="discountcalendar">
+	<!-- parameterType="discountCalendar">
 		UPDATE DISCOUNT_CALENDAR
 		SET start_date = #{startDate},
 		end_date = #{endDate},
@@ -106,10 +104,20 @@
 		image_path = #{imagePath},
 		calendar_like = #{calendarLike},
 		consumption_cat = #{consumptionCat}
+		WHERE discount_seq=#{discountSeq} -->
+		
+	<update id="updateDiscountCalendar"
+		parameterType="discountCalendar">
+		UPDATE DISCOUNT_CALENDAR
+		SET start_date = #{startDate},
+		end_date = #{endDate},
+		brand = #{brand},
+		discount_content = #{discountContent},
+		consumption_cat = #{consumptionCat}
 		WHERE discount_seq=#{discountSeq}
 	</update>
 
-	<delete id="deleteDiscountCalendar" parameterType="Long">
+	<delete id="deleteDiscountCalendar" parameterType="long">
 		DELETE
 		FROM
 		DISCOUNT_CALENDAR

@@ -27,6 +27,7 @@ import com.service.spring.model.AccountBookService;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/account-book")
 public class AccountBookController {
+	
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Autowired
@@ -38,6 +39,7 @@ public class AccountBookController {
     	System.out.println(s);
     	return s;
     }
+    
     @GetMapping("/detail")
     public ResponseEntity<String> getAccountBook() throws Exception {
     	//세션에서 가져오는 걸로 변경할 것

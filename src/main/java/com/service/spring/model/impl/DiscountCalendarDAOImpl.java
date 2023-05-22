@@ -49,12 +49,14 @@ public class DiscountCalendarDAOImpl implements DiscountCalendarDAO{
 
 	@Override
 	public int updateBusinessDiscountCalendar(DiscountCalendar discountcalendar) throws Exception {
-		return sqlSession.insert(MAPPER_NAME+"updateBusinessDiscountCalendar", discountcalendar);
+		return sqlSession.update(MAPPER_NAME+"updateBusinessDiscountCalendar", discountcalendar);
 	}
 
 	@Override
 	public int updateDiscountCalendar(DiscountCalendar discountcalendar) throws Exception {
-		return 0;
+		int result =  sqlSession.update(MAPPER_NAME+"updateDiscountCalendar", discountcalendar);
+		System.out.println(result);
+		return result;
 	}
 
 //	@Override
