@@ -4,13 +4,17 @@
 <mapper namespace="sql.tmt.mapper.cha">
 
 	<select id="getStat" parameterType="string" resultType="map">
-		SELECT  DATE2,
-	  		SUM(CASE WHEN PRICE<![CDATA[<=]]> 0 THEN price ELSE 0 END) AS expense,
-	  		SUM(CASE WHEN PRICE<![CDATA[>]]> 0 THEN price ELSE 0 END) AS income
-		FROM (SELECT TO_CHAR(TIME, 'YYYY-MM-DD') AS DATE2, price FROM ACCOUNT_BOOK WHERE GENERAL_ID=#{VALUE}) 
+		SELECT DATE2,
+		SUM(CASE WHEN PRICE<![CDATA[<=]]>
+		0 THEN price ELSE 0 END) AS expense,
+		SUM(CASE WHEN PRICE<![CDATA[>]]>
+		0 THEN price ELSE 0 END) AS income
+		FROM (SELECT TO_CHAR(TIME,
+		'YYYY-MM-DD') AS DATE2, price FROM ACCOUNT_BOOK WHERE
+		GENERAL_ID=#{VALUE})
 		GROUP BY DATE2
 	</select>
-	
+
 	<resultMap type="DiscountCalendar"
 		id="discountCalendarResultMap">
 		<id property="discountSeq" column="discount_seq" />
@@ -22,9 +26,8 @@
 		<result property="calendarLike" column="calendar_like" />
 		<result property="consumptionCat" column="consumption_cat" />
 	</resultMap>
-	
-	<resultMap type="AccountBook"
-		id="accountBookResultMap">
+
+	<resultMap type="AccountBook" id="accountBookResultMap">
 		<id property="accountBookSeq" column="account_book_seq" />
 		<result property="generalId" column="general_id" />
 		<result property="accountContent" column="account_content" />
@@ -36,16 +39,9 @@
 		<result property="emoji" column="emoji" />
 		<result property="consumptionCat" column="consumption_cat" />
 	</resultMap>
-	
-	<resultMap type="Reported"
-		id="reportedResultMap">
-		<id property="reportedSeq" column="reported_seq" />
-		<result property="status" column="status" />
-		<result property="reportedFlag" column="reported_flag" />
-	</resultMap>
-	
-	
-	
+
+
+
 	<insert id="registerGeneralDiscountCalendar"
 		parameterType="discountCalendar">
 		INSERT INTO
@@ -63,7 +59,7 @@
 		#{consumptionCat}
 		)
 	</insert>
-	
+
 	<insert id="registerBusinessDiscountCalendar"
 		parameterType="discountCalendar">
 		INSERT
@@ -84,10 +80,11 @@
 		parameterType="discountCalendar">
 		UPDATE DISCOUNT_CALENDAR
 		SET start_date = #{startDate},
-		
+
 		end_date = #{endDate},
 		brand = #{brand},
-		discount_content = #{discountContent},
+		discount_content =
+		#{discountContent},
 		url = #{url},
 		image_path = #{imagePath},
 		calendar_like = #{calendarLike},
@@ -101,7 +98,8 @@
 		SET start_date = #{startDate},
 		end_date = #{endDate},
 		brand = #{brand},
-		discount_content = #{discountContent},
+		discount_content =
+		#{discountContent},
 		url = #{url},
 		image_path = #{imagePath},
 		calendar_like = #{calendarLike},
@@ -116,21 +114,24 @@
 		WHERE
 		discount_seq = #{VALUE}
 	</delete>
-	
+
 
 	<select id="getDiscountCalendar"
 		resultMap="discountCalendarResultMap">
 		SELECT
 		discount_seq,start_date,
-		end_date,brand, discount_content, url,
+		end_date,brand,
+		discount_content, url,
 		image_path, calendar_like
 		,consumption_cat
-		FROM DISCOUNT_CALENDAR
+		FROM
+		DISCOUNT_CALENDAR
 	</select>
 
 	<insert id="registerAccountBook" parameterType="accountBook">
 		INSERT INTO
-		ACCOUNT_BOOK(account_book_seq, general_id, account_content, time, price, memo,
+		ACCOUNT_BOOK(account_book_seq, general_id, account_content, time,
+		price, memo,
 		discount_seq, emoji ,consumption_cat)
 		VALUES(
 		account_book_seq.nextval,
@@ -152,7 +153,8 @@
 		time = #{time},
 		price = #{price},
 		memo = #{memo},
-		discount_seq = #{discountSeq},
+		discount_seq =
+		#{discountSeq},
 		emoji = #{emoji},
 		consumption_cat = #{consumptionCat}
 	</update>
@@ -174,7 +176,7 @@
 		FROM Account_Book
 		WHERE general_id=#{generalId}
 	</select>
-	
+
 	<select id="dailyAccountBook" resultMap="accountBookResultMap">
 		SELECT
 		account_book_seq,
@@ -183,9 +185,15 @@
 		,consumption_cat
 		FROM Account_Book
 		WHERE time LIKE '%' || #{time} || '%'
-</select>
+	</select>
 
-<!-- ========================= Reported =============================== -->
+	<!-- ========================= Reported =============================== -->
+	<resultMap type="reported" id="reportedResultMap">
+		<id property="reportedSeq" column="reported_seq" />
+		<result property="status" column="status" />
+		<result property="reportedFlag" column="reported_flag" />
+	</resultMap>
+
 	<select id="getReported" resultMap="reportedResultMap">
 		SELECT
 		reported_seq,
@@ -193,9 +201,15 @@
 		reported_flag
 		FROM Reported
 	</select>
-	
+
+	<select id="getReportDetail" resultMap="reportedResultMap" parameterType="reported">
+		select reported_seq, status, reported_flag
+		FROM Reported
+		where status = #{status} and reported_flag = #{reportedFlag}
+	</select>
+
 	<insert id="registerReported" parameterType="reported">
-	INSERT INTO
+		INSERT INTO
 		Reported(reported_seq, status, reported_flag)
 		VALUES(
 		#{reportedSeq},
@@ -203,24 +217,27 @@
 		#{reportedFlag}
 		)
 	</insert>
-	
+
 	<update id="updateReported" parameterType="reported">
 		UPDATE Reported
-		SET reported_seq = #{reportedSeq},
+		SET
+		reported_seq = #{reportedSeq},
 		status = #{status},
-		reported_flag = #{reportedFlag}
+		reported_flag =
+		#{reportedFlag}
 	</update>
-	
+
 	<delete id="deleteReported" parameterType="long">
-    DELETE FROM Board
-    WHERE boardSeq IN (
-        SELECT b.boardSeq
-        FROM Reported r
-        INNER JOIN Board b ON b.boardSeq = r.reportedSeq
-        WHERE r.reportedSeq = #{boardSeq}
-    )
-</delete>
-	
-	
+		DELETE FROM Board
+		WHERE boardSeq IN (
+		SELECT b.boardSeq
+		FROM Reported r
+		INNER JOIN Board b
+		ON b.boardSeq = r.reportedSeq
+		WHERE r.reportedSeq = #{boardSeq}
+		)
+	</delete>
+
+
 
 </mapper>
