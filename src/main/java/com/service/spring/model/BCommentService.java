@@ -14,4 +14,6 @@ public interface BCommentService {
 	int updateBComment(BComment pvo) throws Exception;
 
 	int deleteBComment(long commentSeq) throws Exception;
+
+	BComment getBCommentbySeq(long commentSeq) throws Exception;
 }

@@ -44,6 +44,11 @@ public class BCommentServiceImpl implements BCommentService{
 		return bCommentDAO.deleteBComment(commentSeq);
 	}
 
+	@Override
+	public BComment getBCommentbySeq(long commentSeq) throws Exception {
+		return bCommentDAO.getBCommentbySeq(commentSeq);
+	}
+
 
 	
 }

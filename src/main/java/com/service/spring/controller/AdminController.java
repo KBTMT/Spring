@@ -1,6 +1,7 @@
 package com.service.spring.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,7 +40,7 @@ public class AdminController {
 	private BCommentService bCommentService;
 	@Autowired
 	private BoardService boardService;
-	
+
 	@PostMapping("/register")
 	public ModelAndView registerReported(@ModelAttribute Reported reported) {
 		try {
@@ -48,17 +51,7 @@ public class AdminController {
 		}
 	}
 
-//	@PutMapping("/{reportedSeq}/update")
-//	public ModelAndView updateReported(@PathVariable Long reportedSeq, @ModelAttribute Reported reported) {
-//		try {
-//			reported.setReportedSeq(reportedSeq);
-//			reportedService.updateReported(reported);
-//			return new ModelAndView("redirect:/reported");
-//		} catch (Exception e) {
-//			return new ModelAndView("error");
-//		}
-//	}
-
+	// 승인 안된것 부터 정렬 필요
 	@GetMapping("/reported")
 	public ResponseEntity<String> getReported() throws Exception {
 		List<Reported> reportedList = reportedService.getReported();
@@ -69,34 +62,32 @@ public class AdminController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+
 	@GetMapping("/reported/detail/{reportedSeq}/{status}/{reportedFlag}")
-	public ResponseEntity<String> getReportedDetail(@PathVariable String reportedSeq, @PathVariable String status, @PathVariable String reportedFlag) throws Exception {
-		System.out.println("============");
-		System.out.println("reportedSeq  :"+reportedSeq);
-		System.out.println("status : "+status);
-		System.out.println("reportedFlag : "+reportedFlag);
-//		Reported reported = reportedService.getReportDetail(reported);
-//		try {
-//			String jsonString = objectMapper.writeValueAsString(reported);
-//			return ResponseEntity.ok(jsonString);
-//		} catch (JsonProcessingException e) {
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//		}
-		return null;
+	public ResponseEntity<String> getReportedDetail(@PathVariable long reportedSeq, @PathVariable long status,
+			@PathVariable long reportedFlag) throws Exception {
+		if (reportedFlag == 0) { // 할인 달력
+			return ResponseEntity.ok(objectMapper.writeValueAsString(discountCalendarService.getDiscountCalendarbySeq(reportedSeq)));
+		} else if (reportedFlag == 1) { // 게시판 글
+			return ResponseEntity.ok(objectMapper.writeValueAsString(boardService.getBoard(reportedSeq)));
+		} else if (reportedFlag == 2) { // 댓글
+			return ResponseEntity.ok(objectMapper.writeValueAsString(bCommentService.getBCommentbySeq(reportedSeq)));
+		}
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	}
 
-	@DeleteMapping("/{reportedSeq}/delete")
-	public ModelAndView deleteReported(@PathVariable Long reportedSeq, @ModelAttribute Reported reported) {
-		try {
-			reported.setReportedSeq(reportedSeq);
-			int result = reportedService.deleteReported(reported);
-			if (result == 1) {
-				return new ModelAndView("redirect:/reported");
-			} else {
-				return new ModelAndView("error");
-			}
-		} catch (Exception e) {
-			return new ModelAndView("error");
+	@DeleteMapping("/reported/detail/delete/{reportedSeq}/{status}/{reportedFlag}")
+	public void deleteReported(@PathVariable long reportedSeq, @PathVariable long status, @PathVariable long reportedFlag) throws Exception {
+		if (reportedFlag == 0) { // 할인 달력
+			discountCalendarService.deleteDiscountCalendar(reportedSeq);
+		} else if (reportedFlag == 1) { // 게시판 글
+			boardService.deleteBoard(reportedSeq);
+		} else if (reportedFlag == 2) { // 댓글
+			bCommentService.deleteBComment(reportedSeq);
 		}
+	}
+	@PutMapping("/reported/detail/approve/{reportedSeq}/{status}/{reportedFlag}")
+	public void approvedReported(@PathVariable long reportedSeq, @PathVariable long status, @PathVariable long reportedFlag) throws Exception {
+		reportedService.updateReported(new Reported(reportedSeq, 1 ,reportedFlag));
 	}
 }

@@ -19,6 +19,7 @@ public interface DiscountCalendarDAO {
 	
 	int deleteDiscountCalendar(Long discountSeq) throws Exception; // 달력 삭제
 
+	DiscountCalendar getDiscountCalendarbySeq(long discountSeq) throws Exception; 
 	
 //	List<DiscountCalendar> getAllDiscountCalenderAdmin(DiscountCalendar discountcalendar) throws Exception; // 전체 신고 내역
 //	
