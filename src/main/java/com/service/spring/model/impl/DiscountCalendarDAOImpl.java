@@ -56,14 +56,8 @@ public class DiscountCalendarDAOImpl implements DiscountCalendarDAO {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public DiscountCalendar getDiscountCalendar(Long discountSeq) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne(MAPPER_NAME+"getDiscountCalendar");
-=======
 	public DiscountCalendar getDiscountCalendarbySeq(long discountSeq) throws Exception {
 		return sqlSession.selectOne(MAPPER_NAME + "getDiscountCalendarbySeq", discountSeq);
->>>>>>> branch 'main' of https://github.com/KBTMT/Spring.git
 	}
 
 //	@Override
