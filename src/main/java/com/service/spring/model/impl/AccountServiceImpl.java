@@ -23,6 +23,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public List<Account> getAccount(String generalId) throws Exception {
+		
 		return accountDAO.getAccount(generalId);
 	}
 

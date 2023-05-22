@@ -10,20 +10,20 @@
 		<result property="userSeqNo" column="user_seq_no" />
 		<result property="generalId" column="general_id" />
 	</resultMap>
+	
 	<resultMap type="accountTransaction" id="account_transaction">
 		<result property="accountNumber" column="account_number" />
 		<result property="money" column="money" />
 		<result property="accountTransactionFlag"
 			column="account_transaction_flag" />
 		<result property="transactionDate" column="transaction_date" />
-		<result property="accountTransactionContent"
-			column="account_transaction_content" />
+		<result property="accountTransactionContent" column="account_transaction_content" />
 	</resultMap>
 
 	<insert id="insertAccount" parameterType="account">
 		INSERT INTO
 		account(account_number, bank, general_id, access_token, user_seq_no)
-		VALUES(#{accountNumber}, #{bank},#{general_id}, #{accessToken},
+		VALUES(#{accountNumber}, #{bank},#{generalId}, #{accessToken},
 		#{userSeqNo})
 	</insert>
 
@@ -40,13 +40,13 @@
 	</delete>
 
 	<select id="accountTransaction"
-		parameterType="account_transaction">
+		parameterType="accountTransaction">
 		SELECT account_number, money, account_transaction_flag,
 		transaction_date, account_transaction_content
 		FROM
-		account_transactionaccount
-		WHERE account_number = #{accountTransaction}
-		AND transaction_date > #{transaction_date}
+		account_transaction
+		WHERE account_number = #{accountNumber}
+		AND transaction_date <![CDATA[>]]> #{transactionDate}
 	</select>
 
 </mapper>

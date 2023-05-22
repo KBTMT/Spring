@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sql.tmt.mapper.mypick">
+	<resultMap type="dCMypick" id="dCMypickMap">
+		<result property="discountSeq" column="discount_seq" />
+		<result property="mypickFlag" column="mypick_flag" />
+		<result property="score" column="score" />
+		<result property="review" column="review" />
+		<result property="generalId" column="general_id" />
+	</resultMap>
+	<select id="getDCMypick" resultMap="dCMypickMap" parameterType="string">
+		select discount_seq, mypick_flag, score, review, general_id 
+		from dc_mypick
+		where general_id = #{VALUE}
+	</select>
+	<select id="getDCMypickUsed" resultMap="dCMypickMap" parameterType="string">
+		select discount_seq, mypick_flag, score, review, general_id 
+		from dc_mypick
+		where general_id = #{VALUE} and dc_mypick = 1
+	</select>
+	<!-- 찜하기 -->
+	<insert id="insertDCMypick" parameterType="dCMypick">
+		insert into dc_mypick(discount_seq, general_id)
+		values(#{discountSeq}, #{generalId})
+	</insert>
+	<!-- 사용한 할인정보 -->
+	<update id="updateUsedPick" parameterType="dCMypick">
+		update dc_mypick
+		set mypick_flag = #{mypickFlag}, score = #{score}, review = #{review}
+		where discount_seq = #{discountSeq} and general_id = #{generalId}
+	</update>
+	<!-- 찜 취소 -->
+	<delete id="deleteDCMypick" parameterType="dCMypick">
+		delete from dc_mypick
+		where discount_seq = #{discountSeq} and general_id = #{generalId}
+	</delete>
+</mapper>
