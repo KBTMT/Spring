@@ -1,7 +1,5 @@
 package com.service.spring.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,8 +21,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.BComment;
 import com.service.spring.domain.Board;
+import com.service.spring.domain.DiscountCalendar;
+import com.service.spring.domain.Reported;
 import com.service.spring.model.BCommentService;
 import com.service.spring.model.BoardService;
+import com.service.spring.model.ReportedService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -37,6 +37,9 @@ public class BoardController {
 
 	@Autowired
 	private BCommentService bCommentService;
+	
+	@Autowired
+	private ReportedService reportedService;
 
 	@GetMapping
 	public ResponseEntity<String> showAllBoard() throws Exception {
@@ -98,19 +101,52 @@ public class BoardController {
 		return mav;
 	}
 
-	@PutMapping("/{boardSeq}/{commentSeq}/update")
-	public ModelAndView updateBComment(@PathVariable Long boardSeq, @PathVariable Long commentSeq, BComment bComment)
+	@PutMapping("/{boardSeq}/{bCommentSeq}/update")
+	public ModelAndView updateBComment(@PathVariable Long boardSeq, @PathVariable Long bCommentSeq, BComment bComment)
 			throws Exception {
 		bCommentService.updateBComment(bComment);
 		ModelAndView mav = new ModelAndView("redirect:/board/" + boardSeq);
 		return mav;
 	}
 
-	@PutMapping("/{boardSeq}/{commentSeq}/delete")
+	@PutMapping("/{boardSeq}/{bCommentSeq}/delete")
 	public ModelAndView deletedBComment(@PathVariable Long boardSeq, @PathVariable Long commentSeq, BComment bComment)
 			throws Exception {
 		bCommentService.deleteBComment(commentSeq);
 		ModelAndView mav = new ModelAndView("redirect:/board/" + boardSeq);
 		return mav;
 	}
+	
+	@PostMapping("/{boardSeq}/report")
+	public ModelAndView reportBoard(@PathVariable Long boardSeq, @RequestBody Board board) throws Exception {
+		Reported reported   = new Reported(boardSeq, 0, 1);
+	    // 필요한 필드 값들을 reported 객체에 설정
+	    reportedService.registerReported(reported);
+	    
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("redirect:/board");
+	    return modelAndView;
+	}
+	
+	@PostMapping("/{bCommentSeq}/report")
+	public ModelAndView reportBoardComment(@PathVariable Long bCommentSeq) throws Exception {
+		Reported reported   = new Reported(bCommentSeq, 0, 2);
+	    // 필요한 필드 값들을 reported 객체에 설정
+	    reportedService.registerReported(reported);
+	    
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("redirect:/board");
+	    return modelAndView;
+	}
+	
+	@PostMapping("/{boardSeq}/like")
+    public ModelAndView increaseLikes(@PathVariable Long boardSeq) throws Exception {
+        Board board = boardService.getBoard(boardSeq);
+        if (board != null) {
+            int likes = board.getBoardLike();
+            board.setBoardLike(likes + 1);
+            boardService.updateBoard(board);
+        }
+        return new ModelAndView("redirect:/board");
+    }
 }

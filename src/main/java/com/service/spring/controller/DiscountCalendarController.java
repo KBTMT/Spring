@@ -19,8 +19,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.spring.domain.BComment;
+import com.service.spring.domain.Board;
 import com.service.spring.domain.DiscountCalendar;
+import com.service.spring.domain.Reported;
 import com.service.spring.model.DiscountCalendarService;
+import com.service.spring.model.ReportedService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -31,6 +35,9 @@ public class DiscountCalendarController {
 	
 	@Autowired
 	private DiscountCalendarService discountCalendarService;
+	
+	@Autowired
+	private ReportedService reportedService;
 
 	@GetMapping
 	private ResponseEntity<String> getDiscountCalendar() throws Exception {
@@ -122,5 +129,27 @@ public class DiscountCalendarController {
             modelAndView.addObject("error", "Failed to delete discount calendar.");
         }
         return modelAndView;
+    }
+    
+    @PostMapping("/{discountSeq}/report")
+	public ModelAndView reportDiscountCalendar(@PathVariable Long discountSeq, @RequestBody DiscountCalendar discountCalendar) throws Exception {
+		Reported reported   = new Reported(discountSeq, 0, 0);
+	    // 필요한 필드 값들을 reported 객체에 설정
+	    reportedService.registerReported(reported);
+	    
+	    ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("redirect:/discountCalendar");
+	    return modelAndView;
+	}
+    
+    @PostMapping("/{discountSeq}/like")
+    public ModelAndView increaseLikes(@PathVariable Long discountSeq) throws Exception {
+        DiscountCalendar discountCalendar = discountCalendarService.getDiscountCalendar(discountSeq);
+        if (discountCalendar != null) {
+            int likes = discountCalendar.getCalendarLike();
+            discountCalendar.setCalendarLike(likes + 1);
+            discountCalendarService.updateDiscountCalender(discountCalendar);
+        }
+        return new ModelAndView("redirect:/discount-calendar");
     }
 }

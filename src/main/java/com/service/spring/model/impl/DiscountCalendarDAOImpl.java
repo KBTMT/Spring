@@ -57,6 +57,12 @@ public class DiscountCalendarDAOImpl implements DiscountCalendarDAO{
 		return 0;
 	}
 
+	@Override
+	public DiscountCalendar getDiscountCalendar(Long discountSeq) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(MAPPER_NAME+"getDiscountCalendar");
+	}
+
 //	@Override
 //	public List<DiscountCalendar> getAllDiscountCalenderAdmin(DiscountCalendar discountcalendar) throws Exception {
 //		// TODO Auto-generated method stub

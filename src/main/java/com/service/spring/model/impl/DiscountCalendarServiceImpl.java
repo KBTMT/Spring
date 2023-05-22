@@ -59,4 +59,9 @@ public class DiscountCalendarServiceImpl implements DiscountCalendarService {
 		// TODO Auto-generated method stub
 		return discountCalendarDAO.deleteDiscountCalendar(discountSeq);
 	}
+
+	@Override
+	public DiscountCalendar getDiscountCalendar(Long discountSeq) throws Exception {
+		return discountCalendarDAO.getDiscountCalendar(discountSeq);
+	}
 }
