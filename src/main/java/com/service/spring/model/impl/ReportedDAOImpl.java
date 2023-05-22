@@ -15,7 +15,7 @@ public class ReportedDAOImpl implements ReportedDAO{
 	
 	@Autowired
 	private SqlSession sqlSession;
-	public static final String MAPPER_NAME = "tmt_query_cha.";
+	public static final String MAPPER_NAME = "sql.tmt.mapper.cha.";
 	
 	@Autowired
 	private BoardDAO boardDAO;
@@ -42,6 +42,11 @@ public class ReportedDAOImpl implements ReportedDAO{
 //			return 1;
 //		}
 		return 1;
+	}
+
+	@Override
+	public Reported getReportDetail(Reported reported) throws Exception {
+		return sqlSession.selectOne(MAPPER_NAME+"getReportDetail", reported);
 	}
 	
 }

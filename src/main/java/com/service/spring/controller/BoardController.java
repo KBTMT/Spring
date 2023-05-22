@@ -26,6 +26,7 @@ import com.service.spring.domain.BComment;
 import com.service.spring.domain.Board;
 import com.service.spring.model.BCommentService;
 import com.service.spring.model.BoardService;
+import com.service.spring.model.ReportedService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -34,6 +35,9 @@ public class BoardController {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private ReportedService reportedService;
 
 	@Autowired
 	private BCommentService bCommentService;
