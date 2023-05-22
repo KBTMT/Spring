@@ -144,7 +144,7 @@ public class DiscountCalendarController {
     
     @PostMapping("/{discountSeq}/like")
     public ModelAndView increaseLikes(@PathVariable Long discountSeq) throws Exception {
-        DiscountCalendar discountCalendar = discountCalendarService.getDiscountCalendar(discountSeq);
+        DiscountCalendar discountCalendar = discountCalendarService.getDiscountCalendarbySeq(discountSeq);
         if (discountCalendar != null) {
             int likes = discountCalendar.getCalendarLike();
             discountCalendar.setCalendarLike(likes + 1);

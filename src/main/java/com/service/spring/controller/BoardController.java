@@ -41,8 +41,6 @@ public class BoardController {
 	@Autowired
 	private BCommentService bCommentService;
 	
-	@Autowired
-	private ReportedService reportedService;
 
 	@GetMapping
 	public ResponseEntity<String> showAllBoard() throws Exception {

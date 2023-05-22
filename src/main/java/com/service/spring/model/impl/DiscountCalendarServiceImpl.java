@@ -56,12 +56,7 @@ public class DiscountCalendarServiceImpl implements DiscountCalendarService {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public DiscountCalendar getDiscountCalendar(Long discountSeq) throws Exception {
-		return discountCalendarDAO.getDiscountCalendar(discountSeq);
-=======
 	public DiscountCalendar getDiscountCalendarbySeq(long discountSeq) throws Exception {
 		return discountCalendarDAO.getDiscountCalendarbySeq(discountSeq);
->>>>>>> branch 'main' of https://github.com/KBTMT/Spring.git
 	}
 }
