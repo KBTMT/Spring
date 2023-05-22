@@ -137,4 +137,9 @@
         WHERE board_seq = #{boardSeq}
         <include refid="orderby-bcomment-desc"/>
     </select>
+    
+    <select id="getComment" parameterType="long" resultMap="bCommentSelectMap">
+        <include refid="select-bcomments" />
+        WHERE comment_seq = #{commentSeq}
+    </select>
 </mapper>

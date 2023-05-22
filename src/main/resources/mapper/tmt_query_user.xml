@@ -7,11 +7,13 @@
 	<insert id="insertUser" parameterType="tmtUser">
 		INSERT INTO
 		tmt_user(general_id, user_name, user_nickname, password,
-				 email, cert_type, birth_date, job, consumption_cat1,
-				 consumption_cat2, consumption_cat3, finance_cat, flag)
+				 email,  birth_date, job, consumption_cat1,
+				 consumption_cat2, consumption_cat3, finance_cat, tmt_user_flag,
+				 salary, saving)
 		VALUES(#{generalId}, #{userName}, #{userNickname}, #{password},
-			   #{email}, #{certType}, #{birthDate}, #{job}, #{consumptionCat1},
-			   #{consumptionCat2}, #{consumptionCat3}, #{financeCat}, #{flag})
+			   #{email}, #{birthDate}, #{job}, #{consumptionCat1},
+			   #{consumptionCat2}, #{consumptionCat3}, #{financeCat}, #{tmtUserFlag},
+			   #{salary}, #{saving})
 	</insert>
 	
 	<insert id="insertBusiness" parameterType="businessInfo">
@@ -38,10 +40,10 @@
 	<update id="updateUser" parameterType="tmtUser">
 		UPDATE tmt_user 
 		SET user_name= #{userName}, user_nickname= #{userNickname},
-			password= #{password}, email= #{email}, cert_type= #{certType},
-			birth_date= #{birthDate}, job= #{job}, consumption_cat1= #{consumptionCat1},
-			consumption_cat2= #{consumptionCat2}, consumption_cat3= #{consumptionCat3},
-			finance_cat= #{financeCat}
+			password= #{password}, email= #{email},	birth_date= #{birthDate}, job= #{job},
+			consumption_cat1= #{consumptionCat1}, consumption_cat2= #{consumptionCat2},
+			consumption_cat3= #{consumptionCat3}, finance_cat= #{financeCat},
+			salary = #{salary}, saving= #{saving}
 		WHERE general_id= #{generalId}
 	</update>
 	<update id="updateBusiness" parameterType="businessInfo">
@@ -64,8 +66,9 @@
 	<!-- 로그인 -->
 	<select id="login" parameterType="tmtUser" resultType="tmtUser">
 		SELECT general_id, user_name, user_nickname, password,
-				 email, cert_type, birth_date, job, consumption_cat1,
-				 consumption_cat2, consumption_cat3, finance_cat, flag
+				 email,  birth_date, job, consumption_cat1,
+				 consumption_cat2, consumption_cat3, finance_cat, tmt_user_flag,
+				 salary, saving
 		FROM tmt_user
 		WHERE general_id=#{generalId} AND password=#{password}
 	</select>

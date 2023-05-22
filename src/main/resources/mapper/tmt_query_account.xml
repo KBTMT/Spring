@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sql.tmt.mapper.account">
+	<resultMap type="account" id="account">
+		<result property="accountNumber" column="account_number" />
+		<result property="bank" column="bank" />
+		<result property="accessToken" column="access_token" />
+		<result property="userSeqNo" column="user_seq_no" />
+		<result property="generalId" column="general_id" />
+	</resultMap>
+	
+	<resultMap type="accountTransaction" id="account_transaction">
+		<result property="accountNumber" column="account_number" />
+		<result property="money" column="money" />
+		<result property="accountTransactionFlag"
+			column="account_transaction_flag" />
+		<result property="transactionDate" column="transaction_date" />
+		<result property="accountTransactionContent" column="account_transaction_content" />
+	</resultMap>
+
+	<insert id="insertAccount" parameterType="account">
+		INSERT INTO
+		account(account_number, bank, general_id, access_token, user_seq_no)
+		VALUES(#{accountNumber}, #{bank},#{generalId}, #{accessToken},
+		#{userSeqNo})
+	</insert>
+
+	<select id="getAccount" parameterType="string">
+		SELECT account_number,
+		bank, access_token, user_seq_no
+		FROM account
+		WHERE generalId = #{VALUE}
+	</select>
+
+	<delete id="deleteAccount" parameterType="string">
+		DELETE FROM account
+		WHERE account_number = #{VALUE}
+	</delete>
+
+	<select id="accountTransaction"
+		parameterType="accountTransaction">
+		SELECT account_number, money, account_transaction_flag,
+		transaction_date, account_transaction_content
+		FROM
+		account_transaction
+		WHERE account_number = #{accountNumber}
+		AND transaction_date <![CDATA[>]]> #{transactionDate}
+	</select>
+
+</mapper>

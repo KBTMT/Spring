@@ -5,9 +5,7 @@ public class Reported {
 	private long status;
 	private long reportedFlag;
 
-	public Reported() {
-		super();
-	}
+	public Reported() {}
 
 	public Reported(long status, long reportedFlag) {
 		super();
@@ -26,12 +24,12 @@ public class Reported {
 		return reportedSeq;
 	}
 
-	public long getStatus() {
-		return status;
-	}
-
 	public void setReportedSeq(long reportedSeq) {
 		this.reportedSeq = reportedSeq;
+	}
+
+	public long getStatus() {
+		return status;
 	}
 
 	public void setStatus(long status) {
@@ -50,5 +48,6 @@ public class Reported {
 	public String toString() {
 		return "Reported [reportedSeq=" + reportedSeq + ", status=" + status + ", reportedFlag=" + reportedFlag + "]";
 	}
+
 
 }

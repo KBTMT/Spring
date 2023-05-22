@@ -32,36 +32,36 @@ public class DiscountCalendarServiceImpl implements DiscountCalendarService {
 
 	@Override
 	public int registerBusinessDiscountCalendar(DiscountCalendar discountcalendar) throws Exception {
-		// TODO Auto-generated method stub
 		return discountCalendarDAO.registerBusinessDiscountCalendar(discountcalendar);
 	}
 
 	@Override
 	public int updateDiscountCalender(DiscountCalendar discountcalendar) throws Exception {
-		// TODO Auto-generated method stub
 		return discountCalendarDAO.updateDiscountCalendar(discountcalendar);
 	}
 
 	@Override
 	public int updateBusinessDiscountCalendar(DiscountCalendar discountcalendar) throws Exception {
-		// TODO Auto-generated method stub
 		return discountCalendarDAO.updateBusinessDiscountCalendar(discountcalendar);
 	}
 
 	@Override
 	public int discountCalendarWarn(Long discountSeq) throws Exception {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int deleteDiscountCalendar(Long discountSeq) throws Exception {
-		// TODO Auto-generated method stub
 		return discountCalendarDAO.deleteDiscountCalendar(discountSeq);
 	}
 
 	@Override
+<<<<<<< HEAD
 	public DiscountCalendar getDiscountCalendar(Long discountSeq) throws Exception {
 		return discountCalendarDAO.getDiscountCalendar(discountSeq);
+=======
+	public DiscountCalendar getDiscountCalendarbySeq(long discountSeq) throws Exception {
+		return discountCalendarDAO.getDiscountCalendarbySeq(discountSeq);
+>>>>>>> branch 'main' of https://github.com/KBTMT/Spring.git
 	}
 }

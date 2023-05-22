@@ -40,4 +40,9 @@ public class BCommentDAOImpl implements BCommentDAO {
 	public int deleteBComment(long commentSeq) throws Exception {
 		return sqlSession.update(NS + "deleteBComment", commentSeq);
 	}
+
+	@Override
+	public BComment getBCommentbySeq(long commentSeq) throws Exception {
+		return sqlSession.selectOne(NS + "getComment", commentSeq);
+	}
 }

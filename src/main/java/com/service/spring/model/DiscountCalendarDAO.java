@@ -19,7 +19,11 @@ public interface DiscountCalendarDAO {
 	
 	int deleteDiscountCalendar(Long discountSeq) throws Exception; // 달력 삭제
 
+<<<<<<< HEAD
 	DiscountCalendar getDiscountCalendar(Long discountSeq) throws Exception;
+=======
+	DiscountCalendar getDiscountCalendarbySeq(long discountSeq) throws Exception; 
+>>>>>>> branch 'main' of https://github.com/KBTMT/Spring.git
 	
 //	List<DiscountCalendar> getAllDiscountCalenderAdmin(DiscountCalendar discountcalendar) throws Exception; // 전체 신고 내역
 //	

@@ -12,4 +12,6 @@ public interface ReportedService {
 	List<Reported> getReported() throws Exception;
 	
 	int deleteReported(Reported reported) throws Exception;
+	
+	Reported getReportDetail(Reported reported) throws Exception;
 }

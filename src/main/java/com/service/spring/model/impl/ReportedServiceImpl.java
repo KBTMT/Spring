@@ -13,7 +13,6 @@ import com.service.spring.model.ReportedService;
 @Service
 public class ReportedServiceImpl implements ReportedService{
 	
-	
 	@Autowired
 	private ReportedDAO reportedDAO;
 	@Autowired
@@ -26,13 +25,11 @@ public class ReportedServiceImpl implements ReportedService{
 
 	@Override
 	public int updateReported(Reported reported) throws Exception {
-		// TODO Auto-generated method stub
 		return reportedDAO.updateReported(reported);
 	}
 
 	@Override
 	public List<Reported> getReported() throws Exception {
-		// TODO Auto-generated method stub
 		return reportedDAO.getReported();
 	}
 
@@ -43,6 +40,11 @@ public class ReportedServiceImpl implements ReportedService{
 //			return 1;
 //		}
 		return 1;
+	}
+
+	@Override
+	public Reported getReportDetail(Reported reported) throws Exception {
+		return reportedDAO.getReportDetail(reported);
 	}
 	
 }

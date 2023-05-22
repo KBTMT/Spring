@@ -1,79 +1,74 @@
 package com.service.spring.domain;
 
-import java.util.Date;
-
 public class AccountTransaction {
-	private long accountSeq;
+	
+	private String accountNumber;
 	private long money;
-	private long flag;
-	private String transaction_date;
-	private String time;
-	private String content;
+	private long accountTransactionFlag;
+	private String transactionDate;
+	private String accountTransactionContent;
 	
-	public AccountTransaction(long accountSeq, long money, long flag, String transaction_date, String time,
-			String content) {
+	public AccountTransaction() {}
+
+	public AccountTransaction(String accountNumber, long money, long accountTransactionFlag, String transactionDate,
+			String accountTransactionContent) {
 		super();
-		this.accountSeq = accountSeq;
+		this.accountNumber = accountNumber;
 		this.money = money;
-		this.flag = flag;
-		this.transaction_date = transaction_date;
-		this.time = time;
-		this.content = content;
+		this.accountTransactionFlag = accountTransactionFlag;
+		this.transactionDate = transactionDate;
+		this.accountTransactionContent = accountTransactionContent;
 	}
-	
-	public AccountTransaction(long money, long flag, String transaction_date, String time,
-			String content) {
-		super();
-		this.money = money;
-		this.flag = flag;
-		this.transaction_date = transaction_date;
-		this.time = time;
-		this.content = content;
+
+	public String getAccountNumber() {
+		return accountNumber;
 	}
-	
-	public long getAccountSeq() {
-		return accountSeq;
+
+	public void setAccountNumber(String accountNumber) {
+		
+		this.accountNumber = accountNumber;
 	}
-	public void setAccountSeq(long accountSeq) {
-		this.accountSeq = accountSeq;
-	}
+
 	public long getMoney() {
 		return money;
 	}
+
 	public void setMoney(long money) {
 		this.money = money;
 	}
-	public long getFlag() {
-		return flag;
+
+	public long getAccountTransactionFlag() {
+		return accountTransactionFlag;
 	}
-	public void setFlag(long flag) {
-		this.flag = flag;
+
+	public void setAccountTransactionFlag(long accountTransactionFlag) {
+		this.accountTransactionFlag = accountTransactionFlag;
 	}
-	public String getTransaction_date() {
-		return transaction_date;
+
+	public String getTransactionDate() {
+		return transactionDate;
 	}
-	public void setTransaction_date(String transaction_date) {
-		this.transaction_date = transaction_date;
+
+	public void setTransactionDate(String transactionDate) {
+		this.transactionDate = transactionDate;
 	}
-	public String getTime() {
-		return time;
+
+	public String getAccountTransactionContent() {
+		return accountTransactionContent;
 	}
-	public void setTime(String time) {
-		this.time = time;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
+
+	public void setAccountTransactionContent(String accountTransactionContent) {
+		this.accountTransactionContent = accountTransactionContent;
 	}
 
 	@Override
 	public String toString() {
-		return "AccountTransaction [accountSeq=" + accountSeq + ", money=" + money + ", flag=" + flag
-				+ ", transaction_date=" + transaction_date + ", time=" + time + ", content=" + content + "]";
+		return "AccountTransaction [accountNumber=" + accountNumber + ", money=" + money + ", accountTransactionFlag="
+				+ accountTransactionFlag + ", transactionDate=" + transactionDate + ", accountTransactionContent="
+				+ accountTransactionContent + "]";
 	}
-
 	
-
 }
+
+
+
