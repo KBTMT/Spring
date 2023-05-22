@@ -30,6 +30,7 @@
 		<mapper resource="mapper/tmt_query_cha.xml"/>
 		<mapper resource="mapper/tmt_query_user.xml"/>
 		<mapper resource="mapper/tmt_query_account.xml"/>
+		<mapper resource="mapper/tmt_query_mypick.xml"/>
 	</mappers>
 </configuration>
  

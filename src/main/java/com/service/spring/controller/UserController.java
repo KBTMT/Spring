@@ -94,7 +94,6 @@ public class UserController {
 	
 	@RequestMapping("/login")
 	public ResponseEntity<String> login(@RequestBody TmtUser pvo, HttpServletRequest request) throws Exception {
-		
 		System.out.println(pvo);
 		TmtUser rvo = userService.login(pvo);
 		System.out.println(rvo);
