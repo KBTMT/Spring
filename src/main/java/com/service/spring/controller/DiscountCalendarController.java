@@ -2,6 +2,11 @@ package com.service.spring.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.catalina.Session;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +20,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.BComment;
 import com.service.spring.domain.Board;
+import com.service.spring.domain.DCMypick;
 import com.service.spring.domain.DiscountCalendar;
 import com.service.spring.domain.Reported;
+import com.service.spring.model.DCMypickService;
 import com.service.spring.model.DiscountCalendarService;
 import com.service.spring.model.ReportedService;
 
@@ -39,6 +47,9 @@ public class DiscountCalendarController {
 	@Autowired
 	private ReportedService reportedService;
 
+	@Autowired
+	private DCMypickService dCMypickService;
+	
 	@GetMapping
 	private ResponseEntity<String> getDiscountCalendar() throws Exception {
 		List<DiscountCalendar> list = discountCalendarService.getDiscountCalendar();
@@ -143,12 +154,18 @@ public class DiscountCalendarController {
 	}
     
     @PostMapping("/{discountSeq}/like")
-    public ModelAndView increaseLikes(@PathVariable Long discountSeq) throws Exception {
+    public ModelAndView increaseLikes(@PathVariable Long discountSeq, HttpServletRequest request) throws Exception {
         DiscountCalendar discountCalendar = discountCalendarService.getDiscountCalendarbySeq(discountSeq);
         if (discountCalendar != null) {
             int likes = discountCalendar.getCalendarLike();
             discountCalendar.setCalendarLike(likes + 1);
             discountCalendarService.updateDiscountCalender(discountCalendar);
+            
+            HttpSession session = request.getSession();
+            String generalId = (String)session.getAttribute("generalId");
+            
+            DCMypick dCMypick = new DCMypick(discountSeq, generalId); // 사용자 아이디는 실제 값으로 대체해야 합니다.
+            dCMypickService.insertDCMypick(dCMypick);
         }
         return new ModelAndView("redirect:/discount-calendar");
     }
