@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -54,15 +55,14 @@ public class BoardController {
 
 	@PostMapping("/register")
 	public String registerBoard(@RequestBody Board board) throws Exception {
-		// 수정할 것 -> 세션에서 user generalId, userNickname
-		board.setGeneralId("generalId Test");
-		board.setUserNickname("test3");
-		
+		board.setGeneralId(board.getGeneralId());
+		board.setUserNickname(board.getUserNickname());
 		System.out.println(board);
 		boardService.insertBoard(board);
 		return "redirect:/board";
 	}
 
+	// 수정 필요 
 	@PutMapping("/update")
 	public ModelAndView updateBoard(@PathVariable Long boardSeq, @ModelAttribute Board board) throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
@@ -71,7 +71,7 @@ public class BoardController {
 		modelAndView.setViewName("redirect:/board" + boardSeq);
 		return modelAndView;
 	}
-
+	// 수정 필요 
 	@DeleteMapping("/{boardSeq}/delete")
 	public ModelAndView deletedBoard(@PathVariable Long boardSeq) throws Exception {
 		ModelAndView modelAndView = new ModelAndView();
