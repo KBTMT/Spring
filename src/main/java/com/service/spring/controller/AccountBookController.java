@@ -24,7 +24,8 @@ import com.service.spring.model.AccountBookDAO;
 import com.service.spring.model.AccountBookService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin("*")
 @RequestMapping("/account-book")
 public class AccountBookController {
 	
@@ -39,6 +40,7 @@ public class AccountBookController {
     	System.out.println(s);
     	return s;
     }
+    
     @GetMapping("/detail")
     public ResponseEntity<String> getAccountBook() throws Exception {
     	//세션에서 가져오는 걸로 변경할 것
@@ -80,7 +82,7 @@ public class AccountBookController {
 
     @GetMapping("/daily/{time}")
     public ResponseEntity<String> dailyAccountBook(@PathVariable String time) throws Exception {
-        List<AccountBook> accountBookList = accountBookService.dailyAccountBook(time);
+    	List<AccountBook> accountBookList = accountBookService.dailyAccountBook(time);
         try {
 			String jsonString = objectMapper.writeValueAsString(accountBookList);
 			return ResponseEntity.ok(jsonString);
