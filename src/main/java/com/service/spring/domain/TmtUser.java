@@ -45,7 +45,26 @@ public class TmtUser {
 
 	// 소비습관 2,3 없는거
 	public TmtUser(String generalId, String userName, String userNickname, String password, String email,
-			String birthDate, int job, int consumptionCat1, int financeCat, int tmtUserFlag, int salary, int saving) {
+			String birthDate, int job, int consumptionCat1, int financeCat, int salary, int saving) {
+		super();
+		this.generalId = generalId;
+		this.userName = userName;
+		this.userNickname = userNickname;
+		this.password = password;
+		this.email = email;
+		this.birthDate = birthDate;
+		this.job = job;
+		this.consumptionCat1 = consumptionCat1;
+		this.consumptionCat2 = 0;
+		this.consumptionCat3 = 0;
+		this.financeCat = financeCat;
+		this.tmtUserFlag = 0;
+		this.salary = salary;
+		this.saving = saving;
+	}
+	
+	public TmtUser(String generalId, String userName, String userNickname, String password, String email,
+			String birthDate, int job, int consumptionCat1, int financeCat, int salary, int saving, int tmtUserFlag) {
 		super();
 		this.generalId = generalId;
 		this.userName = userName;
