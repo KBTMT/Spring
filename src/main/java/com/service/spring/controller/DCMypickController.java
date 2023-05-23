@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.Board;
 import com.service.spring.domain.DCMypick;
 import com.service.spring.model.DCMypickService;
-
+// 미완 화면없음
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/mypick")
@@ -30,16 +30,18 @@ public class DCMypickController {
 	@Autowired
 	private DCMypickService dCMypickService;
 	
-	// 찜 추ㅏㄱ
+	// 찜 추가
 	@PostMapping("/add")
-	public String addMyPick(@RequestBody DCMypick dCMypick) throws Exception {
+	public String addMyPick(@RequestBody DCMypick dCMypick, @RequestParam("generalId") String generalId) throws Exception {
+		dCMypick.setGeneralId(generalId);
 		dCMypickService.insertDCMypick(dCMypick);
 		return "redirect:/";
 	}
 	
 	// 리뷰작성, 사용으로 전환
 	@PutMapping("/used")
-	public String myPickUsed(@RequestBody DCMypick dCMypick) throws Exception {
+	public String myPickUsed(@RequestBody DCMypick dCMypick, @RequestParam("generalId") String generalId) throws Exception {
+		dCMypick.setGeneralId(generalId);
 		if (dCMypick.getMypickFlag() == 1) {
             int score = dCMypick.getScore();
             String review = dCMypick.getReview();
@@ -50,14 +52,15 @@ public class DCMypickController {
 	
 	// 찜 취소
 	@DeleteMapping("/delete")
-	public String myPickCancel(@RequestBody DCMypick dCMypick) throws Exception {
+	public String myPickCancel(@RequestBody DCMypick dCMypick, @RequestParam("generalId") String generalId) throws Exception {
+		dCMypick.setGeneralId(generalId);
 		dCMypickService.deleteDCMypick(dCMypick);
 		return "redirect:/";
 	}
 	
 	// 내가 찜한 정보
 	@GetMapping("/get")
-	public ResponseEntity<String> showMyPick(@RequestParam String generalId) throws Exception {
+	public ResponseEntity<String> showMyPick(@RequestParam("generalId") String generalId) throws Exception {
 		List<DCMypick> list = dCMypickService.getDCMypick(generalId);
 		try {
 			String jsonString = objectMapper.writeValueAsString(list);
