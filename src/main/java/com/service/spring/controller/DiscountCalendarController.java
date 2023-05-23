@@ -8,10 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +29,8 @@ import com.service.spring.model.DiscountCalendarService;
 import com.service.spring.model.ReportedService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin("*")
 @RequestMapping("/discount-calendar")
 public class DiscountCalendarController {
 	
@@ -73,18 +76,14 @@ public class DiscountCalendarController {
         return modelAndView;
     }
 
-	@PostMapping("/update")
-	public ModelAndView updateDiscountCalendar(@RequestBody DiscountCalendar discountCalendar) {
-	    ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
-	    try {
-	        int result = discountCalendarService.updateDiscountCalender(discountCalendar);
-	        if (result <= 0) {
-	            modelAndView.addObject("error", "Failed to update discount calendar.");
-	        }
-	    } catch (Exception e) {
-	        modelAndView.addObject("error", "Failed to update discount calendar.");
-	    }
-	    return modelAndView;
+	@PutMapping("/update")
+	public String updateDiscountCalendar(@RequestBody DiscountCalendar discountCalendar) throws Exception {
+//	    ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
+		System.out.println(discountCalendar);
+	    discountCalendarService.updateDiscountCalender(discountCalendar);
+	    System.out.println(discountCalendar);
+	    
+	    return "redirect:/discount-calendar";
 	}
 
 	@PostMapping("/update2")
@@ -117,18 +116,17 @@ public class DiscountCalendarController {
         return modelAndView;
     }
 
-    @GetMapping("/delete/{discountSeq}")
-    public ModelAndView deleteDiscountCalendar(@PathVariable Long discountSeq) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
+    @DeleteMapping("/delete/{discountSeq}")
+    public String deleteDiscountCalendar(@PathVariable Long discountSeq) {
         try {
             int result = discountCalendarService.deleteDiscountCalendar(discountSeq);
             if (result <= 0) {
-                modelAndView.addObject("error", "Failed to delete discount calendar.");
+                return "redirect:/discount-calendar?error=Failed to delete discount calendar.";
             }
         } catch (Exception e) {
-            modelAndView.addObject("error", "Failed to delete discount calendar.");
+            return "redirect:/discount-calendar?error=Failed to delete discount calendar.";
         }
-        return modelAndView;
+        return "redirect:/discount-calendar";
     }
     
     @PostMapping("/{discountSeq}/report")

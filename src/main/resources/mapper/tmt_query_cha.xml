@@ -91,8 +91,9 @@
 		consumption_cat = #{consumptionCat}
 		WHERE discount_seq=#{discountSeq}
 	</update>
-
-	<update id="updateDiscountCalendar"
+	
+	<!-- 
+		<update id="updateDiscountCalendar"
 		parameterType="discountcalendar">
 		UPDATE DISCOUNT_CALENDAR
 		SET start_date = #{startDate},
@@ -106,8 +107,21 @@
 		consumption_cat = #{consumptionCat}
 		WHERE discount_seq=#{discountSeq}
 	</update>
+	 -->
+	
+	
+	<update id="updateDiscountCalendar"
+		parameterType="discountCalendar">
+		UPDATE DISCOUNT_CALENDAR
+		SET start_date = #{startDate},
+		end_date = #{endDate},
+		brand = #{brand},
+		discount_content = #{discountContent},
+		consumption_cat = #{consumptionCat}
+		WHERE discount_seq=#{discountSeq}
+	</update>
 
-	<delete id="deleteDiscountCalendar" parameterType="Long">
+	<delete id="deleteDiscountCalendar" parameterType="long">
 		DELETE
 		FROM
 		DISCOUNT_CALENDAR
@@ -197,7 +211,8 @@
 		discount_seq, emoji
 		,consumption_cat
 		FROM Account_Book
-		WHERE time LIKE '%' || #{time} || '%'
+		WHERE TO_CHAR(TIME,
+		'YYYY-MM-DD') LIKE '%' || #{time} || '%'
 	</select>
 
 	<!-- ========================= Reported =============================== -->
