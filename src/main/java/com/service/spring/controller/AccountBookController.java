@@ -37,7 +37,7 @@ public class AccountBookController {
     @GetMapping()
     public List<Map<String, Object>> getStat() throws Exception {
     	List<Map<String, Object>> s =  accountBookService.getStat("testId");
-//    	System.out.println(s);
+    	System.out.println(s);
     	return s;
     }
     
