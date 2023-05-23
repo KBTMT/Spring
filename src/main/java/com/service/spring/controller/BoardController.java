@@ -40,7 +40,6 @@ public class BoardController {
 
 	@Autowired
 	private BCommentService bCommentService;
-	
 
 	@GetMapping
 	public ResponseEntity<String> showAllBoard() throws Exception {
