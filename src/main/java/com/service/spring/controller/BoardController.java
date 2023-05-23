@@ -140,6 +140,7 @@ public class BoardController {
 	    return modelAndView;
 	}
 	
+	
 	@PostMapping("/{boardSeq}/like")
     public ModelAndView increaseLikes(@PathVariable Long boardSeq) throws Exception {
         Board board = boardService.getBoard(boardSeq);
