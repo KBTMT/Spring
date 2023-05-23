@@ -50,17 +50,17 @@ public class UserController {
 	// 사업자 회원가입
 	@PostMapping("register/businessUser")
 	public String registerBusinessUser(@RequestBody Map<String, Object> requestData) throws Exception{
-//		System.out.println(requestData);
+		System.out.println(requestData);
 //		System.out.println(requestData.get("tmtUser"));
 //		System.out.println(requestData.get("businessInfo"));
 		 // Map에서 데이터 추출
-//		System.out.println(requestData.get("location"));
+		System.out.println(1);
 		TmtUser tmtUser = new TmtUser((String)requestData.get("generalId"), (String)requestData.get("userName"), (String)requestData.get("userNickname"), 
 				(String)requestData.get("password"), (String)requestData.get("email"), (String)requestData.get("birthDate"),
 				Integer.parseInt(requestData.get("job").toString()), Integer.parseInt(requestData.get("consumptionCat1").toString()),
-				Integer.parseInt(requestData.get("financeCat").toString()), 1, Integer.parseInt(requestData.get("salary").toString()),
-				Integer.parseInt(requestData.get("saving").toString()));
-		
+				Integer.parseInt(requestData.get("financeCat").toString()), Integer.parseInt(requestData.get("salary").toString()),
+				Integer.parseInt(requestData.get("saving").toString()),1);
+		System.out.println(2);
 		BusinessInfo businessInfo = new BusinessInfo((String)requestData.get("generalId"), (String)requestData.get("businessNum"), 
 				(String)requestData.get("tradeName"), (String)requestData.get("location"));
 		

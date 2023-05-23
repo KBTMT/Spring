@@ -8,12 +8,12 @@
 		INSERT INTO
 		tmt_user(general_id, user_name, user_nickname, password,
 				 email,  birth_date, job, consumption_cat1,
-				 consumption_cat2, consumption_cat3, finance_cat, tmt_user_flag,
-				 salary, saving)
+				 consumption_cat2, consumption_cat3, finance_cat,
+				 salary, saving,tmt_user_flag)
 		VALUES(#{generalId}, #{userName}, #{userNickname}, #{password},
 			   #{email}, #{birthDate}, #{job}, #{consumptionCat1},
-			   #{consumptionCat2}, #{consumptionCat3}, #{financeCat}, #{tmtUserFlag},
-			   #{salary}, #{saving})
+			   #{consumptionCat2}, #{consumptionCat3}, #{financeCat},
+			   #{salary}, #{saving}, #{tmtUserFlag})
 	</insert>
 	
 	<insert id="insertBusiness" parameterType="businessInfo">
