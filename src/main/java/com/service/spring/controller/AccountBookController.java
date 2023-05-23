@@ -82,19 +82,11 @@ public class AccountBookController {
 
     @GetMapping("/daily/{time}")
     public ResponseEntity<String> dailyAccountBook(@PathVariable String time) throws Exception {
-    	System.out.println(1);
-        System.out.println(time);
     	List<AccountBook> accountBookList = accountBookService.dailyAccountBook(time);
-    	System.out.println(4);
-
         try {
-        	System.out.println(5);
-
 			String jsonString = objectMapper.writeValueAsString(accountBookList);
-			System.out.println(1);
 			return ResponseEntity.ok(jsonString);
 		} catch (JsonProcessingException e) {
-			System.out.println(2);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
     }
