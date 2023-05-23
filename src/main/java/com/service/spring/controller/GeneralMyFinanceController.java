@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,21 +33,18 @@ public class GeneralMyFinanceController {
 	@Autowired
 	private AnalysisDAO analysisDAO;  
 	@GetMapping
-	public Map<String,List<Map<String, Object>>> getData() throws Exception {
-		System.out.println("=============");
-		String month = "4";
+	public Map<String,List<Map<String, Object>>> getData(@RequestParam("generalId") String generalId, 
+			@RequestParam("saving") int saving) throws Exception {
 		Map<String,List<Map<String, Object>>> map = new HashMap<String, List<Map<String,Object>>>();
-		map.put("getAnalysisByCat", analysisDAO.getAnalysisByCat(month));
-		map.put("getMaxCat", analysisDAO.getMaxCat(month));
-		map.put("getAnalysisByHour", analysisDAO.getAnalysisByHour(month));
-		map.put("sumConsumption", analysisDAO.sumConsumption(month));
-		map.put("sumIncome", analysisDAO.sumIncome(month));
+		map.put("getAnalysisByCat", analysisDAO.getAnalysisByCat(generalId));
+		map.put("getMaxCat", analysisDAO.getMaxCat(generalId));
+		map.put("getAnalysisByHour", analysisDAO.getAnalysisByHour(generalId));
+		map.put("sumConsumption", analysisDAO.sumConsumption(generalId));
+		map.put("sumIncome", analysisDAO.sumIncome(generalId));
 		List<Map<String,Object>> target = new ArrayList<Map<String,Object>>();
-		// 세션에서 가져오기 (목표금액)
 		Map<String, Object> tt = new HashMap<String, Object>();
-		tt.put("target",1500000);
+		tt.put("target",saving);
 		map.put("targetSaving",new ArrayList<>(Arrays.asList(tt)));
-	
 		return map;
 	}
 

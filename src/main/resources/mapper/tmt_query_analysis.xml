@@ -5,14 +5,14 @@
 <mapper namespace="sql.tmt.mapper.analysis">
 
 	<!-- 이번달 카테고리별 지출 -->
-	<select id="getAnalysisByCat" parameterType="string"
-		resultType="map">
+	<select id="getAnalysisByCat" parameterType="string" resultType="map">
 		SELECT consumption_cat, SUM(price)*(-1) AS total_price
 		FROM
 		ACCOUNT_BOOK
 		WHERE EXTRACT(YEAR FROM time) = EXTRACT(YEAR FROM sysdate)
-		AND EXTRACT(MONTH FROM time) = #{VALUE}
+		AND EXTRACT(MONTH FROM time) = EXTRACT(MONTH FROM sysdate)
 		AND consumption_cat != 0
+		AND general_id = #{VALUE}
 		GROUP BY consumption_cat
 		ORDER
 		BY consumption_cat
@@ -27,7 +27,8 @@
 		WHERE
 		EXTRACT(YEAR FROM time) = EXTRACT(YEAR FROM sysdate)
 		AND EXTRACT(MONTH
-		FROM time) = #{VALUE}
+		FROM time) = EXTRACT(MONTH FROM sysdate)
+		AND general_id = #{VALUE}
 		GROUP BY consumption_cat
 		HAVING SUM(price) = (
 		SELECT MIN(total_price)
@@ -36,7 +37,7 @@
 		FROM
 		ACCOUNT_BOOK
 		WHERE EXTRACT(YEAR FROM time) = EXTRACT(YEAR FROM sysdate)
-		AND EXTRACT(MONTH FROM time) = #{VALUE}
+		AND EXTRACT(MONTH FROM time) = EXTRACT(MONTH FROM sysdate)
 		GROUP BY consumption_cat
 		)
 		)
@@ -48,11 +49,10 @@
 		SELECT EXTRACT(HOUR FROM time) AS TIME, SUM(price)*(-1) AS
 		total_price
 		FROM ACCOUNT_BOOK
-		WHERE EXTRACT(YEAR FROM time) =
-		EXTRACT(YEAR FROM sysdate)
-		AND EXTRACT(MONTH FROM time) = #{VALUE}
-		AND
-		consumption_cat != 0
+		WHERE EXTRACT(YEAR FROM time) = EXTRACT(YEAR FROM sysdate)
+		AND EXTRACT(MONTH FROM time) = EXTRACT(MONTH FROM sysdate)
+		AND consumption_cat != 0
+		AND general_id = #{VALUE}
 		GROUP BY EXTRACT(HOUR FROM time)
 		ORDER BY TIME
 	</select>
@@ -63,20 +63,22 @@
 		SELECT SUM(price)*(-1) AS total_price
 		FROM ACCOUNT_BOOK
 		WHERE EXTRACT(YEAR FROM time) = EXTRACT(YEAR FROM sysdate)
-		AND EXTRACT(MONTH FROM time) = #{VALUE}
+		AND EXTRACT(MONTH FROM time) = EXTRACT(MONTH FROM sysdate)
 		AND consumption_cat != 0
+		AND general_id = #{VALUE}
 		ORDER BY TIME
 	</select>
 	
 	
 	<!-- 이번달 총 수입 -->
-	<select id="sumIncome" parameterType="string"
+	<select id="sumIncome" parameterType="tmtUser"
 		resultType="map">
 		SELECT SUM(price)AS total_price
 		FROM ACCOUNT_BOOK
 		WHERE EXTRACT(YEAR FROM time) = EXTRACT(YEAR FROM sysdate)
-		AND EXTRACT(MONTH FROM time) = #{VALUE}
+		AND EXTRACT(MONTH FROM time) = EXTRACT(MONTH FROM sysdate)
 		AND consumption_cat = 0
+		AND general_id = #{VALUE}
 		ORDER BY TIME
 	</select>
 </mapper>
