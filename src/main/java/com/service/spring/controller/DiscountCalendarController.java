@@ -33,12 +33,12 @@ import com.service.spring.model.ReportedService;
 @CrossOrigin("*")
 @RequestMapping("/discount-calendar")
 public class DiscountCalendarController {
-	
+
 	private final ObjectMapper objectMapper = new ObjectMapper();
-	
+
 	@Autowired
 	private DiscountCalendarService discountCalendarService;
-	
+
 	@Autowired
 	private ReportedService reportedService;
 
@@ -52,102 +52,100 @@ public class DiscountCalendarController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-	
+
 	@PostMapping("/register")
-    public String registerDiscountCalendar(@RequestBody DiscountCalendar discountCalendar) throws Exception {
+	public String registerDiscountCalendar(@RequestBody DiscountCalendar discountCalendar) throws Exception {
 		// 수정 필요
 		discountCalendar.setUrl("www.test.com");
 		System.out.println(discountCalendar);
 		discountCalendarService.registerGeneralDiscountCalendar(discountCalendar);
 		return "redirect:/discount-calendar";
-    }
-	
+	}
+
+	// 미완 비즈니스 어떻
 	@PostMapping("/business")
-    public ModelAndView registerBusinessDiscountCalendar(@RequestBody DiscountCalendar discountCalendar) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
-        try {
-            int result = discountCalendarService.registerBusinessDiscountCalendar(discountCalendar);
-            if (result <= 0) {
-                modelAndView.addObject("error", "Failed to register business discount calendar.");
-            }
-        } catch (Exception e) {
-            modelAndView.addObject("error", "Failed to register business discount calendar.");
-        }
-        return modelAndView;
-    }
+	public ModelAndView registerBusinessDiscountCalendar(@RequestBody DiscountCalendar discountCalendar) {
+		ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
+		try {
+			int result = discountCalendarService.registerBusinessDiscountCalendar(discountCalendar);
+			if (result <= 0) {
+				modelAndView.addObject("error", "Failed to register business discount calendar.");
+			}
+		} catch (Exception e) {
+			modelAndView.addObject("error", "Failed to register business discount calendar.");
+		}
+		return modelAndView;
+	}
 
 	@PutMapping("/update")
 	public String updateDiscountCalendar(@RequestBody DiscountCalendar discountCalendar) throws Exception {
-//	    ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
-		System.out.println(discountCalendar);
-	    discountCalendarService.updateDiscountCalender(discountCalendar);
-	    System.out.println(discountCalendar);
-	    
-	    return "redirect:/discount-calendar";
+		discountCalendarService.updateDiscountCalender(discountCalendar);
+		return "redirect:/discount-calendar";
 	}
 
 	@PostMapping("/update2")
 	ModelAndView updateBusinessDiscountCalendar(DiscountCalendar discountCalendar) {
-	    ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
-	    try {
-	        int result = discountCalendarService.updateBusinessDiscountCalendar(discountCalendar);
-	        if (result <= 0) {
-	            modelAndView.addObject("error", "Failed to update business discount calendar.");
-	        }
-	    } catch (Exception e) {
-	        modelAndView.addObject("error", "Failed to update business discount calendar.");
-	    }
-	    return modelAndView;
+		ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
+		try {
+			int result = discountCalendarService.updateBusinessDiscountCalendar(discountCalendar);
+			if (result <= 0) {
+				modelAndView.addObject("error", "Failed to update business discount calendar.");
+			}
+		} catch (Exception e) {
+			modelAndView.addObject("error", "Failed to update business discount calendar.");
+		}
+		return modelAndView;
 	}
-  
 
-    @PostMapping("/update/{discountSeq}")
-    public ModelAndView updateSpecificDiscountCalendar(@PathVariable Long discountSeq, @RequestBody DiscountCalendar discountCalendar) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
-        discountCalendar.setDiscountSeq(discountSeq);
-        try {
-            int result = discountCalendarService.updateDiscountCalender(discountCalendar);
-            if (result <= 0) {
-                modelAndView.addObject("error", "Failed to update discount calendar.");
-            }
-        } catch (Exception e) {
-            modelAndView.addObject("error", "Failed to update discount calendar.");
-        }
-        return modelAndView;
-    }
-
-    @DeleteMapping("/delete/{discountSeq}")
-    public String deleteDiscountCalendar(@PathVariable Long discountSeq) {
-        try {
-            int result = discountCalendarService.deleteDiscountCalendar(discountSeq);
-            if (result <= 0) {
-                return "redirect:/discount-calendar?error=Failed to delete discount calendar.";
-            }
-        } catch (Exception e) {
-            return "redirect:/discount-calendar?error=Failed to delete discount calendar.";
-        }
-        return "redirect:/discount-calendar";
-    }
-    
-    @PostMapping("/{discountSeq}/report")
-	public ModelAndView reportDiscountCalendar(@PathVariable Long discountSeq, @RequestBody DiscountCalendar discountCalendar) throws Exception {
-		Reported reported   = new Reported(discountSeq, 0, 0);
-	    // 필요한 필드 값들을 reported 객체에 설정
-	    reportedService.registerReported(reported);
-	    
-	    ModelAndView modelAndView = new ModelAndView();
-	    modelAndView.setViewName("redirect:/discountCalendar");
-	    return modelAndView;
+	@PostMapping("/update/{discountSeq}")
+	public ModelAndView updateSpecificDiscountCalendar(@PathVariable Long discountSeq,
+			@RequestBody DiscountCalendar discountCalendar) {
+		ModelAndView modelAndView = new ModelAndView("redirect:/discount-calendar");
+		discountCalendar.setDiscountSeq(discountSeq);
+		try {
+			int result = discountCalendarService.updateDiscountCalender(discountCalendar);
+			if (result <= 0) {
+				modelAndView.addObject("error", "Failed to update discount calendar.");
+			}
+		} catch (Exception e) {
+			modelAndView.addObject("error", "Failed to update discount calendar.");
+		}
+		return modelAndView;
 	}
-    
-    @PostMapping("/{discountSeq}/like")
-    public ModelAndView increaseLikes(@PathVariable Long discountSeq) throws Exception {
-        DiscountCalendar discountCalendar = discountCalendarService.getDiscountCalendarbySeq(discountSeq);
-        if (discountCalendar != null) {
-            int likes = discountCalendar.getCalendarLike();
-            discountCalendar.setCalendarLike(likes + 1);
-            discountCalendarService.updateDiscountCalender(discountCalendar);
-        }
-        return new ModelAndView("redirect:/discount-calendar");
-    }
+
+	@DeleteMapping("/delete/{discountSeq}")
+	public String deleteDiscountCalendar(@PathVariable Long discountSeq) {
+		try {
+			int result = discountCalendarService.deleteDiscountCalendar(discountSeq);
+			if (result <= 0) {
+				return "redirect:/discount-calendar?error=Failed to delete discount calendar.";
+			}
+		} catch (Exception e) {
+			return "redirect:/discount-calendar?error=Failed to delete discount calendar.";
+		}
+		return "redirect:/discount-calendar";
+	}
+
+	@PostMapping("/{discountSeq}/report")
+	public ModelAndView reportDiscountCalendar(@PathVariable Long discountSeq,
+			@RequestBody DiscountCalendar discountCalendar) throws Exception {
+		Reported reported = new Reported(discountSeq, 0, 0);
+		// 필요한 필드 값들을 reported 객체에 설정
+		reportedService.registerReported(reported);
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/discountCalendar");
+		return modelAndView;
+	}
+
+	@PostMapping("/{discountSeq}/like")
+	public ModelAndView increaseLikes(@PathVariable Long discountSeq) throws Exception {
+		DiscountCalendar discountCalendar = discountCalendarService.getDiscountCalendarbySeq(discountSeq);
+		if (discountCalendar != null) {
+			int likes = discountCalendar.getCalendarLike();
+			discountCalendar.setCalendarLike(likes + 1);
+			discountCalendarService.updateDiscountCalender(discountCalendar);
+		}
+		return new ModelAndView("redirect:/discount-calendar");
+	}
 }

@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.AccountBook;
-import com.service.spring.domain.TmtUser;
 import com.service.spring.model.AccountBookService;
 
 @RestController
@@ -52,12 +53,14 @@ public class AccountBookController {
     }
 
     @PostMapping("/register")
-    public String registerAccountBook(@RequestBody AccountBook accountBook) throws Exception {
+    public String registerAccountBook(@RequestBody AccountBook accountBook , @RequestParam("generalId") String generalId) throws Exception {
+    	accountBook.setGeneralId(generalId);
     	accountBookService.registerAccountBook(accountBook);
         return "redirect:/account-book/";
     }
 
-    @PostMapping("/{accountBookSeq}/update")
+    // 미완 화면 필요
+    @PutMapping("/{accountBookSeq}/update")
     public ModelAndView updateAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook, @RequestParam("generalId") String generalId) {
     	// 수정 필요
     	accountBook.setGeneralId(generalId);
@@ -74,7 +77,8 @@ public class AccountBookController {
         return modelAndView;
     }
 
-    @PostMapping("/{accountBookSeq}/delete")
+ // 미완 화면 필요
+    @DeleteMapping("/{accountBookSeq}/delete")
     public String deleteAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook) throws Exception {
     	accountBookService.deleteAccountBook(accountBookSeq);
         return "redirect:/account-book/";
