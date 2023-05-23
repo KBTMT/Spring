@@ -58,8 +58,10 @@ public class AccountBookController {
     }
 
     @PostMapping("/{accountBookSeq}/update")
-    public ModelAndView updateAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/account-book/" + accountBook.getGeneralId());
+    public ModelAndView updateAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook, @RequestParam("generalId") String generalId) {
+    	// 수정 필요
+    	accountBook.setGeneralId(generalId);
+    	ModelAndView modelAndView = new ModelAndView("redirect:/account-book/" + accountBook.getGeneralId());
         try {
             accountBook.setAccountBookSeq(accountBookSeq);
             int result = accountBookService.updateAccountBook(accountBook);
