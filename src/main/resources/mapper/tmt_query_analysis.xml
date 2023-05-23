@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sql.tmt.mapper.analysis">
+
+	<!-- 이번달 카테고리별 지출 -->
+	<select id="getAnalysisByCat" parameterType="string"
+		resultType="map">
+		SELECT consumption_cat, SUM(price)*(-1) AS total_price
+		FROM
+		ACCOUNT_BOOK
+		WHERE EXTRACT(YEAR FROM time) = EXTRACT(YEAR FROM sysdate)
+		AND EXTRACT(MONTH FROM time) = #{VALUE}
+		AND consumption_cat != 0
+		GROUP BY consumption_cat
+		ORDER
+		BY consumption_cat
+	</select>
+
+
+	<!-- 이번달 가장 지출이 많은 카테고리 -->
+	<select id="getMaxCat" parameterType="string" resultType="map">
+		SELECT
+		consumption_cat, SUM(price)*(-1) AS total_price
+		FROM ACCOUNT_BOOK
+		WHERE
+		EXTRACT(YEAR FROM time) = EXTRACT(YEAR FROM sysdate)
+		AND EXTRACT(MONTH
+		FROM time) = #{VALUE}
+		GROUP BY consumption_cat
+		HAVING SUM(price) = (
+		SELECT MIN(total_price)
+		FROM (
+		SELECT SUM(price) AS total_price
+		FROM
+		ACCOUNT_BOOK
+		WHERE EXTRACT(YEAR FROM time) = EXTRACT(YEAR FROM sysdate)
+		AND EXTRACT(MONTH FROM time) = #{VALUE}
+		GROUP BY consumption_cat
+		)
+		)
+	</select>
+
+	<!-- 시간대별 지출 금액 -->
+	<select id="getAnalysisByHour" parameterType="string"
+		resultType="map">
+		SELECT EXTRACT(HOUR FROM time) AS TIME, SUM(price)*(-1) AS
+		total_price
+		FROM ACCOUNT_BOOK
+		WHERE EXTRACT(YEAR FROM time) =
+		EXTRACT(YEAR FROM sysdate)
+		AND EXTRACT(MONTH FROM time) = #{VALUE}
+		AND
+		consumption_cat != 0
+		GROUP BY EXTRACT(HOUR FROM time)
+		ORDER BY TIME
+	</select>
+
+	<!-- 이번달 총 지출 -->
+	<select id="sumConsumption" parameterType="string"
+		resultType="map">
+		SELECT SUM(price)*(-1) AS total_price
+		FROM ACCOUNT_BOOK
+		WHERE EXTRACT(YEAR FROM time) = EXTRACT(YEAR FROM sysdate)
+		AND EXTRACT(MONTH FROM time) = #{VALUE}
+		AND consumption_cat != 0
+		ORDER BY TIME
+	</select>
+	
+	
+	<!-- 이번달 총 수입 -->
+	<select id="sumIncome" parameterType="string"
+		resultType="map">
+		SELECT SUM(price)AS total_price
+		FROM ACCOUNT_BOOK
+		WHERE EXTRACT(YEAR FROM time) = EXTRACT(YEAR FROM sysdate)
+		AND EXTRACT(MONTH FROM time) = #{VALUE}
+		AND consumption_cat = 0
+		ORDER BY TIME
+	</select>
+</mapper>
