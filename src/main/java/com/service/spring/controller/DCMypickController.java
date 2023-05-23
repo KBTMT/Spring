@@ -40,6 +40,10 @@ public class DCMypickController {
 	// 리뷰작성, 사용으로 전환
 	@PutMapping("/used")
 	public String myPickUsed(@RequestBody DCMypick dCMypick) throws Exception {
+		if (dCMypick.getMypickFlag() == 1) {
+            int score = dCMypick.getScore();
+            String review = dCMypick.getReview();
+		}
 		dCMypickService.updateUsedPick(dCMypick);
 		return "redirect:/";
 	}
