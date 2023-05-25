@@ -59,4 +59,9 @@ public class DiscountCalendarServiceImpl implements DiscountCalendarService {
 	public DiscountCalendar getDiscountCalendarbySeq(long discountSeq) throws Exception {
 		return discountCalendarDAO.getDiscountCalendarbySeq(discountSeq);
 	}
+
+	@Override
+	public int updateCalendarLike(DiscountCalendar discountcalendar) throws Exception {
+		return discountCalendarDAO.updateCalendarLike(discountcalendar);
+	}
 }

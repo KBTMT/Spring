@@ -3,6 +3,9 @@ package com.service.spring.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.AccountBook;
+import com.service.spring.domain.TmtUser;
 import com.service.spring.model.AccountBookService;
 
 @RestController
@@ -40,7 +44,18 @@ public class AccountBookController {
     	System.out.println(s);
     	return s;
     }
-    
+
+//    @GetMapping 
+//    public List<Map<String, Object>> getStat(HttpServletRequest request) throws Exception {
+//    	if(request.getSession().getAttribute("vo") != null)
+//    		System.out.println("exists===========================");
+//    	TmtUser user =(TmtUser) request.getSession().getAttribute("vo");
+//    	System.out.println(user);
+//    	List<Map<String, Object>> s =  accountBookService.getStat(user.getGeneralId());
+//    	System.out.println(s);
+//    	return s;
+//    }
+
     @GetMapping("/detail")
     public ResponseEntity<String> getAccountBook(@RequestParam("generalId") String generalId) throws Exception {
     	List<AccountBook> accountBookList = accountBookService.getAccountBook(generalId);

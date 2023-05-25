@@ -22,33 +22,47 @@ public class DCMypickDAOImpl implements DCMypickDAO {
 
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	public static final String NS = "sql.tmt.mapper.mypick.";
 
 	@Override
 	public int insertDCMypick(DCMypick dCMypick) throws Exception {
-		return sqlSession.insert(NS+"insertDCMypick", dCMypick);
+		return sqlSession.insert(NS + "insertDCMypick", dCMypick);
 	}
 
 	@Override
 	public int updateUsedPick(DCMypick dCMypick) throws Exception {
-		return sqlSession.update(NS+"updateUsedPick", dCMypick);
+		return sqlSession.update(NS + "updateUsedPick", dCMypick);
 	}
 
 	@Override
 	public int deleteDCMypick(DCMypick dCMypick) throws Exception {
-		return sqlSession.delete(NS+"deleteDCMypick", dCMypick);
+		return sqlSession.delete(NS + "deleteDCMypick", dCMypick);
 	}
 
 	@Override
 	public List<DCMypick> getDCMypick(String generalId) throws Exception {
-		return sqlSession.selectList(NS+"getMyDCPick", generalId);
+		return sqlSession.selectList(NS + "getMyDCPick", generalId);
 	}
 
 	@Override
 	public List<DCMypick> getDCMypickUsed(String generalId) throws Exception {
-		return sqlSession.selectList(NS+"getDCMypickUsed", generalId);
+		return sqlSession.selectList(NS + "getDCMypickUsed", generalId);
 	}
 
-	
+	@Override
+	public long getCountLike(long discountSeq) throws Exception {
+		return sqlSession.selectOne(NS + "getCountLike", discountSeq);
+	}
+
+	@Override
+	public DCMypick isExist(DCMypick dCMypick) throws Exception {
+		return sqlSession.selectOne(NS + "isExist", dCMypick);
+	}
+
+	@Override
+	public List<DCMypick> getReviews(long discountSeq) throws Exception {
+		return sqlSession.selectList(NS + "getReviews", discountSeq);
+	}
+
 }

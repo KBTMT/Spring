@@ -21,6 +21,9 @@ public interface DiscountCalendarDAO {
 
 	DiscountCalendar getDiscountCalendarbySeq(long discountSeq) throws Exception; 
 	
+	// 좋아요 수 변화
+	int updateCalendarLike(DiscountCalendar discountcalendar) throws Exception;
+	
 //	List<DiscountCalendar> getAllDiscountCalenderAdmin(DiscountCalendar discountcalendar) throws Exception; // 전체 신고 내역
 //	
 //	int getDetailDiscountCalenderAdmin(DiscountCalendar discountcalendar) throws Exception; // 신고 내용

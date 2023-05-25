@@ -54,5 +54,10 @@ public class DCMypick {
 		this.review = review;
 		this.generalId = generalId;
 	}
+	@Override
+	public String toString() {
+		return "DCMypick [discountSeq=" + discountSeq + ", mypickFlag=" + mypickFlag + ", score=" + score + ", review="
+				+ review + ", generalId=" + generalId + "]";
+	}
 	
 }

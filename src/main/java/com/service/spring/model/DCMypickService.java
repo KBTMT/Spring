@@ -14,4 +14,10 @@ public interface DCMypickService {
 	List<DCMypick> getDCMypick(String generalId) throws Exception;
 
 	List<DCMypick> getDCMypickUsed(String generalId) throws Exception;
+	
+	long getCountLike(long discountSeq) throws Exception;
+	
+	DCMypick isExist(DCMypick dCMypick) throws Exception;
+	
+	List<DCMypick> getReviews(long discountSeq) throws Exception;
 }

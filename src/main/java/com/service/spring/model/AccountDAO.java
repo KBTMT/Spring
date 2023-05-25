@@ -13,5 +13,6 @@ public interface AccountDAO {
 	List<AccountTransaction> getAccountTransaction(String accountNumber) throws Exception;
 
 	int deleteAccount(String accountNumber)  throws Exception;
+	
 }
     
