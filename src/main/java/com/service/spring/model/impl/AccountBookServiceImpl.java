@@ -23,37 +23,37 @@ public class AccountBookServiceImpl implements AccountBookService{
 
 	@Override
 	public int registerAccountBook(AccountBook accountBook) throws Exception {
-		// TODO Auto-generated method stub
 		return accountBookDAO.registerAccountBook(accountBook);
 	}
 
 	@Override
 	public int updateAccountBook(AccountBook accountBook) throws Exception {
-		// TODO Auto-generated method stub
 		return accountBookDAO.updateAccountBook(accountBook);
 	}
 
 	@Override
 	public int shareAccountBook(AccountBook accountBook) throws Exception {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int deleteAccountBook(long accountBookSeq) throws Exception {
-		// TODO Auto-generated method stub
 		return accountBookDAO.deleteAccountBook(accountBookSeq);
 	}
 
 	@Override
 	public List<AccountBook> dailyAccountBook(String time) throws Exception {
-		// TODO Auto-generated method stub
 		return accountBookDAO.dailyAccountBook(time);
 	}
 	
 	@Override
 	public List<Map<String, Object>> getStat(String generalId) throws Exception {
 		return accountBookDAO.getStat(generalId);
+	}
+
+	@Override
+	public long checkIsUsed(AccountBook accountBook) throws Exception {
+		return accountBookDAO.checkIsUsed(accountBook);
 	}
 	
 }

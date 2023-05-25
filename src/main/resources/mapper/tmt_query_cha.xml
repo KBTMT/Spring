@@ -76,49 +76,45 @@
 		)
 	</insert>
 
+	<update id="updateCalendarLike" parameterType="discountCalendar">
+		UPDATE discount_calendar
+		SET calendar_like = #{calendarLike}
+		WHERE discount_seq = #{discountSeq}
+	</update>
+
 	<update id="updateBusinessDiscountCalendar"
 		parameterType="discountCalendar">
 		UPDATE DISCOUNT_CALENDAR
 		SET start_date = #{startDate},
+		end_date = #{endDate},
+		brand = #{brand},
+		discount_content =
+		#{discountContent},
+		url = #{url},
+		image_path = #{imagePath},
+		calendar_like = #{calendarLike},
+		consumption_cat = #{consumptionCat}
+		WHERE discount_seq=#{discountSeq}
+	</update>
 
-		end_date = #{endDate},
-		brand = #{brand},
-		discount_content =
-		#{discountContent},
-		url = #{url},
-		image_path = #{imagePath},
-		calendar_like = #{calendarLike},
-		consumption_cat = #{consumptionCat}
-		WHERE discount_seq=#{discountSeq}
-	</update>
-	
-	<!-- 
-		<update id="updateDiscountCalendar"
-		parameterType="discountcalendar">
-		UPDATE DISCOUNT_CALENDAR
-		SET start_date = #{startDate},
-		end_date = #{endDate},
-		brand = #{brand},
-		discount_content =
-		#{discountContent},
-		url = #{url},
-		image_path = #{imagePath},
-		calendar_like = #{calendarLike},
-		consumption_cat = #{consumptionCat}
-		WHERE discount_seq=#{discountSeq}
-	</update>
-	 -->
-	
-	
+	<!-- <update id="updateDiscountCalendar" parameterType="discountcalendar"> 
+		UPDATE DISCOUNT_CALENDAR SET start_date = #{startDate}, end_date = #{endDate}, 
+		brand = #{brand}, discount_content = #{discountContent}, url = #{url}, image_path 
+		= #{imagePath}, calendar_like = #{calendarLike}, consumption_cat = #{consumptionCat} 
+		WHERE discount_seq=#{discountSeq} </update> -->
+
+
 	<update id="updateDiscountCalendar"
 		parameterType="discountCalendar">
 		UPDATE DISCOUNT_CALENDAR
 		SET start_date = #{startDate},
 		end_date = #{endDate},
 		brand = #{brand},
-		discount_content = #{discountContent},
+		discount_content =
+		#{discountContent},
 		consumption_cat = #{consumptionCat}
-		WHERE discount_seq=#{discountSeq}
+		WHERE
+		discount_seq=#{discountSeq}
 	</update>
 
 	<delete id="deleteDiscountCalendar" parameterType="long">
@@ -141,7 +137,7 @@
 		FROM
 		DISCOUNT_CALENDAR
 	</select>
-	
+
 	<select id="getDiscountCalendarbySeq"
 		resultMap="discountCalendarResultMap" parameterType="long">
 		SELECT
@@ -152,7 +148,8 @@
 		,consumption_cat
 		FROM
 		DISCOUNT_CALENDAR
-		WHERE discount_seq = #{discountSeq}
+		WHERE
+		discount_seq = #{discountSeq}
 	</select>
 
 	<insert id="registerAccountBook" parameterType="accountBook">
@@ -212,8 +209,16 @@
 		,consumption_cat
 		FROM Account_Book
 		WHERE TO_CHAR(TIME,
-		'YYYY-MM-DD') LIKE '%' || #{time} || '%'
+		'YYYY-MM-DD') LIKE
+		'%' || #{time} || '%'
 	</select>
+	
+	<select id = "checkIsUsed" resultType = "long" parameterType="accountBook">
+		SELECT discount_seq 
+		FROM Account_Book
+		WHERE discount_seq = #{discountSeq} and general_Id = #{generalId}
+	</select>
+	
 
 	<!-- ========================= Reported =============================== -->
 	<resultMap type="reported" id="reportedResultMap">
@@ -230,7 +235,8 @@
 		FROM Reported
 	</select>
 
-	<select id="getReportDetail" resultMap="reportedResultMap" parameterType="reported">
+	<select id="getReportDetail" resultMap="reportedResultMap"
+		parameterType="reported">
 		select reported_seq, status, reported_flag
 		FROM Reported
 		where status = #{status} and reported_flag = #{reportedFlag}
