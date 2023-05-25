@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +25,8 @@ import com.service.spring.domain.TmtUser;
 import com.service.spring.model.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin("*")
 @RequestMapping()
 public class UserController {
 	private final ObjectMapper objectMapper = new ObjectMapper();
@@ -100,13 +103,33 @@ public class UserController {
 		if(rvo != null) {
 			// login, update는 반드시 session에 값을 바인딩
 			request.getSession().setAttribute("vo", rvo);
+			rvo.setBirthDate(rvo.getBirthDate().substring(0, 10));
 			System.out.println("널아님");
 			System.out.println(ResponseEntity.ok(objectMapper.writeValueAsString(rvo)));
 			return ResponseEntity.ok(objectMapper.writeValueAsString(rvo));
 		}
 		return null;
 	}
-	
+		
+	@PutMapping("update/generalUser")
+	public ResponseEntity<String> updateUser(@RequestBody TmtUser pvo, HttpServletRequest request) throws Exception {
+		System.out.println("aa==============업데이트");
+		System.out.println(pvo);
+		userService.updateUser(pvo);
+		System.out.println("업데이트 성공");
+		String id = pvo.getGeneralId();
+		TmtUser rvo = userService.login(pvo);
+		System.out.println(rvo);
+		if(rvo != null) {
+			// login, update는 반드시 session에 값을 바인딩
+			request.getSession().setAttribute("vo", rvo);
+			rvo.setBirthDate(rvo.getBirthDate().substring(0, 10));
+			System.out.println("널아님");
+			System.out.println(ResponseEntity.ok(objectMapper.writeValueAsString(rvo)));
+			return ResponseEntity.ok(objectMapper.writeValueAsString(rvo));
+		}
+		return null;
+	}
 	
 	@GetMapping("idExist")
 	public String idExist(@RequestParam String generalId, Model model) throws Exception{
@@ -129,17 +152,17 @@ public class UserController {
 	}
 	
 	
-	@PostMapping("updateUser")
-	public String updateUser(HttpSession session, TmtUser pvo) throws Exception {
-		userService.updateUser(pvo);
-		// 로그인된 상태에서만 수정 가능하도록
-		if (session.getAttribute("vo") != null) { // 로그인된 상태라면
-			session.setAttribute("vo", pvo);
-			return "update_result";
-		} else {
-			return null;
+	@DeleteMapping("deleteUser/{generalId}")
+	public String deleteUser(@RequestParam String generalId, HttpServletRequest request) throws Exception{
+		userService.deleteBusiness(generalId);
+		userService.deleteUser(generalId);
+		HttpSession session = request.getSession();
+		if (session.getAttribute("vo") != null) { // 로그인된 상태라면 로그아웃시키자
+			session.invalidate(); // 세션을 죽이고
 		}
+		return null;
 	}
+	
 	
 	
 	@PostMapping("updateBusiness")
@@ -163,6 +186,19 @@ public class UserController {
 		if (session.getAttribute("vo") != null) { // 로그인된 상태라면 로그아웃시키자
 			session.invalidate(); // 세션을 죽이고
 			return "logout";
+		}
+		return null;
+	}
+	
+	
+	@GetMapping("getBusiness/{generalId}")
+	public ResponseEntity<String> getBusiness(@RequestParam String generalId) throws Exception {
+		BusinessInfo rvo = userService.getBusiness(generalId);
+		System.out.println(rvo);
+		if(rvo != null) {
+			System.out.println("널아님");
+			System.out.println(ResponseEntity.ok(objectMapper.writeValueAsString(rvo)));
+			return ResponseEntity.ok(objectMapper.writeValueAsString(rvo));
 		}
 		return null;
 	}

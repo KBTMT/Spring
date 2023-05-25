@@ -73,4 +73,14 @@ public class UserServiceImpl implements UserService{
 	public String nicknameExist(String userNickname) throws Exception {
 		return userDAO.nicknameExist(userNickname);
 	}
+
+	@Override
+	public TmtUser getUser(String generalId) throws Exception {
+		return userDAO.getUser(generalId);
+	}
+
+	@Override
+	public BusinessInfo getBusiness(String generalId) throws Exception {
+		return userDAO.getBusiness(generalId);
+	}
 }
