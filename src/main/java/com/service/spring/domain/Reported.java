@@ -4,20 +4,23 @@ public class Reported {
 	private long reportedSeq;
 	private long status;
 	private long reportedFlag;
+	private long targetSeq;
 
 	public Reported() {}
 
-	public Reported(long status, long reportedFlag) {
+	public Reported(long status, long reportedFlag, long targetSeq) {
 		super();
 		this.status = status;
 		this.reportedFlag = reportedFlag;
+		this.targetSeq = targetSeq;
 	}
 
-	public Reported(long reportedSeq, long status, long reportedFlag) {
+	public Reported(long reportedSeq, long status, long reportedFlag, long targetSeq) {
 		super();
 		this.reportedSeq = reportedSeq;
 		this.status = status;
 		this.reportedFlag = reportedFlag;
+		this.targetSeq = targetSeq;
 	}
 
 	public long getReportedSeq() {
@@ -44,10 +47,21 @@ public class Reported {
 		this.reportedFlag = reportedFlag;
 	}
 
+	public long getTargetSeq() {
+		return targetSeq;
+	}
+
+	public void setTargetSeq(long targetSeq) {
+		this.targetSeq = targetSeq;
+	}
+
 	@Override
 	public String toString() {
-		return "Reported [reportedSeq=" + reportedSeq + ", status=" + status + ", reportedFlag=" + reportedFlag + "]";
+		return "Reported [reportedSeq=" + reportedSeq + ", status=" + status + ", reportedFlag=" + reportedFlag
+				+ ", targetSeq=" + targetSeq + "]";
 	}
+
+
 
 
 }

@@ -76,4 +76,14 @@ public class UserDAOImpl implements UserDAO {
 	public String nicknameExist(String userNickname) throws Exception {
 		return sqlSession.selectOne(NS+"nicknameExist", userNickname);
 	}
+
+	@Override
+	public TmtUser getUser(String generalId) throws Exception {
+		return sqlSession.selectOne(NS + "getUser", generalId);
+	}
+
+	@Override
+	public BusinessInfo getBusiness(String generalId) throws Exception {
+		return sqlSession.selectOne(NS + "getBusiness", generalId);
+	}
 }

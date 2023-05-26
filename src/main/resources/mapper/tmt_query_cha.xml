@@ -243,37 +243,43 @@
 		SELECT
 		reported_seq,
 		status,
-		reported_flag
+		reported_flag,
+		target_seq
 		FROM Reported
 	</select>
+
 
 	<select id="getReportDetail" resultMap="reportedResultMap"
 		parameterType="reported">
 		select reported_seq, status, reported_flag
 		FROM Reported
-		where status = #{status} and reported_flag = #{reportedFlag}
+		where status = #{VALUE}
+	</select>
+	<select id="getReportDetailUseFlag" resultMap="reportedResultMap" parameterType="long">
+		select reported_seq, status, reported_flag, target_seq
+		FROM Reported
+		where reported_flag = #{VALUE}
 	</select>
 
 	<insert id="registerReported" parameterType="reported">
 		INSERT INTO
-		Reported(reported_seq, status, reported_flag)
+		Reported(reported_seq, status, reported_flag, target_seq)
 		VALUES(
 		#{reportedSeq},
 		#{status},
-		#{reportedFlag}
+		#{reportedFlag},
+		#{targedSeq}
 		)
 	</insert>
 
 	<update id="updateReported" parameterType="reported">
 		UPDATE Reported
 		SET
-		reported_seq = #{reportedSeq},
-		status = #{status},
-		reported_flag =
-		#{reportedFlag}
+		status = #{status}
+		WHERE reported_seq=#{reportedSeq}
 	</update>
 
-	<delete id="deleteReported" parameterType="long">
+	<delete id="deleteReported" parameterType="reported">
 		DELETE FROM Board
 		WHERE boardSeq IN (
 		SELECT b.boardSeq
@@ -283,7 +289,6 @@
 		WHERE r.reportedSeq = #{boardSeq}
 		)
 	</delete>
-
 
 
 </mapper>

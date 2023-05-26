@@ -16,4 +16,6 @@ public interface UserDAO {
 	String getPassword(TmtUser vo) throws Exception;
 	int updatePassword(TmtUser vo) throws Exception;
 	String nicknameExist(String userNickname) throws Exception;
+	TmtUser getUser(String generalId) throws Exception;
+	BusinessInfo getBusiness(String generalId) throws Exception;
 }
