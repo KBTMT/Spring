@@ -75,24 +75,39 @@ public class AccountBookController {
     }
 
     // 미완 화면 필요
+//    @PutMapping("/{accountBookSeq}/update")
+//    public ModelAndView updateAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook, @RequestParam("generalId") String generalId) {
+//    	// 수정 필요
+//    	accountBook.setGeneralId(generalId);
+//    	ModelAndView modelAndView = new ModelAndView("redirect:/account-book/" + accountBook.getGeneralId());
+//        try {
+//            accountBook.setAccountBookSeq(accountBookSeq);
+//            int result = accountBookService.updateAccountBook(accountBook);
+//            if (result <= 0) {
+//                modelAndView.addObject("error", "Failed to update account book.");
+//            }
+//        } catch (Exception e) {
+//            modelAndView.addObject("error", "Failed to update account book.");
+//        }
+//        return modelAndView;
+//    }
+    
     @PutMapping("/{accountBookSeq}/update")
-    public ModelAndView updateAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook, @RequestParam("generalId") String generalId) {
-    	// 수정 필요
-    	accountBook.setGeneralId(generalId);
-    	ModelAndView modelAndView = new ModelAndView("redirect:/account-book/" + accountBook.getGeneralId());
+    public ResponseEntity<String> updateAccountBook(@PathVariable long accountBookSeq, @RequestBody AccountBook accountBook) {
+        
         try {
             accountBook.setAccountBookSeq(accountBookSeq);
             int result = accountBookService.updateAccountBook(accountBook);
             if (result <= 0) {
-                modelAndView.addObject("error", "Failed to update account book.");
+                return ResponseEntity.badRequest().body("Failed to update account book.");
             }
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
-            modelAndView.addObject("error", "Failed to update account book.");
+            return ResponseEntity.badRequest().body("Failed to update account book.");
         }
-        return modelAndView;
     }
-
- // 미완 화면 필요
+    
+    // 미완 화면 필요
     @DeleteMapping("/{accountBookSeq}/delete")
     public String deleteAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook) throws Exception {
     	accountBookService.deleteAccountBook(accountBookSeq);
@@ -109,4 +124,35 @@ public class AccountBookController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
     }
+    
+    @GetMapping("/daily/{generalId}/{time}")
+    public ResponseEntity<String> personalDailyAccountBook(@PathVariable String generalId, @PathVariable String time) throws Exception {
+    	AccountBook a = new AccountBook();
+    	a.setGeneralId(generalId);
+    	a.setTime(time);
+    	System.out.println("accountBook : " + a);
+    	
+    	List<AccountBook> accountBookList = accountBookService.personalDailyAccountBook(a);
+    	
+    	try {
+    		String jsonString = objectMapper.writeValueAsString(accountBookList);
+			return ResponseEntity.ok(jsonString);
+
+    	} catch (JsonProcessingException e){
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    	}
+    }
+    
+//    public ResponseEntity<String> dailyAccountBook(@PathVariable String time) throws Exception {
+//    	List<AccountBook> accountBookList = accountBookService.dailyAccountBook(time);
+//        try {
+//			String jsonString = objectMapper.writeValueAsString(accountBookList);
+//			return ResponseEntity.ok(jsonString);
+//		} catch (JsonProcessingException e) {
+//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//		}
+//    }
+    
+    
+    
 }

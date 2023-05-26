@@ -52,8 +52,14 @@ public class AccountBookServiceImpl implements AccountBookService{
 	}
 
 	@Override
+	public List<AccountBook> personalDailyAccountBook(AccountBook accountBook) throws Exception {
+		return accountBookDAO.personalDailyAccountBook(accountBook);
+	}
+	
+	
 	public long checkIsUsed(AccountBook accountBook) throws Exception {
 		return accountBookDAO.checkIsUsed(accountBook);
 	}
+
 	
 }
