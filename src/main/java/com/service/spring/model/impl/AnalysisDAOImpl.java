@@ -16,23 +16,23 @@ public class AnalysisDAOImpl implements AnalysisDAO {
 	public static final String MAPPER_NAME = "sql.tmt.mapper.analysis.";
 
 	@Override
-	public List<Map<String, Object>> getAnalysisByCat(String month) throws Exception {
-		return sqlSession.selectList(MAPPER_NAME + "getAnalysisByCat", month);
+	public List<Map<String, Object>> getAnalysisByCat(String generaId) throws Exception {
+		return sqlSession.selectList(MAPPER_NAME + "getAnalysisByCat", generaId);
 	}
 
 	@Override
-	public List<Map<String, Object>> getMaxCat(String month) throws Exception {
-		return sqlSession.selectList(MAPPER_NAME + "getMaxCat", month);
+	public List<Map<String, Object>> getMaxCat(String generaId) throws Exception {
+		return sqlSession.selectList(MAPPER_NAME + "getMaxCat", generaId);
 	}
 
 	@Override
-	public List<Map<String, Object>> getAnalysisByHour(String month) throws Exception {
-		return sqlSession.selectList(MAPPER_NAME + "getAnalysisByHour", month);
+	public List<Map<String, Object>> getAnalysisByHour(String generaId) throws Exception {
+		return sqlSession.selectList(MAPPER_NAME + "getAnalysisByHour", generaId);
 	}
 
 	@Override
-	public List<Map<String, Object>> sumConsumption(String month) throws Exception {
-		return sqlSession.selectList(MAPPER_NAME + "sumConsumption", month);
+	public List<Map<String, Object>> sumConsumption(String generaId) throws Exception {
+		return sqlSession.selectList(MAPPER_NAME + "sumConsumption", generaId);
 	}
 
 	@Override

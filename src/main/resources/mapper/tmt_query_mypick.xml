@@ -10,25 +10,48 @@
 		<result property="review" column="review" />
 		<result property="generalId" column="general_id" />
 	</resultMap>
-	<select id="getDCMypick" resultMap="dCMypickMap" parameterType="string">
-		select discount_seq, mypick_flag, score, review, general_id 
+	<select id="getDCMypick" resultMap="dCMypickMap"
+		parameterType="string">
+		select discount_seq, mypick_flag, score, review,
+		general_id
 		from dc_mypick
 		where general_id = #{VALUE}
 	</select>
-	<select id="getDCMypickUsed" resultMap="dCMypickMap" parameterType="string">
-		select discount_seq, mypick_flag, score, review, general_id 
+	<select id="getDCMypickUsed" resultMap="dCMypickMap"
+		parameterType="string">
+		select discount_seq, mypick_flag, score, review,
+		general_id
 		from dc_mypick
 		where general_id = #{VALUE} and dc_mypick = 1
 	</select>
+
+	<select id = "isExist" resultMap="dCMypickMap" parameterType="dCMypick">
+		SELECT * FROM dc_mypick
+		WHERE discount_seq = #{discountSeq} 
+		AND general_id = #{generalId}
+	</select>
+	<select id="getCountLike" resultType="long" parameterType="long">
+		SELECT count(general_id)
+		FROM dc_mypick
+		WHERE discount_seq = #{VALUE}
+	</select>
+
+	<select id = "getReviews" resultMap="dCMypickMap" parameterType="long">
+		SELECT * FROM dc_mypick
+		WHERE discount_seq = #{VALUE} AND review is not null
+	</select>
 	<!-- 찜하기 -->
 	<insert id="insertDCMypick" parameterType="dCMypick">
-		insert into dc_mypick(discount_seq, general_id)
-		values(#{discountSeq}, #{generalId})
+		insert into
+		dc_mypick(discount_seq, general_id)
+		values(#{discountSeq},
+		#{generalId})
 	</insert>
 	<!-- 사용한 할인정보 -->
 	<update id="updateUsedPick" parameterType="dCMypick">
 		update dc_mypick
-		set mypick_flag = #{mypickFlag}, score = #{score}, review = #{review}
+		set
+		mypick_flag = #{mypickFlag}, score = #{score}, review = #{review}
 		where discount_seq = #{discountSeq} and general_id = #{generalId}
 	</update>
 	<!-- 찜 취소 -->

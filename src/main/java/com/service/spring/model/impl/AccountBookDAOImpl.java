@@ -57,4 +57,14 @@ public class AccountBookDAOImpl implements AccountBookDAO{
 		return sqlSession.selectList(MAPPER_NAME+"getStat", generalId);
 	}
 
+  @Override
+	public List<AccountBook> personalDailyAccountBook(AccountBook accountBook) throws Exception {
+		return sqlSession.selectList(MAPPER_NAME + "personalDailyAccountBook", accountBook);
+	}
+
+  @Override
+	public long checkIsUsed(AccountBook accountBook) throws Exception {
+		return sqlSession.selectOne(MAPPER_NAME+"checkIsUsed", accountBook);
+	}
+
 }

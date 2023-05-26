@@ -1,30 +1,35 @@
 package com.service.spring.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.AccountBook;
-import com.service.spring.model.AccountBookDAO;
+import com.service.spring.domain.TmtUser;
 import com.service.spring.model.AccountBookService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin("*")
 @RequestMapping("/account-book")
 public class AccountBookController {
 	
@@ -33,16 +38,17 @@ public class AccountBookController {
 	@Autowired
 	private AccountBookService accountBookService;
 
-    @GetMapping()
-    public List<Map<String, Object>> getStat() throws Exception {
-    	List<Map<String, Object>> s =  accountBookService.getStat("testId");
+    @GetMapping 
+    public List<Map<String, Object>> getStat(@RequestParam("generalId") String generalId) throws Exception {
+    	List<Map<String, Object>> s =  accountBookService.getStat(generalId);
     	System.out.println(s);
     	return s;
     }
+
+
     @GetMapping("/detail")
-    public ResponseEntity<String> getAccountBook() throws Exception {
-    	//세션에서 가져오는 걸로 변경할 것
-    	List<AccountBook> accountBookList = accountBookService.getAccountBook("generalId1");
+    public ResponseEntity<String> getAccountBook(@RequestParam("generalId") String generalId) throws Exception {
+    	List<AccountBook> accountBookList = accountBookService.getAccountBook(generalId);
         try {
         	String jsonString = objectMapper.writeValueAsString(accountBookList);
 			return ResponseEntity.ok(jsonString);
@@ -52,14 +58,18 @@ public class AccountBookController {
     }
 
     @PostMapping("/register")
-    public String registerAccountBook(@RequestBody AccountBook accountBook) throws Exception {
+    public String registerAccountBook(@RequestBody AccountBook accountBook , @RequestParam("generalId") String generalId) throws Exception {
+    	accountBook.setGeneralId(generalId);
     	accountBookService.registerAccountBook(accountBook);
         return "redirect:/account-book/";
     }
 
-    @PostMapping("/{accountBookSeq}/update")
-    public ModelAndView updateAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/account-book/" + accountBook.getGeneralId());
+    // 미완 화면 필요
+    @PutMapping("/{accountBookSeq}/update")
+    public ModelAndView updateAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook, @RequestParam("generalId") String generalId) {
+    	// 수정 필요
+    	accountBook.setGeneralId(generalId);
+    	ModelAndView modelAndView = new ModelAndView("redirect:/account-book/" + accountBook.getGeneralId());
         try {
             accountBook.setAccountBookSeq(accountBookSeq);
             int result = accountBookService.updateAccountBook(accountBook);
@@ -72,7 +82,8 @@ public class AccountBookController {
         return modelAndView;
     }
 
-    @PostMapping("/{accountBookSeq}/delete")
+ // 미완 화면 필요
+    @DeleteMapping("/{accountBookSeq}/delete")
     public String deleteAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook) throws Exception {
     	accountBookService.deleteAccountBook(accountBookSeq);
         return "redirect:/account-book/";
@@ -80,7 +91,7 @@ public class AccountBookController {
 
     @GetMapping("/daily/{time}")
     public ResponseEntity<String> dailyAccountBook(@PathVariable String time) throws Exception {
-        List<AccountBook> accountBookList = accountBookService.dailyAccountBook(time);
+    	List<AccountBook> accountBookList = accountBookService.dailyAccountBook(time);
         try {
 			String jsonString = objectMapper.writeValueAsString(accountBookList);
 			return ResponseEntity.ok(jsonString);
@@ -88,4 +99,22 @@ public class AccountBookController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
     }
+    
+    @GetMapping("/daily/{generalId}/{time}")
+    public ResponseEntity<String> personalDailyAccountBook(@PathVariable String generalId, @PathVariable String time) throws Exception {
+        AccountBook a = new AccountBook();
+        a.setGeneralId(generalId);
+        a.setTime(time);
+        System.out.println("accountBook : " + a);
+
+        List<AccountBook> accountBookList = accountBookService.personalDailyAccountBook(a);
+
+        try {
+            String jsonString = objectMapper.writeValueAsString(accountBookList);
+            return ResponseEntity.ok(jsonString);
+
+    } catch (JsonProcessingException e){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+}
 }

@@ -76,11 +76,16 @@
 		)
 	</insert>
 
+	<update id="updateCalendarLike" parameterType="discountCalendar">
+		UPDATE discount_calendar
+		SET calendar_like = #{calendarLike}
+		WHERE discount_seq = #{discountSeq}
+	</update>
+
 	<update id="updateBusinessDiscountCalendar"
 		parameterType="discountCalendar">
 		UPDATE DISCOUNT_CALENDAR
 		SET start_date = #{startDate},
-
 		end_date = #{endDate},
 		brand = #{brand},
 		discount_content =
@@ -92,22 +97,28 @@
 		WHERE discount_seq=#{discountSeq}
 	</update>
 
+	<!-- <update id="updateDiscountCalendar" parameterType="discountcalendar"> 
+		UPDATE DISCOUNT_CALENDAR SET start_date = #{startDate}, end_date = #{endDate}, 
+		brand = #{brand}, discount_content = #{discountContent}, url = #{url}, image_path 
+		= #{imagePath}, calendar_like = #{calendarLike}, consumption_cat = #{consumptionCat} 
+		WHERE discount_seq=#{discountSeq} </update> -->
+
+
 	<update id="updateDiscountCalendar"
-		parameterType="discountcalendar">
+		parameterType="discountCalendar">
 		UPDATE DISCOUNT_CALENDAR
 		SET start_date = #{startDate},
 		end_date = #{endDate},
 		brand = #{brand},
 		discount_content =
 		#{discountContent},
-		url = #{url},
-		image_path = #{imagePath},
-		calendar_like = #{calendarLike},
 		consumption_cat = #{consumptionCat}
-		WHERE discount_seq=#{discountSeq}
+		WHERE
+		discount_seq=#{discountSeq}
 	</update>
+	
 
-	<delete id="deleteDiscountCalendar" parameterType="Long">
+	<delete id="deleteDiscountCalendar" parameterType="long">
 		DELETE
 		FROM
 		DISCOUNT_CALENDAR
@@ -127,7 +138,7 @@
 		FROM
 		DISCOUNT_CALENDAR
 	</select>
-	
+
 	<select id="getDiscountCalendarbySeq"
 		resultMap="discountCalendarResultMap" parameterType="long">
 		SELECT
@@ -138,7 +149,8 @@
 		,consumption_cat
 		FROM
 		DISCOUNT_CALENDAR
-		WHERE discount_seq = #{discountSeq}
+		WHERE
+		discount_seq = #{discountSeq}
 	</select>
 
 	<insert id="registerAccountBook" parameterType="accountBook">
@@ -161,15 +173,15 @@
 
 	<update id="updateAccountBook" parameterType="accountBook">
 		UPDATE Account_Book
-		SET general_id = #{generalId},
+		SET 
 		account_content = #{accountContent},
 		time = #{time},
 		price = #{price},
 		memo = #{memo},
-		discount_seq =
-		#{discountSeq},
+		discount_seq = #{discountSeq},
 		emoji = #{emoji},
 		consumption_cat = #{consumptionCat}
+		WHERE account_book_seq = #{accountBookSeq}
 	</update>
 
 	<delete id="deleteAccountBook" parameterType="long">
@@ -197,8 +209,28 @@
 		discount_seq, emoji
 		,consumption_cat
 		FROM Account_Book
-		WHERE time LIKE '%' || #{time} || '%'
+		WHERE TO_CHAR(TIME,
+		'YYYY-MM-DD') LIKE
+		'%' || #{time} || '%'
 	</select>
+	
+	<select id="personalDailyAccountBook" resultMap="accountBookResultMap" parameterType="accountBook">
+		SELECT
+		account_book_seq,
+		general_id, account_content, time, price, memo,
+		discount_seq, emoji
+		,consumption_cat
+		FROM Account_Book
+		WHERE  general_id=#{generalId} AND TO_CHAR(TIME,
+		'YYYY-MM-DD') LIKE '%' || #{time} || '%' 
+</select>
+	
+	<select id = "checkIsUsed" resultType = "long" parameterType="accountBook">
+		SELECT discount_seq 
+		FROM Account_Book
+		WHERE discount_seq = #{discountSeq} and general_Id = #{generalId}
+	</select>
+	
 
 	<!-- ========================= Reported =============================== -->
 	<resultMap type="reported" id="reportedResultMap">
@@ -216,8 +248,10 @@
 		FROM Reported
 	</select>
 
-	<select id="getReportDetailUseStatus" resultMap="reportedResultMap" parameterType="long">
-		select reported_seq, status, reported_flag, target_seq
+
+	<select id="getReportDetail" resultMap="reportedResultMap"
+		parameterType="reported">
+		select reported_seq, status, reported_flag
 		FROM Reported
 		where status = #{VALUE}
 	</select>

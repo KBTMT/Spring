@@ -19,4 +19,9 @@ public interface AccountBookService {
 	int deleteAccountBook(long accountBookSeq) throws Exception;
 	
 	List<AccountBook> dailyAccountBook(String time) throws Exception;
+	
+	List<AccountBook> personalDailyAccountBook(AccountBook accountBook) throws Exception;
+
+	long checkIsUsed(AccountBook accountBook) throws Exception;
+
 }
