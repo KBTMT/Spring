@@ -120,6 +120,7 @@
 		consumption_cat = #{consumptionCat}
 		WHERE discount_seq=#{discountSeq}
 	</update>
+	
 
 	<delete id="deleteDiscountCalendar" parameterType="long">
 		DELETE
@@ -175,15 +176,15 @@
 
 	<update id="updateAccountBook" parameterType="accountBook">
 		UPDATE Account_Book
-		SET general_id = #{generalId},
+		SET 
 		account_content = #{accountContent},
 		time = #{time},
 		price = #{price},
 		memo = #{memo},
-		discount_seq =
-		#{discountSeq},
+		discount_seq = #{discountSeq},
 		emoji = #{emoji},
 		consumption_cat = #{consumptionCat}
+		WHERE account_book_seq = #{accountBookSeq}
 	</update>
 
 	<delete id="deleteAccountBook" parameterType="long">
@@ -214,6 +215,18 @@
 		WHERE TO_CHAR(TIME,
 		'YYYY-MM-DD') LIKE '%' || #{time} || '%'
 	</select>
+	
+	<select id="personalDailyAccountBook" resultMap="accountBookResultMap" parameterType="accountBook">
+		SELECT
+		account_book_seq,
+		general_id, account_content, time, price, memo,
+		discount_seq, emoji
+		,consumption_cat
+		FROM Account_Book
+		WHERE  general_id=#{generalId} AND TO_CHAR(TIME,
+		'YYYY-MM-DD') LIKE '%' || #{time} || '%' 
+	</select>
+	
 
 	<!-- ========================= Reported =============================== -->
 	<resultMap type="reported" id="reportedResultMap">

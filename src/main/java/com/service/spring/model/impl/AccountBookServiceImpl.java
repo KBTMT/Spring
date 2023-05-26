@@ -55,5 +55,12 @@ public class AccountBookServiceImpl implements AccountBookService{
 	public List<Map<String, Object>> getStat(String generalId) throws Exception {
 		return accountBookDAO.getStat(generalId);
 	}
+
+	@Override
+	public List<AccountBook> personalDailyAccountBook(AccountBook accountBook) throws Exception {
+		return accountBookDAO.personalDailyAccountBook(accountBook);
+	}
+	
+	
 	
 }
