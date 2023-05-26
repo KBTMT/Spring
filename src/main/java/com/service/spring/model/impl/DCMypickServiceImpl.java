@@ -39,5 +39,20 @@ public class DCMypickServiceImpl implements DCMypickService {
 	public List<DCMypick> getDCMypickUsed(String generalId) throws Exception {
 		return dCMypickDAO.getDCMypickUsed(generalId);
 	}
+
+	@Override
+	public long getCountLike(long discountSeq) throws Exception {
+		return dCMypickDAO.getCountLike(discountSeq);
+	}
+
+	@Override
+	public DCMypick isExist(DCMypick dCMypick) throws Exception {
+		return dCMypickDAO.isExist(dCMypick);
+	}
+
+	@Override
+	public List<DCMypick> getReviews(long discountSeq) throws Exception {
+		return dCMypickDAO.getReviews(discountSeq);
+	}
 	
 }
