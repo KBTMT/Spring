@@ -15,6 +15,7 @@ public class ReportedServiceImpl implements ReportedService{
 	
 	@Autowired
 	private ReportedDAO reportedDAO;
+	
 	@Autowired
 	private AccountBookDAO accountBookDAO;
 
@@ -35,16 +36,23 @@ public class ReportedServiceImpl implements ReportedService{
 
 	@Override
 	public int deleteReported(Reported reported) throws Exception {
-//		if(reported.getFlag() == 1) {
-//			boardDAO.deleteBoard(reported.getReportedSeq());
-//			return 1;
-//		}
-		return 1;
+		return reportedDAO.deleteReported(reported);
+	}
+
+
+	@Override
+	public Reported getReportOne(Reported reported) throws Exception {
+		return reportedDAO.getReportOne(reported);
 	}
 
 	@Override
-	public Reported getReportDetail(Reported reported) throws Exception {
-		return reportedDAO.getReportDetail(reported);
+	public List<Reported> getReportDetailUsingStatus(int status) throws Exception {
+		return reportedDAO.getReportDetailUsingStatus(status);
+	}
+
+	@Override
+	public List<Reported> getReportDetailUsingFlag(int reportedFlag) throws Exception {
+		return reportedDAO.getReportDetailUsingFlag(reportedFlag);
 	}
 	
 }

@@ -13,12 +13,12 @@ import com.service.spring.model.ReportedDAO;
 @Repository
 public class ReportedDAOImpl implements ReportedDAO{
 	
-	@Autowired
-	private SqlSession sqlSession;
 	public static final String MAPPER_NAME = "sql.tmt.mapper.cha.";
 	
 	@Autowired
-	private BoardDAO boardDAO;
+	private SqlSession sqlSession;
+	
+	
 
 	@Override
 	public int registerReported(Reported reported) throws Exception {
@@ -37,16 +37,22 @@ public class ReportedDAOImpl implements ReportedDAO{
 	
 	@Override
 	public int deleteReported(Reported reported) throws Exception {
-//		if(reported.getFlag() == 1) {
-//			boardDAO.deleteBoard(reported.getReportedSeq());
-//			return 1;
-//		}
-		return 1;
+		return sqlSession.delete(MAPPER_NAME+"deleteReported", reported);
 	}
 
 	@Override
-	public Reported getReportDetail(Reported reported) throws Exception {
-		return sqlSession.selectOne(MAPPER_NAME+"getReportDetail", reported);
+	public Reported getReportOne(Reported reported) throws Exception {
+		return sqlSession.selectOne(MAPPER_NAME+"getReportOne", reported);
+	}
+
+	@Override
+	public List<Reported> getReportDetailUsingStatus(int status) throws Exception {
+		return sqlSession.selectList(MAPPER_NAME+"getReportDetailUsingStatus", status);
+	}
+
+	@Override
+	public List<Reported> getReportDetailUsingFlag(int reportedFlag) throws Exception {
+		return sqlSession.selectList(MAPPER_NAME+"getReportDetailUsingFlag", reportedFlag);
 	}
 	
 }

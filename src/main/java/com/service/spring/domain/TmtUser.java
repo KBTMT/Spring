@@ -77,9 +77,9 @@ public class TmtUser {
 		this.consumptionCat2 = 0;
 		this.consumptionCat3 = 0;
 		this.financeCat = financeCat;
-		this.tmtUserFlag = tmtUserFlag;
 		this.salary = salary;
 		this.saving = saving;
+		this.tmtUserFlag = tmtUserFlag;
 	}
 
 

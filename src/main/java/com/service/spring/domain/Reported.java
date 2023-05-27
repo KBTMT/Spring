@@ -1,49 +1,33 @@
 package com.service.spring.domain;
 
 public class Reported {
-	private long reportedSeq;
-	private long status;
-	private long reportedFlag;
 	private long targetSeq;
+	private int status;
+	private int reportedFlag;
 
 	public Reported() {}
 
-	public Reported(long status, long reportedFlag, long targetSeq) {
+	public Reported(long targetSeq, int status, int reportedFlag) {
 		super();
+		this.targetSeq = targetSeq;
 		this.status = status;
 		this.reportedFlag = reportedFlag;
-		this.targetSeq = targetSeq;
 	}
 
-	public Reported(long reportedSeq, long status, long reportedFlag, long targetSeq) {
-		super();
-		this.reportedSeq = reportedSeq;
-		this.status = status;
-		this.reportedFlag = reportedFlag;
-		this.targetSeq = targetSeq;
-	}
 
-	public long getReportedSeq() {
-		return reportedSeq;
-	}
-
-	public void setReportedSeq(long reportedSeq) {
-		this.reportedSeq = reportedSeq;
-	}
-
-	public long getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(long status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
-	public long getReportedFlag() {
+	public int getReportedFlag() {
 		return reportedFlag;
 	}
 
-	public void setReportedFlag(long reportedFlag) {
+	public void setReportedFlag(int reportedFlag) {
 		this.reportedFlag = reportedFlag;
 	}
 
@@ -57,11 +41,8 @@ public class Reported {
 
 	@Override
 	public String toString() {
-		return "Reported [reportedSeq=" + reportedSeq + ", status=" + status + ", reportedFlag=" + reportedFlag
-				+ ", targetSeq=" + targetSeq + "]";
+		return "Reported [targetSeq=" + targetSeq + ", status=" + status + ", reportedFlag=" + reportedFlag + "]";
 	}
-
-
 
 
 }

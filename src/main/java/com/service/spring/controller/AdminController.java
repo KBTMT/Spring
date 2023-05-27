@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -61,31 +62,36 @@ public class AdminController {
 		}
 	}
 
-	@GetMapping("/reported/detail/{reportedSeq}/{status}/{reportedFlag}")
-	public ResponseEntity<String> getReportedDetail(@PathVariable long reportedSeq, @PathVariable long status,
-			@PathVariable long reportedFlag) throws Exception {
+	@GetMapping("/reported/detail/{targetSeq}/{status}/{reportedFlag}")
+	public ResponseEntity<String> getReportedDetail(@PathVariable long targetSeq, @PathVariable int status,
+			@PathVariable int reportedFlag) throws Exception {
 		if (reportedFlag == 0) { // 할인 달력
-			return ResponseEntity.ok(objectMapper.writeValueAsString(discountCalendarService.getDiscountCalendarbySeq(reportedSeq)));
+			return ResponseEntity.ok(objectMapper.writeValueAsString(discountCalendarService.getDiscountCalendarbySeq(targetSeq)));
 		} else if (reportedFlag == 1) { // 게시판 글
-			return ResponseEntity.ok(objectMapper.writeValueAsString(boardService.getBoard(reportedSeq)));
+			return ResponseEntity.ok(objectMapper.writeValueAsString(boardService.getBoard(targetSeq)));
 		} else if (reportedFlag == 2) { // 댓글
-			return ResponseEntity.ok(objectMapper.writeValueAsString(bCommentService.getBCommentbySeq(reportedSeq)));
+			return ResponseEntity.ok(objectMapper.writeValueAsString(bCommentService.getBCommentbySeq(targetSeq)));
 		}
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	}
 
-	@DeleteMapping("/reported/detail/delete/{reportedSeq}/{status}/{reportedFlag}")
-	public void deleteReported(@PathVariable long reportedSeq, @PathVariable long status, @PathVariable long reportedFlag) throws Exception {
-		if (reportedFlag == 0) { // 할인 달력
-			discountCalendarService.deleteDiscountCalendar(reportedSeq);
-		} else if (reportedFlag == 1) { // 게시판 글
-			boardService.deleteBoard(reportedSeq);
-		} else if (reportedFlag == 2) { // 댓글
-			bCommentService.deleteBComment(reportedSeq);
+	@DeleteMapping("reported/detail/delete")
+	public void deleteReported(@RequestBody Reported reported) throws Exception {
+		System.out.println(reported);
+		if (reported.getReportedFlag() == 0) { // 할인 달력
+			discountCalendarService.deleteDiscountCalendar(reported.getTargetSeq());
+			reportedService.deleteReported(reported);
+		} else if (reported.getReportedFlag() == 1) { // 게시판 글
+			boardService.deleteBoard(reported.getTargetSeq());
+			reportedService.deleteReported(reported);
+		} else if (reported.getReportedFlag() == 2) { // 댓글
+			bCommentService.deleteBComment(reported.getTargetSeq());
+			reportedService.deleteReported(reported);
 		}
 	}
-	@PutMapping("/reported/detail/approve/{reportedSeq}/{status}/{reportedFlag}")
-	public void approvedReported(@PathVariable long reportedSeq, @PathVariable long status, @PathVariable long reportedFlag) throws Exception {
-		reportedService.updateReported(new Reported(reportedSeq, 1 ,reportedFlag));
+	@PutMapping("reported/detail/approve")
+	public void approvedReported(@RequestBody Reported reported) throws Exception {
+		System.out.println(reported);
+		reportedService.updateReported(new Reported(reported.getTargetSeq(), 1 ,reported.getReportedFlag()));
 	}
 }
