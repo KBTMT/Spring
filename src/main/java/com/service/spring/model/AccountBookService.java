@@ -23,5 +23,7 @@ public interface AccountBookService {
 	List<AccountBook> personalDailyAccountBook(AccountBook accountBook) throws Exception;
 
 	long checkIsUsed(AccountBook accountBook) throws Exception;
+	
+	int registerDiscountCalendarInfo(AccountBook accountBook) throws Exception; 
 
 }

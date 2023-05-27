@@ -65,4 +65,9 @@ public class DCMypickDAOImpl implements DCMypickDAO {
 		return sqlSession.selectList(NS + "getReviews", discountSeq);
 	}
 
+	@Override
+	public int usedPickInAccountBook(DCMypick dCMypick) throws Exception {
+		return sqlSession.update(NS+"usedPickInAccountBook", dCMypick);
+	}
+
 }

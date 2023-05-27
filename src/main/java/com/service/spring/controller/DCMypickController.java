@@ -102,8 +102,8 @@ public class DCMypickController {
 		accountBook.setGeneralId(dCMypick.getGeneralId());
 		try {
 			long result = accountBookService.checkIsUsed(accountBook);
+			System.out.println("result : "+result);
 			if (result == dCMypick.getDiscountSeq()) {
-				System.out.println(result);
 				dCMypick.setMypickFlag(1);
 				dCMypickService.updateUsedPick(dCMypick);
 				return "리뷰가 등록되었습니다";

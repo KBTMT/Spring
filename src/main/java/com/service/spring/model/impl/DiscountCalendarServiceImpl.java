@@ -64,4 +64,9 @@ public class DiscountCalendarServiceImpl implements DiscountCalendarService {
 	public int updateCalendarLike(DiscountCalendar discountcalendar) throws Exception {
 		return discountCalendarDAO.updateCalendarLike(discountcalendar);
 	}
+
+	@Override
+	public List<DiscountCalendar> getDiscountCalendarByDate(String date) throws Exception {
+		return discountCalendarDAO.getDiscountCalendarByDate(date);
+	}
 }

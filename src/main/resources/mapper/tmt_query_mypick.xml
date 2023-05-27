@@ -50,10 +50,17 @@
 	<!-- 사용한 할인정보 -->
 	<update id="updateUsedPick" parameterType="dCMypick">
 		update dc_mypick
-		set
-		mypick_flag = #{mypickFlag}, score = #{score}, review = #{review}
+		set score = #{score}, review = #{review}
 		where discount_seq = #{discountSeq} and general_id = #{generalId}
 	</update>
+	
+	<!-- 할인정보 사용 표시  -->
+	<update id="usedPickInAccountBook" parameterType="dCMypick">
+		update dc_mypick
+		set mypick_flag = #{mypickFlag}
+		where discount_seq = #{discountSeq} and general_id = #{generalId}
+	</update>
+	
 	<!-- 찜 취소 -->
 	<delete id="deleteDCMypick" parameterType="dCMypick">
 		delete from dc_mypick

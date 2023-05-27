@@ -24,6 +24,7 @@ public interface DiscountCalendarService {
 	
 	int updateCalendarLike(DiscountCalendar discountcalendar) throws Exception;
 	
+	List<DiscountCalendar> getDiscountCalendarByDate(String date) throws Exception;
 	
 //	List<DiscountCalendar> getAllDiscountCalenderAdmin(DiscountCalendar discountcalendar) throws Exception; // 전체 신고 내역
 //	

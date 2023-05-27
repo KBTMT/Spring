@@ -61,5 +61,10 @@ public class AccountBookServiceImpl implements AccountBookService{
 		return accountBookDAO.checkIsUsed(accountBook);
 	}
 
+	@Override
+	public int registerDiscountCalendarInfo(AccountBook accountBook) throws Exception {
+		return accountBookDAO.registerDiscountCalendarInfo(accountBook);
+	}
+
 	
 }
