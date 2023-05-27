@@ -241,34 +241,36 @@
 
 	<select id="getReported" resultMap="reportedResultMap">
 		SELECT
-		reported_seq,
+		target_seq,
 		status,
-		reported_flag,
-		target_seq
+		reported_flag
 		FROM Reported
 	</select>
+	
+	<select id="getReportOne" resultType="reported" parameterType="reported">
+		SELECT target_seq, status, reported_flag
+		FROM Reported
+		where target_seq=#{targetSeq} AND reported_flag = #{reportedFlag}
+	</select>
 
-
-	<select id="getReportDetail" resultMap="reportedResultMap"
-		parameterType="reported">
-		select reported_seq, status, reported_flag
+	<select id="getReportDetailUsingStatus" resultMap="reportedResultMap" parameterType="int">
+		select target_seq, status, reported_flag
 		FROM Reported
 		where status = #{VALUE}
 	</select>
-	<select id="getReportDetailUseFlag" resultMap="reportedResultMap" parameterType="long">
-		select reported_seq, status, reported_flag, target_seq
+	<select id="getReportDetailUsingFlag" resultMap="reportedResultMap" parameterType="int">
+		select target_seq, status, reported_flag
 		FROM Reported
 		where reported_flag = #{VALUE}
 	</select>
 
 	<insert id="registerReported" parameterType="reported">
 		INSERT INTO
-		Reported(reported_seq, status, reported_flag, target_seq)
+		Reported(target_seq, status, reported_flag)
 		VALUES(
-		#{reportedSeq},
+		#{targetSeq},
 		#{status},
 		#{reportedFlag},
-		#{targedSeq}
 		)
 	</insert>
 
@@ -276,18 +278,12 @@
 		UPDATE Reported
 		SET
 		status = #{status}
-		WHERE reported_seq=#{reportedSeq}
+		WHERE target_seq=#{targetSeq} AND reported_flag = #{reportedFlag}
 	</update>
 
 	<delete id="deleteReported" parameterType="reported">
-		DELETE FROM Board
-		WHERE boardSeq IN (
-		SELECT b.boardSeq
-		FROM Reported r
-		INNER JOIN Board b
-		ON b.boardSeq = r.reportedSeq
-		WHERE r.reportedSeq = #{boardSeq}
-		)
+		DELETE FROM reported
+		WHERE target_seq=#{targetSeq} AND reported_flag = #{reportedFlag}
 	</delete>
 
 
