@@ -20,4 +20,6 @@ public interface DCMypickDAO {
 	DCMypick isExist(DCMypick dCMypick) throws Exception;
 	
 	List<DCMypick> getReviews(long discountSeq) throws Exception;
+	
+	int usedPickInAccountBook(DCMypick dCMypick) throws Exception;
 }

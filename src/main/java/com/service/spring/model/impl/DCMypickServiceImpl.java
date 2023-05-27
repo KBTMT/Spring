@@ -54,5 +54,10 @@ public class DCMypickServiceImpl implements DCMypickService {
 	public List<DCMypick> getReviews(long discountSeq) throws Exception {
 		return dCMypickDAO.getReviews(discountSeq);
 	}
+
+	@Override
+	public int usedPickInAccountBook(DCMypick dCMypick) throws Exception {
+		return dCMypickDAO.usedPickInAccountBook(dCMypick);
+	}
 	
 }

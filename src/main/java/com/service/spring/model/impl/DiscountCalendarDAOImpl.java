@@ -68,6 +68,11 @@ public class DiscountCalendarDAOImpl implements DiscountCalendarDAO {
 		return sqlSession.update(MAPPER_NAME+"updateCalendarLike", discountcalendar);
 	}
 
+	@Override
+	public List<DiscountCalendar> getDiscountCalendarByDate(String date) throws Exception {
+		return sqlSession.selectList(MAPPER_NAME+"getDiscountCalendarByDate", date);
+	}
+
 //	@Override
 //	public List<DiscountCalendar> getAllDiscountCalenderAdmin(DiscountCalendar discountcalendar) throws Exception {
 //		// TODO Auto-generated method stub

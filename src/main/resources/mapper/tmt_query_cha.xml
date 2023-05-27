@@ -97,15 +97,8 @@
 		WHERE discount_seq=#{discountSeq}
 	</update>
 
-	<!-- <update id="updateDiscountCalendar" parameterType="discountcalendar"> 
-		UPDATE DISCOUNT_CALENDAR SET start_date = #{startDate}, end_date = #{endDate}, 
-		brand = #{brand}, discount_content = #{discountContent}, url = #{url}, image_path 
-		= #{imagePath}, calendar_like = #{calendarLike}, consumption_cat = #{consumptionCat} 
-		WHERE discount_seq=#{discountSeq} </update> -->
 
-
-	<update id="updateDiscountCalendar"
-		parameterType="discountCalendar">
+	<update id="updateDiscountCalendar" parameterType="discountCalendar">
 		UPDATE DISCOUNT_CALENDAR
 		SET start_date = #{startDate},
 		end_date = #{endDate},
@@ -126,6 +119,11 @@
 		discount_seq = #{VALUE}
 	</delete>
 
+	<select id="getDiscountCalendarByDate" resultMap="discountCalendarResultMap" parameterType="string">
+		select * from discount_calendar 
+		where start_date <![CDATA[<=]]> #{VALUE}
+		and end_date <![CDATA[>=]]> #{VALUE}
+	</select>
 
 	<select id="getDiscountCalendar"
 		resultMap="discountCalendarResultMap">
@@ -223,13 +221,19 @@
 		FROM Account_Book
 		WHERE  general_id=#{generalId} AND TO_CHAR(TIME,
 		'YYYY-MM-DD') LIKE '%' || #{time} || '%' 
-</select>
+	</select>
 	
 	<select id = "checkIsUsed" resultType = "long" parameterType="accountBook">
 		SELECT discount_seq 
 		FROM Account_Book
 		WHERE discount_seq = #{discountSeq} and general_Id = #{generalId}
 	</select>
+	
+	<update id="registerDiscountCalendarInfo" parameterType="accountBook">
+		UPDATE account_book
+		SET discount_seq = #{discountSeq} 
+		WHERE account_book_seq = #{accountBookSeq} 
+	</update>
 	
 
 	<!-- ========================= Reported =============================== -->
