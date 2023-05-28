@@ -126,17 +126,7 @@ public class DiscountCalendarController {
 		return "redirect:/discount-calendar";
 	}
 
-	@PostMapping("/{discountSeq}/report")
-	public ModelAndView reportDiscountCalendar(@PathVariable Long discountSeq,
-			@RequestBody DiscountCalendar discountCalendar) throws Exception {
-		Reported reported = new Reported(discountSeq, 0, 0);
-		// 필요한 필드 값들을 reported 객체에 설정
-		reportedService.registerReported(reported);
 
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("redirect:/discountCalendar");
-		return modelAndView;
-	}
 
 	@PostMapping("/{discountSeq}/like")
 	public ModelAndView increaseLikes(@PathVariable Long discountSeq) throws Exception {
