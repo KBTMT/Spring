@@ -1,6 +1,8 @@
 package com.service.spring.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,7 +23,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.BComment;
 import com.service.spring.domain.Board;
-import com.service.spring.domain.DiscountCalendar;
 import com.service.spring.domain.Reported;
 import com.service.spring.model.BCommentService;
 import com.service.spring.model.BoardService;
@@ -55,9 +55,16 @@ public class BoardController {
 
 	@PostMapping("/register")
 	public String registerBoard(@RequestBody Board board) throws Exception {
+		System.out.println(board);
 		board.setGeneralId(board.getGeneralId());
 		board.setUserNickname(board.getUserNickname());
 		System.out.println(board);
+		
+		if (board.getGeneralId() == null) {
+	        // generalId 필드가 NULL인 경우 예외 처리
+	        throw new IllegalArgumentException("generalId가 필요합니다.");
+	    }
+		
 		boardService.insertBoard(board);
 		return "redirect:/board";
 	}
@@ -82,16 +89,13 @@ public class BoardController {
 
 	// 수정 필요
 	@GetMapping("/detail/{boardSeq}")
-	public ResponseEntity<String> showBoardDetail(@PathVariable Long boardSeq) throws Exception {
-		ModelAndView modelAndView = new ModelAndView();
+	public Map<String, Object> showBoardDetail(@PathVariable Long boardSeq) throws Exception {
 		Board board = boardService.getBoard(boardSeq);
 		List<BComment> bCommentList = bCommentService.getBComment(boardSeq);
-		try {
-        	String jsonString = objectMapper.writeValueAsString(bCommentList);
-			return ResponseEntity.ok(jsonString);
-        } catch (JsonProcessingException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("board", board);
+		map.put("comment",bCommentList);
+		return map;
 	}
 
 	@PostMapping("/{boardSeq}/{bCommentSeq}")
