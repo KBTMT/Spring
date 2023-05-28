@@ -270,11 +270,11 @@
 
 	<insert id="registerReported" parameterType="reported">
 		INSERT INTO
-		Reported(target_seq, status, reported_flag)
+		reported(target_seq, status, reported_flag)
 		VALUES(
 		#{targetSeq},
 		#{status},
-		#{reportedFlag},
+		#{reportedFlag}
 		)
 	</insert>
 

@@ -40,14 +40,20 @@ public class AdminController {
 	@Autowired
 	private BoardService boardService;
 
-	@PostMapping("/register")
-	public ModelAndView registerReported(@ModelAttribute Reported reported) {
-		try {
-			reportedService.registerReported(reported);
-			return new ModelAndView("redirect:/reported");
-		} catch (Exception e) {
-			return new ModelAndView("error");
-		}
+	@PostMapping("register/report")
+	public void registerReported(@RequestBody Reported reported) throws Exception {
+		Reported checkReported = reportedService.getReportOne(reported);
+		if(checkReported==null) {
+			try {
+				System.out.println(reported);
+				reportedService.registerReported(reported);
+				System.out.println("백은 성공");
+				
+			} catch (Exception e) {
+				System.out.println("error");
+				System.out.println(reported);
+			}
+		}else return;
 	}
 
 	// 승인 안된것 부터 정렬 필요
