@@ -25,6 +25,8 @@ import com.service.spring.domain.BComment;
 import com.service.spring.domain.Board;
 import com.service.spring.domain.DiscountCalendar;
 import com.service.spring.domain.Reported;
+import com.service.spring.model.AccountBookService;
+import com.service.spring.model.DCMypickService;
 import com.service.spring.model.DiscountCalendarService;
 import com.service.spring.model.ReportedService;
 
@@ -38,13 +40,13 @@ public class DiscountCalendarController {
 
 	@Autowired
 	private DiscountCalendarService discountCalendarService;
-
 	@Autowired
-	private ReportedService reportedService;
+	private AccountBookService accountBookService;
 
 	@GetMapping
 	private ResponseEntity<String> getDiscountCalendar() throws Exception {
 		List<DiscountCalendar> list = discountCalendarService.getDiscountCalendar();
+		System.out.println(list);
 		try {
 			String jsonString = objectMapper.writeValueAsString(list);
 			return ResponseEntity.ok(jsonString);
@@ -53,10 +55,16 @@ public class DiscountCalendarController {
 		}
 	}
 
+	@GetMapping("/myTickle/{generalId}")
+	private long getMyTickle(@PathVariable String generalId) throws Exception{
+		System.out.println(generalId);
+		long result = accountBookService.getMyTickle(generalId);
+		System.out.println(result+"개 티끌 사용함");
+		return result;
+	}
+	
 	@PostMapping("/register")
 	public String registerDiscountCalendar(@RequestBody DiscountCalendar discountCalendar) throws Exception {
-		// 수정 필요
-		discountCalendar.setUrl("www.test.com");
 		System.out.println(discountCalendar);
 		discountCalendarService.registerGeneralDiscountCalendar(discountCalendar);
 		return "redirect:/discount-calendar";

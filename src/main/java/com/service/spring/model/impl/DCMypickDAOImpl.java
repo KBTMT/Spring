@@ -42,7 +42,8 @@ public class DCMypickDAOImpl implements DCMypickDAO {
 
 	@Override
 	public List<DCMypick> getDCMypick(String generalId) throws Exception {
-		return sqlSession.selectList(NS + "getMyDCPick", generalId);
+//		System.out.println("getDCMypick=============");
+		return sqlSession.selectList(NS + "getDCMypick", generalId);
 	}
 
 	@Override

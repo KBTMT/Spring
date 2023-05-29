@@ -66,5 +66,10 @@ public class AccountBookServiceImpl implements AccountBookService{
 		return accountBookDAO.registerDiscountCalendarInfo(accountBook);
 	}
 
+	@Override
+	public long getMyTickle(String generalId) throws Exception {
+		return accountBookDAO.getMyTickle(generalId);
+	}
+
 	
 }

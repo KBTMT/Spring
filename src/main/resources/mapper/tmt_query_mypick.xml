@@ -12,8 +12,7 @@
 	</resultMap>
 	<select id="getDCMypick" resultMap="dCMypickMap"
 		parameterType="string">
-		select discount_seq, mypick_flag, score, review,
-		general_id
+		select discount_seq, mypick_flag, score, review, general_id
 		from dc_mypick
 		where general_id = #{VALUE}
 	</select>

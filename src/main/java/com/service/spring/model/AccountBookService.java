@@ -26,4 +26,5 @@ public interface AccountBookService {
 	
 	int registerDiscountCalendarInfo(AccountBook accountBook) throws Exception; 
 
+	long getMyTickle(String generalId)  throws Exception;
 }

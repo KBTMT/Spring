@@ -71,4 +71,9 @@ public class AccountBookDAOImpl implements AccountBookDAO {
 		return sqlSession.update(MAPPER_NAME+"registerDiscountCalendarInfo", accountBook);
 	}
 
+	@Override
+	public long getMyTickle(String generalId) throws Exception {
+		return sqlSession.selectOne(MAPPER_NAME+"getMyTickle", generalId);
+	}
+
 }

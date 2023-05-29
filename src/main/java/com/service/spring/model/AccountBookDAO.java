@@ -25,4 +25,6 @@ public interface AccountBookDAO {
 	long checkIsUsed(AccountBook accountBook) throws Exception;
 
 	int registerDiscountCalendarInfo(AccountBook accountBook) throws Exception;
+	
+	long getMyTickle(String generalId)  throws Exception;
 }

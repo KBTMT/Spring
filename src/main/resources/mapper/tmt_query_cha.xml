@@ -42,6 +42,7 @@
 
 
 
+
 	<insert id="registerGeneralDiscountCalendar"
 		parameterType="discountCalendar">
 		INSERT INTO
@@ -149,6 +150,14 @@
 		DISCOUNT_CALENDAR
 		WHERE
 		discount_seq = #{discountSeq}
+	</select>
+	
+	<select id="getMyTickle" resultType="long" parameterType="string">
+		SELECT count(-1) FROM account_book
+		WHERE general_id = #{VALUE}
+		AND discount_seq is not null
+		AND EXTRACT(MONTH FROM time) = EXTRACT(MONTH FROM SYSDATE)
+  		AND EXTRACT(YEAR FROM time) = EXTRACT(YEAR FROM SYSDATE)
 	</select>
 
 	<insert id="registerAccountBook" parameterType="accountBook">
