@@ -188,7 +188,7 @@
 		discount_seq = #{discountSeq},
 		emoji = #{emoji},
 		consumption_cat = #{consumptionCat}
-		WHERE account_book_seq = #{accountBookSeq}
+		WHERE account_book_seq = #{accountBookSeq} AND general_id = #{generalId}
 	</update>
 
 	<delete id="deleteAccountBook" parameterType="long">
