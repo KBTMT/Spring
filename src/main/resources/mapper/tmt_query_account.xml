@@ -27,11 +27,11 @@
 		#{userSeqNo})
 	</insert>
 
-	<select id="getAccount" parameterType="string">
+	<select id="getAccount" resultType="account" parameterType="string">
 		SELECT account_number,
 		bank, access_token, user_seq_no
 		FROM account
-		WHERE generalId = #{VALUE}
+		WHERE general_Id = #{VALUE}
 	</select>
 
 	<delete id="deleteAccount" parameterType="string">
