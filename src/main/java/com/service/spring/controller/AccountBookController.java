@@ -27,13 +27,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.AccountBook;
 import com.service.spring.domain.DCMypick;
 import com.service.spring.domain.DiscountCalendar;
+import com.service.spring.domain.Reported;
 import com.service.spring.domain.TmtUser;
 import com.service.spring.model.AccountBookService;
 import com.service.spring.model.DCMypickService;
 import com.service.spring.model.DiscountCalendarService;
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000"
 @CrossOrigin("*")
 @RequestMapping("/account-book")
 public class AccountBookController {
@@ -74,22 +75,11 @@ public class AccountBookController {
 	}
 
 	// 미완 화면 필요
-	@PutMapping("/{accountBookSeq}/update")
-	public ModelAndView updateAccountBook(@PathVariable long accountBookSeq, AccountBook accountBook,
-			@RequestParam("generalId") String generalId) {
-		// 수정 필요
-		accountBook.setGeneralId(generalId);
-		ModelAndView modelAndView = new ModelAndView("redirect:/account-book/" + accountBook.getGeneralId());
-		try {
-			accountBook.setAccountBookSeq(accountBookSeq);
-			int result = accountBookService.updateAccountBook(accountBook);
-			if (result <= 0) {
-				modelAndView.addObject("error", "Failed to update account book.");
-			}
-		} catch (Exception e) {
-			modelAndView.addObject("error", "Failed to update account book.");
-		}
-		return modelAndView;
+	@PutMapping("update")
+	public void updateAccountBook(@RequestBody AccountBook accountBook) throws Exception {
+		System.out.println(accountBook);
+		accountBookService.updateAccountBook(accountBook);
+		System.out.println("로직완료");
 	}
 
 	// 미완 화면 필요
