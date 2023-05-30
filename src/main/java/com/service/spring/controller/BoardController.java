@@ -1,5 +1,6 @@
 package com.service.spring.controller;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,49 @@ public class BoardController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+	
+	
+	
+	// 수정 필요
+	@GetMapping("/detail/{boardSeq}")
+	public Board showBoardDetail(@PathVariable Long boardSeq) throws Exception {
+		Board board = boardService.getBoard(boardSeq);
+		String formatedDate = board.getBoardDate().substring(0, 16);
+		board.setBoardDate(formatedDate);
+		System.out.println("aaaa");
+		return board;
+		
+	}
+	
+	// 수정 필요
+	@GetMapping("/detail/comment/{boardSeq}")
+	public ResponseEntity<String> showBoardCommentDetail(@PathVariable Long boardSeq) throws Exception {
+		// 아래 코드 수정해야됨
+		List<BComment> bCommentList = bCommentService.getBComment(boardSeq);
+		Collections.sort(bCommentList);
+		try {
+			String jsonString = objectMapper.writeValueAsString(bCommentList);
+			return ResponseEntity.ok(jsonString);
+		} catch (JsonProcessingException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
+	// 수정 필요
+//	@GetMapping("/detail/{boardSeq}")
+//	public Map<String, Object> showBoardDetail(@PathVariable Long boardSeq) throws Exception {
+//		Board board = boardService.getBoard(boardSeq);
+//		String formatedDate = board.getBoardDate().substring(0, 16);
+//		board.setBoardDate(formatedDate);
+//		
+//		// 아래 코드 수정해야됨
+//		List<BComment> bCommentList = bCommentService.getBComment(boardSeq);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("board", board);
+//		map.put("comment",bCommentList);
+//		System.out.println(bCommentList.toString());
+//		return map;
+//	}
 
 	@PostMapping("/register")
 	public String registerBoard(@RequestBody Board board) throws Exception {
@@ -87,23 +131,12 @@ public class BoardController {
 		return modelAndView;
 	}
 
-	// 수정 필요
-	@GetMapping("/detail/{boardSeq}")
-	public Map<String, Object> showBoardDetail(@PathVariable Long boardSeq) throws Exception {
-		Board board = boardService.getBoard(boardSeq);
-		List<BComment> bCommentList = bCommentService.getBComment(boardSeq);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("board", board);
-		map.put("comment",bCommentList);
-		return map;
-	}
 
-	@PostMapping("/{boardSeq}/{bCommentSeq}")
-	public ModelAndView registerBComment(@PathVariable Long boardSeq, BComment bComment) throws Exception {
-		bComment.setBoardSeq(boardSeq);
+
+	@PostMapping("create/comments")
+	public void insertBComment(@RequestBody BComment bComment) throws Exception {
 		bCommentService.insertBComment(bComment);
-		ModelAndView mav = new ModelAndView("redirect:/board/" + boardSeq);
-		return mav;
+		System.out.println("실행 완료");
 	}
 
 	@PutMapping("/{boardSeq}/{bCommentSeq}/update")

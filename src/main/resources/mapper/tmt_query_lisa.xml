@@ -83,13 +83,13 @@
         comment_date, cgroup)
         VALUES
         (comment_seq.nextval, #{boardSeq},#{userNickname},
-        #{bcommentContent}, systimestamp, comment_seq.currval)
+        #{commentContent}, systimestamp, 0)
     </insert>
     <update id="updateBComment" parameterType="bComment">
         UPDATE b_comment
         SET
         user_nickname = #{userNickname},
-        comment_content = #{bcommentContent},
+        comment_content = #{commentContent},
         comment_date = systimestamp
         WHERE comment_seq = #{commentSeq}
     </update>
@@ -105,13 +105,13 @@
         INSERT INTO
         b_comment(comment_seq, board_seq, user_nickname, comment_content, comment_date, cdepth, cgroup)
         VALUES
-        (comment_seq.nextval, #{boardSeq},#{userNickname}, #{bcommentContent}, systimestamp, 1, #{cGroup})
+        (comment_seq.nextval, #{boardSeq},#{userNickname}, #{commentContent}, systimestamp, 1, #{cGroup})
     </insert>
 
     <resultMap type="bComment" id="bCommentSelectMap">
         <result property="commentSeq" column="comment_seq" />
         <result property="userNickname" column="user_nickname" />
-         <result property="bcommentContent" column="comment_content"/>
+         <result property="commentContent" column="comment_content"/>
          <result property="commentDate" column="comment_date"/>
         <result property="cDepth" column="cdepth" />
         <result property="cGroup" column="cgroup" />
@@ -132,7 +132,7 @@
     </select>
 
 
-    <select id="getComments" parameterType="long" resultMap="bCommentSelectMap">
+    <select id="getBComment" parameterType="long" resultMap="bCommentSelectMap">
         <include refid="select-bcomments" />
         WHERE board_seq = #{boardSeq}
         <include refid="orderby-bcomment-desc"/>
