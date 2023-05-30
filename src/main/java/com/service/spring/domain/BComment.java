@@ -2,14 +2,16 @@ package com.service.spring.domain;
 
 import java.util.Date;
 
-public class BComment {
+public class BComment implements Comparable<BComment>{
 	private long commentSeq;
 	private String userNickname;
-	private String bcommentContent;
-	private Date commentDate;
+	private String commentContent;
+	private String commentDate;
 	private int cDepth;
 	private int cGroup;
 	private long boardSeq;
+	
+	public BComment() {}
 
 	public BComment(long commentSeq, String userNickname, int cDepth, int cGroup, long boardSeq) {
 		super();
@@ -20,37 +22,37 @@ public class BComment {
 		this.boardSeq = boardSeq;
 	}
 	// 댓글 
-	public BComment(long boardSeq, String userNickname, String bcommentContent) {
+	public BComment(long boardSeq, String userNickname, String commentContent) {
 		super();
 		this.boardSeq = boardSeq;
 		this.userNickname = userNickname;
-		this.bcommentContent = bcommentContent;
+		this.commentContent = commentContent;
 	}
 	// 대댓글
-	public BComment(long boardSeq, String userNickname, String bcommentContent, int cGroup) {
+	public BComment(long boardSeq, String userNickname, String commentContent, int cGroup) {
 		super();
 		this.boardSeq = boardSeq;
 		this.userNickname = userNickname;
-		this.bcommentContent = bcommentContent;
+		this.commentContent = commentContent;
 		this.cGroup = cGroup;
 	}
 
-	public BComment(long commentSeq, String userNickname, String content, Date commentDate, int cDepth, int cGroup) {
+	public BComment(long commentSeq, String userNickname, String commentContent, String commentDate, int cDepth, int cGroup) {
 		super();
 		this.commentSeq = commentSeq;
 		this.userNickname = userNickname;
-		this.bcommentContent = content;
+		this.commentContent = commentContent;
 		this.commentDate = commentDate;
 		this.cDepth = cDepth;
 		this.cGroup = cGroup;
 	}
 	
-	public BComment(long commentSeq, String userNickname, String bcommentContent, Date commentDate, int cDepth,
+	public BComment(long commentSeq, String userNickname, String commentContent, String commentDate, int cDepth,
 			int cGroup, long boardSeq) {
 		super();
 		this.commentSeq = commentSeq;
 		this.userNickname = userNickname;
-		this.bcommentContent = bcommentContent;
+		this.commentContent = commentContent;
 		this.commentDate = commentDate;
 		this.cDepth = cDepth;
 		this.cGroup = cGroup;
@@ -68,16 +70,16 @@ public class BComment {
 	public void setUserNickname(String userNickname) {
 		this.userNickname = userNickname;
 	}
-	public String getBcommentContent() {
-		return bcommentContent;
+	public String getCommentContent() {
+		return commentContent;
 	}
-	public void setBcommentContent(String bcommentContent) {
-		this.bcommentContent = bcommentContent;
+	public void setCommentContent(String commentContent) {
+		this.commentContent = commentContent;
 	}
-	public Date getCommentDate() {
+	public String getCommentDate() {
 		return commentDate;
 	}
-	public void setCommentDate(Date commentDate) {
+	public void setCommentDate(String commentDate) {
 		this.commentDate = commentDate;
 	}
 	public int getcDepth() {
@@ -100,9 +102,14 @@ public class BComment {
 	}
 	@Override
 	public String toString() {
-		return "BComment [commentSeq=" + commentSeq + ", userNickname=" + userNickname + ", bcommentContent="
-				+ bcommentContent + ", commentDate=" + commentDate + ", cDepth=" + cDepth + ", cGroup=" + cGroup
+		return "BComment [commentSeq=" + commentSeq + ", userNickname=" + userNickname + ", commentContent="
+				+ commentContent + ", commentDate=" + commentDate + ", cDepth=" + cDepth + ", cGroup=" + cGroup
 				+ ", boardSeq=" + boardSeq + "]";
+	}
+
+	@Override
+	public int compareTo(BComment o) {
+		return (int) (this.commentSeq - o.commentSeq);
 	}
 
 	

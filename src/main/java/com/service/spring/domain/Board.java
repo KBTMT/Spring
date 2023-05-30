@@ -1,6 +1,5 @@
 package com.service.spring.domain;
 
-import java.util.Date;
 import java.util.List;
 
 public class Board {
@@ -8,7 +7,7 @@ public class Board {
 	private String userNickname;
 	private String title;
 	private String boardContent;
-	private Date boardDate;
+	private String boardDate;
 	private int boardLike;
 	private String generalId;
 	private List<BComment> bcomment;
@@ -24,7 +23,7 @@ public class Board {
 		this.generalId = generalId;
 	}
 
-	public Board(String userNickname, String title, String content, Date boardDate, int boardLike, String generalId) {
+	public Board(String userNickname, String title, String content, String boardDate, int boardLike, String generalId) {
 		super();
 		this.userNickname = userNickname;
 		this.title = title;
@@ -33,7 +32,7 @@ public class Board {
 		this.boardLike = boardLike;
 		this.generalId = generalId;
 	}
-	public Board(long boardSeq, String userNickname, String title, String content, Date boardDate, int boardLike,
+	public Board(long boardSeq, String userNickname, String title, String content, String boardDate, int boardLike,
 			String generalId) {
 		super();
 		this.boardSeq = boardSeq;
@@ -77,11 +76,11 @@ public class Board {
 		this.boardContent = boardContent;
 	}
 
-	public Date getBoardDate() {
+	public String getBoardDate() {
 		return boardDate;
 	}
 
-	public void setBoardDate(Date boardDate) {
+	public void setBoardDate(String boardDate) {
 		this.boardDate = boardDate;
 	}
 

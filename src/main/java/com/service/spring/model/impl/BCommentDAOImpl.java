@@ -28,7 +28,7 @@ public class BCommentDAOImpl implements BCommentDAO {
 
 	@Override
 	public List<BComment> getBComment(long boardSeq) throws Exception {
-		return sqlSession.selectOne(NS + "getComments", boardSeq);
+		return sqlSession.selectList(NS + "getBComment", boardSeq);
 	}
 
 	@Override
